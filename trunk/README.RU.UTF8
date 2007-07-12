@@ -1,0 +1,7 @@
+Установка freQ:
+0) системные требования: python, sqlite3, pysqlite
+1) импорт структуры sqlite:
+sqlite3 -init freq.sqlite3 freq.db
+2) скопируйте config.txt.dist в config.txt и отредактируйте его.
+3) запуск: ./neutron.py --pid=pid.txt
+остановка: kill `cat pid.txt`
