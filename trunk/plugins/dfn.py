@@ -12,4 +12,4 @@ def fdfn(type,source,body):
   smsg(type, source, gdfns(g, s));
  else:
   smsg(type, source, u"вам не разрешено использовать команду dfn в этой конференции.");
-newreg({"func":fdfn, "recmd": r"^\.dfn(\ .*)?$", "recmds": r"^\.dfn\ .+=.*$","syn":".dfn word=definition","ctg":"vocabulary", "name":".dfn","help":u"TODO: написать тут справку"})
+newreg({"func":fdfn, "recmd": r"^\.dfn(\ .*)?$", "recmds": r"^\.dfn\ .+=.*$","syn":".dfn word=definition","ctg":"vocabulary", "name":".dfn"})

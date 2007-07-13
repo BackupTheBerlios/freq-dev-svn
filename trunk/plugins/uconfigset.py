@@ -8,4 +8,4 @@ def fconfigset(type,source,body):
    a=u"переменной '%s' не существует. используйте 'config_list', чтобы посмотреть список доступных опций" % (p, );
  else: a="Not allowed";
  smsg(type, source, a);
-newreg({"func":fconfigset, "recmd": r"^config_set(\ .*)?$", "recmds": r"^config_set\ [a-z]+\=.+$","syn":"config_set variable=value","ctg":"config", "name":"config_set","help":u"Haпример: config_set msglimit=400"})
+newreg({"func":fconfigset, "recmd": r"^config_set(\ .*)?$", "recmds": r"^config_set\ [a-z]+\=.+$","syn":"config_set variable=value","ctg":"config", "name":"config_set"})
