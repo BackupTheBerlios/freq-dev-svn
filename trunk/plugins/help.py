@@ -3,7 +3,7 @@ def fhelp(type,source,body):
  if not body.count(r' '): smsg(type, source, catlist("")); return 1;
  p=body[body.find(" ")+1:];
  if not(p==body) and CMDLIST.has_key(p):
-  smsg(type,source, "`%s`:\n%s" % (p,CMDLIST[p]['help']))
+  smsg(type,source, get_help(p))
  else:
   if not catlist(p):
    smsg(type,source,r"command or category `%s` not found" % p)
