@@ -3,5 +3,6 @@
 1) импорт структуры sqlite:
 sqlite3 -init freq.sqlite3 freq.db
 2) скопируйте config.txt.dist в config.txt и отредактируйте его.
-3) запуск: ./neutron.py --pid=pid.txt
+3) запуск: python neutron.py --pid=pid.txt
 остановка: kill `cat pid.txt`
+4) если вы нашли баг, или у вас есть идеи по улучшения бота - посетите http://bugs.burdakov.pp.ru/
