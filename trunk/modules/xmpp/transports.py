@@ -1,3 +1,4 @@
+#coding=utf8
 ##   transports.py
 ##
 ##   Copyright (C) 2003-2004 Alexey "Snake" Nezhdanov
@@ -182,7 +183,7 @@ class TCPsocket(PlugIn):
                 self._owner.Dispatcher.Event('', DATA_SENT, raw_data)
         except:
             self.DEBUG("Socket error while sending data",'error')
-            self._owner.disconnected()
+            somev=0; #self._owner.disconnected() # временная мера //PG, 13.07.2007
 
     def pending_data(self,timeout=0):
         """ Returns true if there is a data ready to be read. """
