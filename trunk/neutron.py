@@ -262,14 +262,8 @@ def get_true_jid(jid):
 	resource = ''
 	if len(string.split(jid, '/', 1)) == 2:
 		resource = string.split(jid, '/', 1)[1]
-	if PRS.has_key(jid):
-		if "getJid" in dir(PRS[jid]):
-			true_jid = string.split(unicode(PRS[jid].getJid()), '/', 1)[0]
-		else:
-			true_jid = stripped_jid
-	else:
-		true_jid = stripped_jid
-	return true_jid
+	try: return string.split(unicode(PRS[jid].getJid()), '/', 1)[0]
+	except: return stripped_jid
 	
 def get_groupchat(jid):
 	if type(jid) is types.ListType:
