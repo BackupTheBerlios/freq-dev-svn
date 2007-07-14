@@ -2,7 +2,7 @@
 def myph(prs):
  if prs.getType()=='unavailable':
   PRS.pop(prs.getFrom(), 0);
-  if TIMELIST.has_key(prs.getFrom()): TIMELIST.pop(prs.getFrom(), 0)
+  TIMELIST.pop(prs.getFrom(), 0)
  else:
   if not TIMELIST.has_key(prs.getFrom()): TIMELIST[prs.getFrom()]=time.localtime();
   PRS[prs.getFrom()]=prs;
