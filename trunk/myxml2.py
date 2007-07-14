@@ -12,6 +12,8 @@ class tmyxml2:
    else:
     q=PC(namespace_separator=' ');ok=1;
     try: q.Parse(self.r+self.h);
-    except: ok=0;f=file("xlog","w");f.write(str([time.time(), self.r, self.h]));f.close();
+    except:
+     ok=0;
+     #f=file("xlog","w");f.write(str([time.time(), self.r, self.h]));f.close();
     if ok: self.cbk(self.h);
    self.h='';
