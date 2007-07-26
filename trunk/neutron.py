@@ -274,7 +274,7 @@ def get_groupchat(jid):
 	else:
 		return None
 
-def get_nick(groupchat):
+def old_get_nick(groupchat):
 	try:
 		nicks_string = read_file(NICKS_CACHE_FILE)
 	except:
@@ -283,13 +283,14 @@ def get_nick(groupchat):
 		fp.close()
 		nicks_string = '{}'
 		print 'Initializing ' + NICKS_CACHE_FILE
-	nicks = eval(nicks_string)
+	try: nicks = eval(nicks_string)
+	except: nicks={}
 	if nicks.has_key(groupchat):
 		return nicks[groupchat]
 	else:
 		return DEFAULT_NICK
 
-def set_nick(groupchat, nick=None):
+def old_set_nick(groupchat, nick=None):
 	nicks = eval(read_file(NICKS_CACHE_FILE))
 	if nick:
 		nicks[groupchat] = nick
