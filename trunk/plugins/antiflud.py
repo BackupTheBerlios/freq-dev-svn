@@ -10,6 +10,14 @@ def aflud(t, s, b):
   FLUD[0]=time.time();
  for i in [j for j in FLUD.keys() if j<>0]:
   if FLUD[i]>int(configget(i.split("/")[0], "antifludlimit")):
-   dlog(moderate(i.split("/")[0], i.split("/")[1], "role", "none"), 5);
+   q=configget(s[1], "antifludtype");qt=0;
+   while q[0:1]=="!":
+    qt+=1;
+    q=q[1:];
+   if qt<3: m1="role"
+   else: m1="affiliation";
+   m2=("", "visitor", "none", "outcast")[qt];
+   if qt>0: moderate(i.split("/")[0], i.split("/")[1], m1, m2, reason=q)
+   else: smsg("public", s, q);
    FLUD.pop(i);
 register_message_handler(aflud);
