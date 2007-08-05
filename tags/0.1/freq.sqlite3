@@ -1,0 +1,18 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE freq(room varchar, jid varchar, nick varchar, first_time integer, seen_time integer, seen_type integer, here_time integer, words integer, me integer, phrase integer);
+CREATE TABLE clients(r varchar, c integer);
+CREATE TABLE config(r varchar[50], k varchar[30], v varchar);
+INSERT INTO "config" VALUES('g','msglimit','400');
+INSERT INTO "config" VALUES('g','antifludlimit','900');
+INSERT INTO "config" VALUES('g','antifludtype','STOP!');
+INSERT INTO "config" VALUES('g','moderatereason','freQ');
+INSERT INTO "config" VALUES('g','level','20');
+INSERT INTO "config" VALUES('g','dfnlocal','0');
+INSERT INTO "config" VALUES('g','dfnaccess','3');
+INSERT INTO "config" VALUES('g','wtfprivaccess','12');
+CREATE TABLE vocabulary(j varchar, n varchar, t integer, r varchar, w varchar, d varchar);
+CREATE INDEX rj on freq(room, jid);
+CREATE INDEX rn on freq(room, nick);
+CREATE INDEX w on freq(words);
+COMMIT;

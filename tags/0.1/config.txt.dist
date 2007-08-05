@@ -1,0 +1,35 @@
+# Neutron configuration
+
+{
+# Jabber account where Neutron will login
+'SERVER': 'burdakov.pp.ru',
+'PORT': 5222,
+'USERNAME': 'freq-dev',
+'PASSWORD': 'mptW3jmgD78',
+'RESOURCE': '_',
+
+# Proxy support
+#'HTTP_PROXY': 'http://192.168.2.1:3128',
+'HTTP_PROXY': '',
+
+# Chatroom nick
+'DEFAULT_NICK': 'freQ-dev',
+
+# Jabber accounts that will administrate Neutron
+'ADMINS': ['pg@burdakov.pp.ru', 'helloween@burdakov.pp.ru'],
+'ADMIN_PASSWORD': '$dpt<#.37Wq',
+
+# Neutron will try to reconnect on disconnections
+'AUTO_RESTART': 0,
+
+# Where to store HTML files from chatrooms logs
+# To disable logging, set to empty string: '',
+'PUBLIC_LOG_DIR': '',
+
+# Where to store logs of private chats
+# To disable logging, set to empty string: '',
+'PRIVATE_LOG_DIR': '',
+
+'INITSCRIPT_FILE': 'neutron.rc',
+
+}
