@@ -3,3 +3,5 @@ USER = u"freq2"
 RESOURCE = "_"
 PASSWD = u"secret"
 ADMINS = ["pg@burdakov.pp.ru", "pg@jabbus.org"]
+NICK = "Re-2"
+
