@@ -13,5 +13,9 @@ class wrapper:
   reactor.run()
  def authd(self, x):
   self.x=x;
-  print "Authenticated.. %s" % (self.jid, );
-
+  print "Authenticated..";
+  p=domish.Element(("jabber:client", "presence"))
+  p.addChild("status").addContent("some status")
+  p.addChild("show").addContent("chat")
+  self.x.send(p)
+    
