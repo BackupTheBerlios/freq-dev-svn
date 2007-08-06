@@ -18,8 +18,9 @@ class wrapper:
   p.addElement("status").addContent("some status")
   p.addElement("show").addContent("chat")
   self.x.send(p)
-  self.x.addObserver("/message", self.cbmsg);
- def cbmsg(self, x):
+  self.x.addObserver("/*", self.cb);
+ def cb(self, x):
   #<debug lines>
-  print "msg: "+x.toXml()
+  print "stanza: "+x.toXml()
   #</debug lines>
+ 
