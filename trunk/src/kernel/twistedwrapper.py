@@ -15,11 +15,11 @@ class wrapper:
   self.x=x;
   print "Authenticated.."
   p=domish.Element(("jabber:client", "presence"))
-  p.addChild("status").addContent("some status")
-  p.addChild("show").addContent("chat")
+  p.addElement("status").addContent("some status")
+  p.addElement("show").addContent("chat")
   self.x.send(p)
   self.x.addObserver("/message", self.cbmsg);
  def cbmsg(self, x):
   #<debug lines>
-  print x;
+  print "msg: "+x.toXml()
   #</debug lines>
