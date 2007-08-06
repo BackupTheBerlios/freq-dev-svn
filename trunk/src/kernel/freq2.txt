@@ -1,9 +1,0 @@
-from 
-twisted.protocols.jabber import client, jid
-from 
-twisted.protocols import xmlstream
-from twisted.xish import domish
-from twisted.internet import reactor
-factory = client.basicClientFactory(jid.Jid(?), ?)
-reactor.connectTCP(server, 5222, factory) 
-reactor.run()
