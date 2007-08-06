@@ -1,1 +1,0 @@
-iq.version=read_file("dynamic/version.py");
