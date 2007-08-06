@@ -18,4 +18,8 @@ class wrapper:
   p.addChild("status").addContent("some status")
   p.addChild("show").addContent("chat")
   self.x.send(p)
-    
+  self.x.addObserver("/message", self.cbmsg);
+ def cbmsg(self, x):
+  #<debug lines>
+  print x;
+  #</debug lines>
