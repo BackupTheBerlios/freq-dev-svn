@@ -21,6 +21,6 @@ class wrapper:
   self.x.addObserver("/*", self.cb);
  def cb(self, x):
   #<debug lines>
-  print "stanza: "+x.toXml()
+  print x.toXml().__class__
   #</debug lines>
  
