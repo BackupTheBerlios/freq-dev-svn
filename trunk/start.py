@@ -9,7 +9,7 @@ try:
  fp=file("freq.pid", "r")
  p=fp.read()
  fp.close()
- os.kill(int(p), 9)
+ os.kill(int(p), 2)
  time.sleep(5)
  print "pid %s killed." % (p, )
 except: pass
