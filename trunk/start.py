@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 
 import config
+#import lang
 from twisted.internet import reactor
 import sys
 import os
@@ -20,6 +21,7 @@ fp.write(str(os.getpid()))
 fp.close()
 
 from freq import freqbot
+import lang
 
 bot=freqbot(globals())
 bot.plug.load_all()

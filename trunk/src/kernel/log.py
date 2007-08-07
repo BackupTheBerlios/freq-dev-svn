@@ -11,7 +11,7 @@ class logger:
    fp.write(h)
    fp.close()
   fp=file(fn, "a")
-  fp.write(m)
+  fp.write(m.encode("utf8"))
   fp.close()
  def log(self, m, level=9):
   if level>config.LOGLEVEL: self._log(config.LOGFILE, time.strftime(lang.get("log.record")) % (m, ), lang.get("log.header"))

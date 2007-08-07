@@ -15,5 +15,5 @@ for i in ll:
   LANG[i][k]=v
 
 def get(m, l=config.LANG):
- try: return LANG[l+".py"][m]
+ try: return LANG[l+".py"][m].decode("utf8")
  except: return "Lang.NotFound:%s:%s" % (l, m)
