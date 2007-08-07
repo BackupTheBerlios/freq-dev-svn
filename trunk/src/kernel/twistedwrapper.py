@@ -13,7 +13,6 @@ class wrapper:
   self.handlers = []
   self.msghandlers = []
   reactor.connectTCP(config.SERVER, 5222, self.c) 
-  reactor.run()
  def getChild(self, x, n):
   y=[i for i in x.Children if i.name==y][0]
   return y

@@ -20,3 +20,5 @@ fp.close()
 from freq import freqbot
 
 bot=freqbot();
+reactor.run()
+

@@ -11,7 +11,7 @@ class pluginloader:
  def load(self, p):
   tl=os.listdir("src/plugins/"+p)
   for i in tl:
-   fp=file("src/plugins/%s%s" % (p, i), "r")
+   fp=file("src/plugins/%s/%s" % (p, i), "r")
    pc=fp.read()
    fp.close()
    exec pc in globals();
