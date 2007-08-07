@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 
+import config
 from twisted.internet import reactor
 import sys
 import os
@@ -20,6 +21,7 @@ fp.close()
 
 from freq import freqbot
 
-bot=freqbot();
+bot=freqbot(globals())
+bot.plug.load_all()
+print "Plugins loaded. Starting"
 reactor.run()
-

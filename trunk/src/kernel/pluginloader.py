@@ -2,8 +2,9 @@ import os
 import sys
 
 class pluginloader:
- def __init__(self, bot):
+ def __init__(self, bot, q):
   self.bot=bot;
+  self.q=q
   self.pluginlist=os.listdir("src/plugins");
  def load_all(self):
   for i in self.pluginlist: self.load(i);
@@ -16,5 +17,5 @@ class pluginloader:
    fp=file(fn, "r")
    pc=fp.read()
    fp.close()
-   exec pc in globals();
+   exec pc in self.q
 
