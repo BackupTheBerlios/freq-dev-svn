@@ -14,7 +14,7 @@ class wrapper:
   self.msghandlers = []
   reactor.connectTCP(config.SERVER, 5222, self.c) 
  def getChild(self, x, n):
-  y=[i for i in x.Children if i.name==y][0]
+  y=[i for i in x.children if i.name==n][0]
   return y
  def authd(self, x):
   self.x=x;
@@ -23,7 +23,7 @@ class wrapper:
   p.addElement("status").addContent("some status")
   p.addElement("show").addContent("chat")
   self.x.send(p)
-  #self.x.send("<message to='freq2@burdakov.pp.ru'/>")   ## debug
+  #self.x.send("<message to='freq2@burdakov.pp.ru'><body>msgtext</body></message>")   ## debug
   self.x.addObserver("/*", self.cb)
   self.x.addObserver("/message", self.cbmessage);
  def cb(self, x):
@@ -32,7 +32,7 @@ class wrapper:
   except: id="something"
   try: typ=x["type"]
   except: typ="none"
-  try: body=self.getChild(x, "body").getContent()
+  try: body=self.getChild(x, "body").children[0]
   except: body=''
   try: f=x["from"]
   except: f=""
@@ -44,7 +44,7 @@ class wrapper:
  def register_msg_handler(self, func, body, typ=None, f=None):
   self.msghandlers.append((func, body, typ, f))
  def cbmessage(self, x):
-  try: body=self.getChild(x, "body").getContent()
+  try: body=self.getChild(x, "body").children[0]
   except: body=""
   try: f=x["from"]
   except: f=""
@@ -52,7 +52,7 @@ class wrapper:
   except: typ="chat"
   for i in self.msghandlers:
    if re.search(i[1], body) and (i[2] in (typ, None)) and (i[3] in (f, None)):
-    reactor.callinthread(i[0], typ, f, body)
+    reactor.callInThread(i[0], typ, f, body)
  def send(self, x):
   reactor.callFromThread(self.x.send, x)
  def msg(self, typ, j, body, subject=None):
