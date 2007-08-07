@@ -22,5 +22,5 @@ def msg(tpl, params, l=config.LANG):
  for i in params:
   if i.__class__==u''.__class__: p.append(i)
   else: p.append(unicode(i))
- try: return self.get(tpl, l) % tuple(p)
+ try: return get(tpl, l) % tuple(p)
  except: return "lang.error:%s:%s" % (l, tpl)
