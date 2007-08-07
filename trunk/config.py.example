@@ -7,3 +7,5 @@ NICK = "Re-2"
 LOGFILE = "./log.html"
 LOGLEVEL = 0
 ERRLOGFILE = "./err.html"
+LANG = "ru"
+
