@@ -51,7 +51,7 @@ class wrapper:
   try: typ=x["type"]
   except: typ="chat"
   for i in self.msghandlers:
-   if re.search(i[1], body) and (i[2] in (typ, None)) and (i[3] in (f, None)):
+   if re.search(i[1], body, re.DOTALL) and (i[2] in (typ, None)) and (i[3] in (f, None)):
     reactor.callInThread(i[0], typ, f, body)
  def send(self, x):
   reactor.callFromThread(self.x.send, x)
