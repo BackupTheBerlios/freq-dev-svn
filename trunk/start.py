@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 
+from twisted.internet import reactor
 import sys
 import os
 import time

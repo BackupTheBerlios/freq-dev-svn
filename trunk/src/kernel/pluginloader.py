@@ -5,13 +5,15 @@ class pluginloader:
  def __init__(self, bot):
   self.bot=bot;
   self.pluginlist=os.listdir("src/plugins");
-  self.pluginlist=[i for i in self.pluginlist if i.count("plugin")]
  def load_all(self):
   for i in self.pluginlist: self.load(i);
  def load(self, p):
   tl=os.listdir("src/plugins/"+p)
+  tl=[i for i in tl if i.endswith(".py")]
   for i in tl:
-   fp=file("src/plugins/%s/%s" % (p, i), "r")
+   fn="src/plugins/%s/%s" % (p, i);
+   print "Loading %s..." % (fn, )
+   fp=file(fn, "r")
    pc=fp.read()
    fp.close()
    exec pc in globals();
