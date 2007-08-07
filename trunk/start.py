@@ -1,7 +1,6 @@
 #!/usr/local/bin/python
 
 import config
-#import lang
 from twisted.internet import reactor
 import sys
 import os
