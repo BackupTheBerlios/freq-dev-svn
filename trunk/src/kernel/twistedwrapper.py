@@ -54,3 +54,13 @@ class wrapper:
   for i in self.msghandlers:
    if re.search(i[1], body) and (i[2] in (typ, None)) and (i[3] in (f, None)):
     reactor.callinthread(i[0], typ, f, body)
+ def send(self, x):
+  reactor.callFromThread(self.x.send, x)
+ def msg(self, typ, j, body, subject=None):
+  m=domish.Element(("jabber:client", "message"))
+  m["type"]=typ
+  m["to"]=j
+  m.addElement("body").addContent(body)
+  if subject: m.addElement("subject").addContent(subject)
+  self.send(m)
+
