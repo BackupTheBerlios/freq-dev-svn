@@ -40,9 +40,9 @@ class wrapper:
    if (i[0] in (n, None)) and (i[1] in (typ, None)) and (i[2] in (id, None)) and (i[3] in (body, None)) and (i[4] in (f, None)):
     reactor.callInThread(i[5], x);
  def register_handler(self, func, stanza=None, typ=None, id=None, body=None, f=None):
-  self.handlers.add((stanza, typ, id, body, f, func))
+  self.handlers.append((stanza, typ, id, body, f, func))
  def register_msg_handler(self, func, body, typ=None, f=None):
-  self.msghandlers.add((func, body, typ, f))
+  self.msghandlers.append((func, body, typ, f))
  def cbmessage(self, x):
   try: body=self.getChild(x, "body").getContent()
   except: body=""

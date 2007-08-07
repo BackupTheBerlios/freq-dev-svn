@@ -1,4 +1,5 @@
 print "hello! i'm test plugin"
-#print bot.__class__
-print globals()
+def areply(t, s, b):
+ bot.wrapper.msg(typ=t, j=s, body=b)
+bot.wrapper.register_msg_handler(areply, ".*")
 
