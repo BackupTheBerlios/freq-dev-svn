@@ -1,3 +1,4 @@
+from twisted.web.html import escape
 import traceback
 from twisted.words.protocols.jabber import client, jid, xmlstream
 from twisted.words.xish import domish
@@ -71,7 +72,6 @@ class wrapper:
   try: f(*args, **kwargs)
   except:
    m="".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-   print "*STOP*: ", m
-   self.log.err(m)
+   print "STOP: ", m
+   self.log.err(escape(m))
    reactor.stop()
-

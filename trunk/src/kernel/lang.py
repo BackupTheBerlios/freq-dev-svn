@@ -17,7 +17,7 @@ for i in ll:
 def get(m, l=config.LANG):
  try: return LANG[l+".py"][m].decode("utf8")
  except: return "Lang.NotFound:%s:%s" % (l, m)
-def msg(tpl, params, l=config.LANG):
+def msg(tpl, params=(), l=config.LANG):
  p=[]
  for i in params:
   if i.__class__==u''.__class__: p.append(i)
