@@ -1,7 +1,11 @@
+from db import db as tdb
 import os
 import config
 
+LANG_LIST={}
+db=tdb()
 LANG={}
+
 ll=[i for i in os.listdir("lang") if i.endswith(".py")]
 for i in ll:
  fp=file("lang/"+i, "r")
@@ -24,3 +28,18 @@ def msg(tpl, params=(), l=config.LANG):
   else: p.append(unicode(i))
  try: return get(tpl, l) % tuple(p)
  except: return "lang.error:%s:%s" % (l, tpl)
+def getLang(jid):
+ jid=jid.split("/")[0]
+ if LANG_LIST.has_key(jid): return LANG_LIST[jid]
+ else:
+  q=db.get("lang", "select lang from lang_table where jid=?", (jid, ))
+  if q: r=q[0][0]
+  else: r=config.LANG
+  LANG_LIST[jid]=r
+  return r
+def setLang(jid, lang):
+ jid=jid.split("/")[0]
+ if not db.get("lang", "select lang from lang_table where jid=?", (jid, )): db.set("lang", "insert into lang_table values(?, ?)", (jid, lang), now=1)
+ else: db.set("lang", "update lang_table set lang=? where jid=?", (lang, jid), now=1)
+ LANG_LIST[jid] = lang
+
