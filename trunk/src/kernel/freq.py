@@ -23,7 +23,7 @@ class freqbot:
   params=b.split()
   if len(params):
    cmd=params[0]
-   params=params[1:]
+   params = b[len(cmd):].strip()
    for i in self.cmdhandlers:
     if cmd.lower()==i[1]:
      if self.muc.allowed(s, i[2]): i[0](t, s, params)
