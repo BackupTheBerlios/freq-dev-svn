@@ -3,3 +3,5 @@ log.header <html><head><title>freq log</title></head><body>
 test.passed норма
 not_allowed фиг
 invalid_syntax кривая команда
+pyexec.ok ok
+
