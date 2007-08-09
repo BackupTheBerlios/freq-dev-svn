@@ -52,6 +52,7 @@ class wrapper:
  def register_msg_handler(self, func, body, typ=None, f=None):
   self.msghandlers.append((func, body, typ, f))
  def cbmessage(self, x):
+  delayed = [i for i in x.children if i.name="delay"]
   try: body=self.getChild(x, "body").children[0]
   except: body=""
   try: f=x["from"]
@@ -59,7 +60,7 @@ class wrapper:
   try: typ=x["type"]
   except: typ="chat"
   for i in self.msghandlers:
-   if re.search(i[1], body, re.DOTALL) and (i[2] in (typ, None)) and (i[3] in (f, None)):
+   if re.search(i[1], body, re.DOTALL) and (i[2] in (typ, None)) and (i[3] in (f, None)) and not delayed:
     reactor.callInThread(self.call, i[0], typ, f, body)
  def send(self, x):
   reactor.callFromThread(self.x.send, x)
