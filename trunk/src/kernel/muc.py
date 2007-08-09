@@ -68,7 +68,8 @@ class muc:
  def register_leave_handler(self, func):
   self.leave_handlers.append(func)
  def call_join_handlers(self, item):
-  for i in self.join_handlers: i(item)
+  if item.room.bot:
+   for i in self.join_handlers: i(item)
   item.handled = 1
  def call_leave_handlers(self, item):
   for i in self.leave_handlers: i(item)
