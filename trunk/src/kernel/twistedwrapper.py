@@ -11,6 +11,7 @@ import sys
 class wrapper:
  def __init__(self):
   self.jid = jid.JID("%s@%s/%s" % (config.USER, config.SERVER, config.RESOURCE))
+  self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
   self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd);
   self.x = None
@@ -30,7 +31,8 @@ class wrapper:
   self.x.send(p)
   self.x.send("<message to='freq2@burdakov.pp.ru'><body>msgtext</body></message>")   ## debug
   self.x.addObserver("/*", self.cb)
-  self.x.addObserver("/message", self.cbmessage);
+  self.x.addObserver("/message", self.cbmessage)
+  self.onauthd()
  def cb(self, x):
   n=x.name
   try: id=x["id"]

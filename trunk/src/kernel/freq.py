@@ -7,7 +7,8 @@ import log
 
 class freqbot:
  def __init__(self, q):
-  self.wrapper=wrapper();
+  self.wrapper=wrapper()
+  self.wrapper.onauthd = self.onauthd
   print "wrapper initialized"
   self.g={}
   self.plug=pluginloader(self, q)
@@ -28,4 +29,6 @@ class freqbot:
     if cmd.lower()==i[1]:
      if self.muc.allowed(s, i[2]): i[0](t, s, params)
      else: self.muc.msg(t, s, lang.msg("not_allowed", l=lang.getLang(s)))
-  
+ def onauthd(self):
+  for i in self.muc.load_groupchats(): self.muc.join(i)
+

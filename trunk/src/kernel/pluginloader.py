@@ -10,10 +10,10 @@ class pluginloader:
   for i in self.pluginlist: self.load(i);
  def load(self, p):
   tl=os.listdir("src/plugins/"+p)
+  print "loading %s..." % (p, )
   tl=[i for i in tl if i.endswith(".py")]
   for i in tl:
    fn="src/plugins/%s/%s" % (p, i);
-   print "Loading %s..." % (fn, )
    fp=file(fn, "r")
    pc=fp.read()
    fp.close()
