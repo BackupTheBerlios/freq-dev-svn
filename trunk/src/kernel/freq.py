@@ -1,3 +1,4 @@
+from item import item as new_item
 from twistedwrapper import wrapper
 from pluginloader import pluginloader
 from muc import muc
