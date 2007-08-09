@@ -16,4 +16,6 @@ class item:
   self.bot.muc.msg(typ, self.jid, body)
  def lmsg(self, typ, template, *params):
   self.bot.muc.msg(typ, self.jid, lang.msg(template, params, lang.getLang(self.jid)))
+ def syntax(self, typ, text):
+  self.bot.muc.invalid_syntax(typ, self, text)
 

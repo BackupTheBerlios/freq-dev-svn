@@ -23,11 +23,12 @@ class muc:
   jid=jid.split("/")[0].lower()
   if jid in config.ADMINS: return 99
   else: return 1
-  # here must be some either insted "return 1"
+  # here must be some either instead "return 1"
  def allowed(self, s, required_access):
   return self.get_access(s) >= required_access
- def invalid_syntax(self, t, s):
-  self.msg(t, s, lang.msg("invalid_syntax", l=lang.getLang(s)))
+ def invalid_syntax(self, t, s, text):
+  try: s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )))
+  except: s.lmsg(t, "invalid_syntax_default")
  def presence_handler(self, x):
   try: typ = x["type"]
   except: typ = "available"
