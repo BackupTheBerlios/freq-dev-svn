@@ -52,7 +52,7 @@ class wrapper:
  def register_msg_handler(self, func, body, typ=None, f=None):
   self.msghandlers.append((func, body, typ, f))
  def cbmessage(self, x):
-  delayed = [i for i in x.children if (i.name=="delay") or ((i.name=="x") and (i["xmlns"]=="jabber:x:delay"))]
+  delayed = [i for i in x.children if (i.name=="delay") or ((i.name=="x") and (i.uri=="jabber:x:delay"))]
   try: body=self.getChild(x, "body").children[0]
   except: body=""
   try: f=x["from"]
