@@ -1,3 +1,4 @@
+import config
 import time
 import os
 import twisted
@@ -73,7 +74,9 @@ class freqbot:
     self.wrapper.send(answer)
  def getRev(self):
   try:
-   p = os.popen("svnversion -n")
+   p = os.popen(config.SVNVERSION)
    time.sleep(1)
-   return '.r'+p.read()
+   r = p.read()
+   if r: r = '.r'+r
+   return r
   except: return '' 
