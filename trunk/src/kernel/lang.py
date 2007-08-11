@@ -16,7 +16,7 @@ for i in ll:
   k=j[:j.find(" ")]
   v=j[j.find(" ")+1:]
   if not LANG.has_key(i): LANG[i]={}
-  LANG[i][k]=v
+  LANG[i][k]=v.replace("\\n", "\n")
 
 def get(m, l=config.LANG):
  try: return LANG[l+".py"][m].decode("utf8")

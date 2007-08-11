@@ -26,10 +26,9 @@ class wrapper:
   self.x=x;
   print "Authenticated.."
   p=domish.Element(("jabber:client", "presence"))
-  p.addElement("status").addContent("some status")
+  p.addElement("status").addContent(config.STATUS)
   p.addElement("show").addContent("chat")
   self.x.send(p)
-  self.x.send("<message to='freq2@burdakov.pp.ru'><body>msgtext</body></message>")   ## debug
   self.x.addObserver("/*", self.cb)
   self.x.addObserver("/message", self.cbmessage)
   self.onauthd()

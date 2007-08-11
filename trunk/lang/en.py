@@ -6,4 +6,4 @@ invalid_syntax_default Invalid syntax
 pyexec.ok Successful!
 invalid_syntax %s
 muc_only this command available only in conference
-
+muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %d

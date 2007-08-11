@@ -8,4 +8,5 @@ LOGFILE = "./log.html"
 LOGLEVEL = 0
 ERRLOGFILE = "./err.html"
 LANG = "ru"
+STATUS = u'Hello, i am online!'
 

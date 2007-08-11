@@ -19,11 +19,19 @@ class muc:
    groupchat=s[0]
    nick="/".join(s[1:])
    self.bot.wrapper.msg(t, groupchat, "%s: %s" % (nick, b))
- def get_access(self, jid):
-  jid=jid.split("/")[0].lower()
-  if jid in config.ADMINS: return 99
-  else: return 1
-  # here must be some either instead "return 1"
+ def is_admin(self, jid):
+  return jid and (jid.split("/")[0].lower() in config.ADMINS)
+ def get_access(self, item):
+  access = 0
+  if item.role == "participant": access += 1
+  if item.role == "moderator": access +=4
+  if item.affiliation == "none": access += 1
+  if item.affiliation == "member": access +=3
+  if item.affiliation == "admin": access += 5
+  if item.affiliation == "owner": access += 7
+  if self.is_admin(item.realjid): access += 50
+  if self.is_admin(item.jid): access += 100
+  return access
  def allowed(self, s, required_access):
   return self.get_access(s) >= required_access
  def invalid_syntax(self, t, s, text):
@@ -34,15 +42,19 @@ class muc:
   except: typ = "available"
   jid = x["from"].split("/")
   groupchat = jid[0]
-  nick = x["from"][len(groupchat):]
+  nick = x["from"][len(groupchat)+1:]
   groupchat = self.bot.g.get(groupchat, 0)
   if groupchat:
    if typ == 'available':
     item = groupchat.setdefault(nick, new_item(self.bot, groupchat))
     item.jid = x["from"]
+    try: item.status = [i for i in x.children if i.name=="status"][0].children[0]
+    except: item.status = ''
+    try: item.show = [i for i in x.children if i.name=="show"][0].children[0]
+    except: item.show = 'online'
     item.nick = nick
     try:
-     _x = [i for i in x.children if (i.name=="x") and (i["xmlns"]=="http://jabber.org/protocol/muc#user")][0]
+     _x = [i for i in x.children if (i.name=="x") and (i.uri=="http://jabber.org/protocol/muc#user")][0]
      _item = [i for i in _x.children if i.name=="item"][0]
      item.affiliation = _item["affiliation"]
      item.role = _item["role"]

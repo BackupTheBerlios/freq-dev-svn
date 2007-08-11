@@ -1,3 +1,6 @@
+import twisted
+import sys
+from twisted.words.xish import domish
 from item import item as new_item
 from twistedwrapper import wrapper
 from pluginloader import pluginloader
@@ -8,8 +11,12 @@ import log
 
 class freqbot:
  def __init__(self, q):
+  self.version_name = u'freQ'
+  self.version_version = u'0.2.0' # TODO: "0.2.0.rXXXX"
+  self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.wrapper=wrapper()
   self.wrapper.onauthd = self.onauthd
+  self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
   print "wrapper initialized"
   self.g={}
   self.plug=pluginloader(self, q)
@@ -34,17 +41,32 @@ class freqbot:
    cmd = b.split()[0]
    params = b[len(cmd)+1:]
    for i in self.cmdhandlers:
-    if cmd.lower()==i[1]:
-     if self.muc.allowed(s, i[2]):
+    if cmd.lower() == i[1]:
+     if self.muc.allowed(item, i[2]):
       if item.room or not i[3]: i[0](t, item, params)
       else: item.lmsg(t, "muc_only")
      else: item.lmsg(t, "not_allowed")
  def onauthd(self):
   for i in self.muc.load_groupchats(): self.muc.join(i)
-  print "joined to groupchats"
+  print "Joined groupchats"
  def read_file(self, fn):
   f = file(fn, "r")
   content = f.read().decode("utf8")
   f.close()
   return content
-
+ def iq_handler(self, x):
+  for child in x.children:
+   if (child.name=="query") and (child.uri=="jabber:iq:version"):
+    answer = domish.Element(("jabber:client", "iq"))
+    answer["type"] = "result"
+    answer["id"] = x.getAttribute("id")
+    answer["to"] = x.getAttribute("from")
+    query = answer.addElement("query")
+    query.uri = "jabber:iq:version"
+    query.defaultUri = query.uri
+    query.addElement("name").addContent(self.version_name)
+    query.addElement("version").addContent(self.version_version)
+    query.addElement("os").addContent(self.version_os)
+    self.log.log(u"version request: %s\nAnswer: %s" % (x.toXml(), answer.toXml()), 2)
+    self.wrapper.send(answer)
+ 
