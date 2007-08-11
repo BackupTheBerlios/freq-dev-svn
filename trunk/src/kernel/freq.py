@@ -1,3 +1,5 @@
+import time
+import os
 import twisted
 import sys
 from twisted.words.xish import domish
@@ -12,7 +14,7 @@ import log
 class freqbot:
  def __init__(self, q):
   self.version_name = u'freQ'
-  self.version_version = u'0.2.0' # TODO: "0.2.0.rXXXX"
+  self.version_version = u'0.2.0'+self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.wrapper=wrapper()
   self.wrapper.onauthd = self.onauthd
@@ -69,4 +71,9 @@ class freqbot:
     query.addElement("os").addContent(self.version_os)
     self.log.log(u"version request: %s\nAnswer: %s" % (x.toXml(), answer.toXml()), 2)
     self.wrapper.send(answer)
- 
+ def getRev(self):
+  try:
+   p = os.popen("svnversion -n")
+   time.sleep(1)
+   return '.r'+p.read()
+  except: return '' 
