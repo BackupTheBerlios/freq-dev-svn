@@ -8,7 +8,7 @@ from item import item as new_item
 from twistedwrapper import wrapper
 from pluginloader import pluginloader
 from muc import muc
-import db
+if config.ENABLE_SQLITE: import db
 import lang
 import log
 
@@ -17,17 +17,17 @@ class freqbot:
   self.version_name = u'freQ'
   self.version_version = u'0.2.0'+self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
-  self.wrapper=wrapper()
+  self.wrapper = wrapper()
   self.wrapper.onauthd = self.onauthd
   self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
   print "wrapper initialized"
-  self.g={}
-  self.plug=pluginloader(self, q)
-  self.muc=muc(self)
-  self.log=log.logger()
+  self.g = {}
+  self.plug = pluginloader(self, q)
+  self.muc = muc(self)
+  self.log = log.logger()
   self.log.log("bot started with pid %s" % (os.getpid(), ))
   self.cmdhandlers = []
-  self.db=db.db()
+  if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")
  def register_cmd_handler(self, func, cmd, required_access=0, g=None):
   self.cmdhandlers.append((func, cmd, required_access, g))
