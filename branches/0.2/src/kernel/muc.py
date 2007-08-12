@@ -4,20 +4,21 @@ from room import room as new_room
 import config
 import lang
 import sys
+import options
 
 class muc:
  def __init__(self, bot):
-  self.bot=bot
+  self.bot = bot
   self.join_handlers = []
   self.leave_handlers = []
-  self.nicks = {}
   self.bot.wrapper.register_handler(self.presence_handler, "presence")
  def msg(self, t, s, b):
-  if (s in self.bot.g) or (t=="chat"): self.bot.wrapper.msg(t, s, b)
+  if (s in self.bot.g) or (t=="chat"):
+   self.bot.wrapper.msg(t, s, b)
   else:
-   s=s.split("/")
-   groupchat=s[0]
-   nick="/".join(s[1:])
+   s = s.split("/")
+   groupchat = s[0]
+   nick = "/".join(s[1:])
    self.bot.wrapper.msg(t, groupchat, "%s: %s" % (nick, b))
  def is_admin(self, jid):
   return jid and (jid.split("/")[0].lower() in config.ADMINS)
@@ -87,18 +88,9 @@ class muc:
  def call_leave_handlers(self, item):
   for i in self.leave_handlers: i(item)
  def get_nick(self, groupchat):
-  if self.nicks.has_key(groupchat): return self.nicks[groupchat]
-  else:
-   q = self.bot.db.get("nicks", "select nick from nicks where groupchat=?", (groupchat, ))
-   if q: nick = q[0][0]
-   else: nick = config.NICK
-   self.nicks[groupchat] = nick
-   return nick
+  return options.get_option(groupchat, 'nick', config.NICK)
  def set_nick(self, groupchat, nick):
-  self.nicks[groupchat] = nick
-  q = self.bot.db.get("nicks", "select nick from nicks where groupchat=?", (groupchat, ))
-  if q: self.bot.db.set("nicks", "update nicks set nick=? where groupchat=?", (nick, groupchat))
-  else: self.bot.db.set("nicks", "insert into nicks values(?, ?)", (groupchat, nick))
+  options.set_option(groupchat, 'nick', nick)
  def join(self, groupchat, nick=None):
   if nick == None: nick = self.get_nick(groupchat)
   else: self.set_nick(groupchat, nick)
@@ -106,6 +98,7 @@ class muc:
   groupchat = self.bot.g.setdefault(groupchat, new_room(self.bot, groupchat))
   p = domish.Element(("jabber:client", "presence"))
   p["to"] = u"%s/%s" % (groupchat.jid, nick)
+  # p.addElement("status").addContent(options.get_option(.., 'status', config.STATUS))
   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
