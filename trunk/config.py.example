@@ -10,4 +10,5 @@ ERRLOGFILE = "./err.html"
 LANG = "ru"
 STATUS = u'Hello, i am online!'
 SVNVERSION = '/usr/local/bin/svnversion -n'
+MSGLIMIT = 400
 
