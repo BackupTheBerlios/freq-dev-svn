@@ -3,6 +3,7 @@ import time
 import os
 import twisted
 import sys
+from twisted.web.html import escape
 from twisted.words.xish import domish
 from item import item as new_item
 from twistedwrapper import wrapper
@@ -70,7 +71,7 @@ class freqbot:
     query.addElement("name").addContent(self.version_name)
     query.addElement("version").addContent(self.version_version)
     query.addElement("os").addContent(self.version_os)
-    self.log.log(u"version request: %s\nAnswer: %s" % (x.toXml(), answer.toXml()), 2)
+    self.log.log(escape(u"version request: %s\nAnswer: %s" % (x.toXml(), answer.toXml())), 2)
     self.wrapper.send(answer)
  def getRev(self):
   try:
