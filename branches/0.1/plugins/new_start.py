@@ -1,0 +1,1 @@
+def new_start(x): JCON.Process(10);
