@@ -15,9 +15,13 @@ class item:
   self.status = None
   self.show = None
  def msg(self, typ, body):
+  if len(body)>8000: body = body[:8000]+'...'
+  if (typ=='groupchat') and (len(body)>self.room.get_msglimit()):
+   self.bot.muc.msg(typ, self.jid, lang.msg('see_private', l=lang.getLang(self.jid)))
+   typ = 'chat'
   self.bot.muc.msg(typ, self.jid, body)
  def lmsg(self, typ, template, *params):
-  self.bot.muc.msg(typ, self.jid, lang.msg(template, params, lang.getLang(self.jid)))
+  self.msg(typ, lang.msg(template, params, lang.getLang(self.jid)))
  def syntax(self, typ, text):
   self.bot.muc.invalid_syntax(typ, self, text)
  def access(self):
