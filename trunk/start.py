@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 
+import re
 import config
 from twisted.internet import reactor
 import sys

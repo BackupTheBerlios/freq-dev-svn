@@ -35,4 +35,19 @@ def setLang(jid, lang):
  return options.set_option(jid, 'lang', lang)
 def languages():
  return [i[:2] for i in LANG.keys()]
+def dump(l, f):
+ q = LANG[l+'.py']
+ s = ''
+ x = q.keys()
+ x.sort()
+ for i in x:
+  s += "%s %s\n" % (i, q[i].replace("\n", "\\n"))
+ fp = file(f, 'w')
+ fp.write(s)
+ fp.close()
+def set(m, l, value):
+ f = 'lang/%s.py' % (l, )
+ q = '%s.py' % (l, )
+ LANG[q][m] = value.encode('utf8')
+ dump(l, f)
 
