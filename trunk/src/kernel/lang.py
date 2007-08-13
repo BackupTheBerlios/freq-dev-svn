@@ -33,4 +33,6 @@ def getLang(jid):
 def setLang(jid, lang):
  jid = jid.split("/")[0]
  return options.set_option(jid, 'lang', lang)
+def languages():
+ return [i[:2] for i in LANG.keys()]
 

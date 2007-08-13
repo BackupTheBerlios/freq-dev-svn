@@ -7,3 +7,9 @@ pyexec.ok выполнено
 invalid_syntax %s
 muc_only команда доступна только в конференции
 muc_whois %s/%s\n%s(%s)\nзашел в конфу %s\nуровень доступа: %s
+current_lang текущий язык русский (ru)
+lang_self Russkij (ru)
+lang_list dostupnye yazyki: %s
+lang_changed changed
+set_lang_not_found %s: 404
+
