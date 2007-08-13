@@ -13,4 +13,6 @@ lang_list Available languages: %s
 lang_changed Language successfully changed
 set_lang_not_found Language '%s' not found. Use .lang_list to see list of available languages.
 see_private see private
+get_msglimit %s
+msglimit_saved saved
 

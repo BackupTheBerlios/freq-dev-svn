@@ -13,4 +13,6 @@ lang_list dostupnye yazyki: %s
 lang_changed changed
 set_lang_not_found %s: 404
 see_private CMOTPi npiBAT
+get_msglimit %s
+msglimit_saved saved
 
