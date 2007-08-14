@@ -5,6 +5,7 @@ invalid_syntax_default Invalid syntax
 lang_changed Language successfully changed
 lang_list Available languages: %s
 lang_msg_saved saved
+lang_not_found Language '%s' not found. Use .lang_list to see list of available languages.
 lang_self English (en)
 log.header <html><head><title>freq log</title></head><body>\n
 log.record <p>[<i><font color="#999999">%d.%m.%y %H:%M:%S</font></i>] %%s</p>\n
@@ -14,5 +15,4 @@ muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %s
 not_allowed Not allowed.
 pyexec.ok Successful!
 see_private see private
-lang_not_found Language '%s' not found. Use .lang_list to see list of available languages.
 test.passed passed
