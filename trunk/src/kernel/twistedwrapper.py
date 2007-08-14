@@ -23,8 +23,8 @@ class wrapper:
   y=[i for i in x.children if i.name==n][0]
   return y
  def authd(self, x):
-  self.x=x;
-  print "Authenticated.."
+  self.x = x
+  print 'Authenticated'
   p=domish.Element(("jabber:client", "presence"))
   p.addElement("status").addContent(config.STATUS)
   p.addElement("show").addContent("chat")

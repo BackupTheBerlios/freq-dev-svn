@@ -26,9 +26,9 @@ from freq import freqbot
 import lang
 
 try:
- bot=freqbot(globals())
+ bot = freqbot(globals())
  bot.plug.load_all()
- print "Plugins loaded. Starting"
+ print 'reactor.run()'
  reactor.run()
 except:
  bot.log.err(escape('fatal error: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
