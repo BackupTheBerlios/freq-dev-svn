@@ -26,7 +26,7 @@ class freqbot:
   self.plug = pluginloader(self, q)
   self.muc = muc(self)
   self.log = log.logger()
-  self.log.log("bot started with pid %s" % (os.getpid(), ))
+  self.log.log('freQ %s started with pid=%s' % (self.version_version, os.getpid()))
   self.cmdhandlers = []
   if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")

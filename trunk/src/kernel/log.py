@@ -15,4 +15,6 @@ class logger:
   fp.close()
  def log(self, m, level=9):
   if level>config.LOGLEVEL: self._log(config.LOGFILE, time.strftime(lang.get("log.record")) % (m, ), lang.get("log.header"))
- def err(self, m): self._log(config.ERRLOGFILE, time.strftime(lang.get("log.record")) % (m, ), lang.get("log.header"))
+ def err(self, m):
+  self._log(config.ERRLOGFILE, time.strftime(lang.get("log.record")) % (m, ), lang.get("log.header"))
+

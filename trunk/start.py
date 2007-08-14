@@ -1,5 +1,7 @@
 #!/usr/local/bin/python
 
+from twisted.web.html import escape
+import traceback
 import re
 import config
 from twisted.internet import reactor
@@ -23,7 +25,12 @@ fp.close()
 from freq import freqbot
 import lang
 
-bot=freqbot(globals())
-bot.plug.load_all()
-print "Plugins loaded. Starting"
-reactor.run()
+try:
+ bot=freqbot(globals())
+ bot.plug.load_all()
+ print "Plugins loaded. Starting"
+ reactor.run()
+except:
+ bot.log.err(escape('fatal error: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
+ # if restart...
+
