@@ -41,7 +41,7 @@ def dump(l, f):
  x = q.keys()
  x.sort()
  for i in x:
-  s += "%s %s\n" % (i, q[i].replace("\n", "\\n"))
+  s += "%s %s\n" % (i.encode('utf8'), q[i].replace("\n", "\\n"))
  fp = file(f, 'w')
  fp.write(s)
  fp.close()
