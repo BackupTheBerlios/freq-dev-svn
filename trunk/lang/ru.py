@@ -1,12 +1,15 @@
 current_lang текущий язык русский (ru)
 get_msglimit %s
+groupchats сейчас я сижу в %s
 invalid_syntax %s
 invalid_syntax_default неправильный синтаксис
+joined зашел в '%s'
 lang_changed язык изменен
 lang_list доступные языки - %s
 lang_msg_saved записано
 lang_not_found язык '%s' недоступен, или его не существует; используйте .lang_list для просмотра списка доступных языков.
 lang_self Русский (ru)
+leaved вышел из '%s'
 log.header <html><head><title>freq log</title></head><body>\n
 log.record <p>[<i><font color="#999999">%d.%m.%y %H:%M:%S</font></i>] %%s</p>\n
 msglimit_saved сохранено
@@ -16,3 +19,4 @@ not_allowed фиг
 pyexec.ok выполнено
 see_private глянь приват
 test.passed норма
+
