@@ -1,7 +1,7 @@
 current_lang текущий язык русский (ru)
 get_msglimit %s
 invalid_syntax %s
-invalid_syntax_default кривая команда
+invalid_syntax_default неправильный синтаксис
 lang_changed язык изменен
 lang_list доступные языки - %s
 lang_msg_saved записано
