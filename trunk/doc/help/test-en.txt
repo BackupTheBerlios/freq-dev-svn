@@ -1,2 +1,5 @@
 basic
-command for testing
+Testing command. Syntax: '.test'
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект
