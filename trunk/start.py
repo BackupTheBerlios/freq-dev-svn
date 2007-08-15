@@ -32,5 +32,7 @@ try:
  reactor.run()
 except:
  bot.log.err(escape('fatal error: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
+ del bot
+ raise
  # if restart...
 
