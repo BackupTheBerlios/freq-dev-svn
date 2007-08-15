@@ -1,7 +1,13 @@
 current_lang текущий язык русский (ru)
 get_msglimit %s
 groupchats сейчас я сижу в %s
-invalid_syntax %s
+help_categories Категории: %s\nчтобы получить список команд в категории напиши 'help категория', например 'help basic'
+help_category Команды в этой категории: %s.\nДля справки по команде пишите '.help команда', например '.help test'
+help_not_found не найдено (%s)
+help_other_languages к сожалению справка по '%s' пока не написана на языке '%s'; вы можете использовать вместо этого %s
+help_saved ok\n
+help_show Категории: %s\n\n%s
+invalid_syntax синтаксис:\n%s
 invalid_syntax_default неправильный синтаксис
 joined зашел в '%s'
 lang_changed язык изменен
@@ -19,4 +25,3 @@ not_allowed фиг
 pyexec.ok выполнено
 see_private глянь приват
 test.passed норма
-

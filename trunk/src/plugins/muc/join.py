@@ -9,6 +9,7 @@ def join_handler(t, s, p):
   else:
    bot.muc.join(p)
    s.lmsg(t, 'joined', p)
+  bot.log.log(u'joining %s' % (p, ), 5)
 
 bot.register_cmd_handler(join_handler, '.join', config.JOIN_ACCESS)
 

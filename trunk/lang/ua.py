@@ -1,7 +1,13 @@
 current_lang поточна мова Українська (ua)
 get_msglimit %s
 groupchats зараз я в %s
-invalid_syntax %s
+help_categories Категорїї: %s\nщоб отримати перелік команд у категорїї, напишить 'help категорія', наприклад 'help basic'
+help_category Команди цієї категорїї: %s.\nДля допомоги пишить '.help команда', наприклад '.help test'
+help_not_found не знайдено (%s)
+help_other_languages на жаль допомога по команді '%s' ще не написана на мові '%s', використовуйте %s
+help_saved ok
+help_show Категорїї: %s\n\n%s
+invalid_syntax синтаксис:\n%s
 invalid_syntax_default невірний синтаксис
 joined зайшов до '%s'
 lang_changed мову змінено

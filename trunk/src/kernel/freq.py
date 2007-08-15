@@ -46,7 +46,7 @@ class freqbot:
    params = b[len(cmd)+1:]
    for i in self.cmdhandlers:
     if cmd.lower() == i[1]:
-     if self.muc.allowed(item, i[2]):
+     if item.allowed(i[2]):
       if item.room or not i[3]: i[0](t, item, params)
       else: item.lmsg(t, "muc_only")
      else: item.lmsg(t, "not_allowed")

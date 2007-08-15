@@ -36,7 +36,7 @@ class muc:
  def allowed(self, s, required_access):
   return self.get_access(s) >= required_access
  def invalid_syntax(self, t, s, text):
-  try: s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )))
+  try: s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )).strip())
   except: s.lmsg(t, "invalid_syntax_default")
  def presence_handler(self, x):
   try: typ = x["type"]
