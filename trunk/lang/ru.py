@@ -25,3 +25,8 @@ not_allowed фиг
 pyexec.ok выполнено
 see_private глянь приват
 test.passed норма
+version_error не получилось
+version_result_jid на %s %s %s %s
+version_result_nick %s использует %s %s %s
+version_result_self я %s %s, запущен под %s
+version_result_your у тебя %s %s %s

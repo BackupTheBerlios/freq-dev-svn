@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 
+from twisted.words.protocols.jabber.client import IQ
 from twisted.web.html import escape
 import traceback
 import re

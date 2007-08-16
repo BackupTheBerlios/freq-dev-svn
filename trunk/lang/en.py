@@ -26,3 +26,8 @@ not_allowed Not allowed.
 pyexec.ok Successful!
 see_private see private
 test.passed passed
+version_error failed
+version_result_jid on %s %s %s %s
+version_result_nick %s use %s %s %s
+version_result_self %s %s %s
+version_result_your you use %s %s %s
