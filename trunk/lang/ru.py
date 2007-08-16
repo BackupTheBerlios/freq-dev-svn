@@ -1,3 +1,8 @@
+alias_cleared очищено
+alias_deleted удалил
+alias_empty нет ни одного алиаса
+alias_not_found нет такого алиаса
+alias_saved сохранил
 current_lang текущий язык русский (ru)
 get_msglimit %s
 groupchats сейчас я сижу в %s

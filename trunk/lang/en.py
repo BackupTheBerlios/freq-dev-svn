@@ -1,3 +1,8 @@
+alias_cleared cleared
+alias_deleted deleted
+alias_empty alias list is empty
+alias_not_found alias not found
+alias_saved saved
 current_lang Current language is English (en)
 get_msglimit %s
 groupchats %s

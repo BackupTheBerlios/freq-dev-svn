@@ -1,3 +1,8 @@
+alias_cleared очищено
+alias_deleted удалил
+alias_empty нема жодного аліасу
+alias_not_found нема такого алиасу
+alias_saved записав
 current_lang поточна мова Українська (ua)
 get_msglimit %s
 groupchats зараз я в %s

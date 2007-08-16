@@ -23,6 +23,7 @@ class freqbot:
   self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
   print "wrapper initialized"
   self.g = {}
+  self.alias_engine = None
   self.plug = pluginloader(self, q)
   self.muc = muc(self)
   self.log = log.logger()
@@ -33,8 +34,9 @@ class freqbot:
  def register_cmd_handler(self, func, cmd, required_access=0, g=None):
   self.cmdhandlers.append((func, cmd, required_access, g))
  def call_cmd_handlers(self, t, s, b):
-  params = b.split()
   groupchat = s.split("/")[0]
+  b = self.alias_engine(groupchat, b)
+  params = b.split()
   nick = s[len(groupchat)+1:]
   try: item = self.g[groupchat][nick]
   except:

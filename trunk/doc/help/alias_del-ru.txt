@@ -1,0 +1,5 @@
+alias
+.alias_del foo - удаляет алиас с именем foo
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект
