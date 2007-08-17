@@ -23,4 +23,6 @@ class room:
   return int(self.get_option('msglimit', config.MSGLIMIT))
  def set_msglimit(self, value):
   return self.set_option('msglimit', str(value))
+ def rejoin(self):
+  self.globalbot.muc.join(self.jid)
 

@@ -27,9 +27,13 @@ log.record <p>[<i><font color="#999999">%d.%m.%y %H:%M:%S</font></i>] %%s</p>\n
 msglimit_saved saved
 muc_only this command available only in conference
 muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %s
+nick_update ok
+nick_updated ok
 not_allowed Not allowed.
 pyexec.ok Successful!
 see_private see private
+status_update ok
+status_updated ok
 test.passed passed
 version_error failed
 version_result_jid on %s %s %s %s

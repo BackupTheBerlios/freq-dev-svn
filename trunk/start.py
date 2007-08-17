@@ -26,8 +26,8 @@ fp.close()
 from freq import freqbot
 import lang
 
+bot = freqbot(globals())
 try:
- bot = freqbot(globals())
  bot.plug.load_all()
  print 'reactor.run()'
  reactor.run()

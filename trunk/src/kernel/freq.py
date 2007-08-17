@@ -3,6 +3,7 @@ import time
 import os
 import twisted
 import sys
+from twisted.internet import reactor
 from twisted.web.html import escape
 from twisted.words.xish import domish
 from item import item as new_item
@@ -21,6 +22,8 @@ class freqbot:
   self.wrapper = wrapper()
   self.wrapper.onauthd = self.onauthd
   self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
+  self.wrapper.c.addBootstrap('//event/client/basicauth/authfailed', self.failed)
+  self.wrapper.c.addBootstrap('//event/client/basicauth/invaliduser', self.failed)
   print "wrapper initialized"
   self.g = {}
   self.alias_engine = None
@@ -31,6 +34,10 @@ class freqbot:
   self.cmdhandlers = []
   if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")
+ def failed(self, x):
+  print 'connect failed!'
+  self.log.err('cannot connect to jabber server :(')
+  reactor.stop()
  def register_cmd_handler(self, func, cmd, required_access=0, g=None):
   self.cmdhandlers.append((func, cmd, required_access, g))
  def call_cmd_handlers(self, t, s, b):

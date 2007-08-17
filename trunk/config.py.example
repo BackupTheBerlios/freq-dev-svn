@@ -1,9 +1,10 @@
+#coding=utf8
 SERVER = u"burdakov.pp.ru"
 USER = u"freq2"
-RESOURCE = "_"
+RESOURCE = u"_"
 PASSWD = u"secret"
-ADMINS = ["pg@burdakov.pp.ru", "pg@jabbus.org"]
-NICK = "Re-2"
+ADMINS = [u"pg@burdakov.pp.ru", u"pg@jabbus.org"]
+NICK = u"Re-2"
 LOGFILE = "./log.html"
 LOGLEVEL = 0
 ERRLOGFILE = "./err.html"
@@ -15,5 +16,5 @@ PIDFILE = './freq.pid'
 ENABLE_SQLITE = 0
 JOIN_ACCESS = 50
 ROOM_LIMIT = 99
-DEFAULT_MUC_SERVER = 'conference.jabber.ru'
+DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 

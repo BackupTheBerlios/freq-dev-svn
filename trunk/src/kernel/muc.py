@@ -13,7 +13,7 @@ class muc:
   self.leave_handlers = []
   self.bot.wrapper.register_handler(self.presence_handler, "presence")
  def msg(self, t, s, b):
-  if (s in self.bot.g) or (t=="chat"):
+  if (s in self.bot.g.keys()) or (t=="chat"):
    self.bot.wrapper.msg(t, s, b)
   else:
    s = s.split("/")
@@ -98,19 +98,21 @@ class muc:
   groupchat = self.bot.g.setdefault(groupchat, new_room(self.bot, groupchat))
   p = domish.Element(("jabber:client", "presence"))
   p["to"] = u"%s/%s" % (groupchat.jid, nick)
-  # p.addElement("status").addContent(options.get_option(.., 'status', config.STATUS))
+  p.addElement("status").addContent(options.get_option(groupchat.jid, 'status', config.STATUS))
   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
- def leave(self, groupchat):
+ def leave(self, groupchat, reason='leave'):
   p = domish.Element(("jabber:client", "presence"))
   p["to"] = u"%s/%s" % (groupchat, self.get_nick(groupchat))
   p["type"] = "unavailable"
+  p.addElement('status').addContent(reason)
   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if groupchat in q:
    q.remove(groupchat)
    self.dump_groupchats(q)
+  self.bot.g.pop(groupchat, None)
  def load_groupchats(self):
   try:
    f = file("data/text/groupchats.txt", "r")

@@ -11,7 +11,7 @@ def passive():
 def cleanup_handler():
  q = len(bot.g) - config.ROOM_LIMIT
  while q>0:
-  bot.muc.leave(passive())
+  bot.muc.leave(passive(), 'MUC cleanup plugin')
   q -= 1
  reactor.callLater(60, cleanup_handler)
 

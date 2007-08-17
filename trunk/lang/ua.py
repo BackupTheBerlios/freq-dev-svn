@@ -26,9 +26,13 @@ log.record <p>[<i><font color="#999999">%d.%m.%y %H:%M:%S</font></i>] %%s</p>\n
 msglimit_saved сохранено
 muc_only команда доступна тільки у конференції
 muc_whois %s/%s\n%s(%s)\nзайшов до конфи %s\nрівень доступа: %s
+nick_update ok
+nick_updated ok
 not_allowed фіґ
 pyexec.ok виконано
 see_private подивись приват
+status_update ok
+status_updated ok
 test.passed добре
 version_error не вийшло
 version_result_jid на %s %s %s %s
