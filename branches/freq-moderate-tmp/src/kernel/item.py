@@ -28,6 +28,8 @@ class item:
   return self.bot.muc.get_access(self)
  def allowed(self, required_access):
   return self.access() >= required_access
+  
+# delete lines above 
  def can_kick(self, item):
   return (self.access()>4) and (item.access()<5)
  def can_visitor(self, item):

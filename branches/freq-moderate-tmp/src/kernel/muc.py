@@ -15,20 +15,15 @@ class muc:
   self.bot.wrapper.register_handler(self.presence_handler, "presence")
 
  def msg(self, t, s, b):
-  if (s in self.bot.g.keys()) or (t=="chat"):
   if (s in self.bot.g.keys()) or (t=='chat'):
    self.bot.wrapper.msg(t, s, b)
   else:
-   s = s.split("/")
    s = s.split('/')
    groupchat = s[0]
-   nick = "/".join(s[1:])
-   self.bot.wrapper.msg(t, groupchat, "%s: %s" % (nick, b))
    nick = '/'.join(s[1:])
    self.bot.wrapper.msg(t, groupchat, '%s: %s' % (nick, b))
  
  def is_admin(self, jid):
-  return jid and (jid.split("/")[0].lower() in config.ADMINS)
   return jid and (jid.split('/')[0].lower() in config.ADMINS)
 
  def get_access(self, item):
@@ -47,17 +42,16 @@ class muc:
   return self.get_access(s) >= required_access
 
  def invalid_syntax(self, t, s, text):
-  try: s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )).strip())
   try:
    s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )).strip())
   except: s.lmsg(t, "invalid_syntax_default")
   
  def presence_handler(self, x):
-  try: typ = x["type"]
-  except: typ = "available"
-  jid = x["from"].split("/")
+  try: typ = x['type']
+  except: typ = 'available'
+  jid = x['from'].split('/')
   groupchat = jid[0]
-  nick = x["from"][len(groupchat)+1:]
+  nick = x['from'][len(groupchat)+1:]
   groupchat = self.bot.g.get(groupchat, 0)
   if groupchat:
    if typ == 'available':
@@ -76,7 +70,6 @@ class muc:
      try: item.realjid = _item["jid"].split("/")[0]
      except: item.realjid = item.jid
      if not item.handled: self.call_join_handlers(item)
-    except: self.bot.log.err("Got invalid presence from '%s'?\n%s: %s" % (x["from"], sys.exc_info()[0], sys.exc_info()[1]))
     except:
      self.bot.log.err("Got invalid presence from '%s'?\n%s: %s" % (x['from'], sys.exc_info()[0], sys.exc_info()[1]))
     if item.nick == self.get_nick(groupchat.jid): groupchat.bot = item
@@ -85,16 +78,15 @@ class muc:
     if item:
      self.call_leave_handlers(item)
      if item.nick == self.get_nick(groupchat.jid): self.bot.g.pop(groupchat.jid)
-    else: self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x["from"], x["from"]))
-    else:
-     self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
+     else:
+      self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
   else:
-   if typ in ("subscribe", "subscribed", "unsubscribe", "unsubscribed"):
-    p = domish.Element(("jabber:client", "presence"))
-    p["type"] = typ
-    p["to"] = x["from"]
+   if typ.count('subscribe'):
+    p = domish.Element(('jabber:client', 'presence'))
+    p['type'] = typ
+    p['to'] = x['from']
     self.bot.wrapper.send(p)
-    self.bot.log.log("ROSTER:%s - %s" % (typ, p["to"]), 5)
+    self.bot.log.log('ROSTER:%s - %s' % (typ, p['to']), 5)
  def register_join_handler(self, func):
   self.join_handlers.append(func)
  def register_leave_handler(self, func):
