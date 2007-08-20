@@ -9,11 +9,13 @@ def moderate(t, s, p, nj, n_j, ra, set_to, reason):
  d.addCallback(moderate_result_handler, t, s, p)
 
 def moderate_result_handler(x, t, s, p):
+ #print x.toXml()
  if x['type'] == 'result': s.lmsg(t, 'moderate_ok')
  else: s.lmsg(t, 'moderate_error')
 
 def kick_handler(t, s, p):
  if p:
+  #print m_parse(p)
   p, reason = m_parse(p)
   item = s.room.get(p)
   if item:

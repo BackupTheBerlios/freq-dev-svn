@@ -31,12 +31,13 @@ class room:
  def moderate(self, jn, jid_nick, ra, set_to, reason):
   packet = IQ(self.globalbot.wrapper.x, 'set')
   query = packet.addElement('query', 'http://jabber.org/protocol/muc#admin')
-  query.addElement('reason').addContent(reason)
   i = query.addElement('item')
   i[jn] = jid_nick
   i[ra] = set_to
+  i.addElement('reason').addContent(reason)
   d = Deferred()
   packet.addCallback(d.callback)
+  #print packet.toXml()
   callFromThread(packet.send, self.jid)
   return d
 
