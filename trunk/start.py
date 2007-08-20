@@ -1,25 +1,29 @@
 #!/usr/local/bin/python
 
+import sys
+sys.stdout.write('Initializing... ')
+
 from twisted.words.protocols.jabber.client import IQ
 from twisted.web.html import escape
 import traceback
 import re
 import config
 from twisted.internet import reactor
-import sys
 import os
 import time
-os.chdir(os.path.dirname(sys.argv[0]))
+wd = os.path.dirname(sys.argv[0])
+if not wd: wd = '.'
+os.chdir(wd)
 sys.path.insert(1, "src/kernel")
 try:
- fp=file(config.PIDFILE, "r")
- p=fp.read()
+ fp = file(config.PIDFILE, "r")
+ p = fp.read()
  fp.close()
  os.kill(int(p), 9)
  time.sleep(5)
  print "pid %s killed." % (p, )
 except: pass
-fp=file(config.PIDFILE, "w")
+fp = file(config.PIDFILE, "w")
 fp.write(str(os.getpid()))
 fp.close()
 

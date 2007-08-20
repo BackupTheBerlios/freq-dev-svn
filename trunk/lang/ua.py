@@ -1,4 +1,4 @@
-alias_cleared очищено
+﻿alias_cleared очищено
 alias_deleted удалил
 alias_empty нема жодного аліасу
 alias_not_found нема такого алиасу
@@ -22,7 +22,7 @@ lang_not_found мови '%s' не існує, використовуйте .lang
 lang_self Українська (ua)
 leaved вийшов з '%s'
 log.header <html><head><title>freq log</title></head><body>\n
-log.record <p>[<i><font color="#999999">%d.%m.%y %H:%M:%S</font></i>] %%s</p>\n
+log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S]</font></i> %%s</p>\n
 msglimit_saved сохранено
 muc_only команда доступна тільки у конференції
 muc_whois %s/%s\n%s(%s)\nзайшов до конфи %s\nрівень доступа: %s
