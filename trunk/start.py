@@ -21,7 +21,7 @@ try:
  fp.close()
  os.kill(int(p), 9)
  time.sleep(5)
- print "pid %s killed." % (p, )
+ sys.stdout.write('pid %s killed.. ' % (p, ))
 except: pass
 fp = file(config.PIDFILE, "w")
 fp.write(str(os.getpid()))
