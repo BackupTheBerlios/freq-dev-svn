@@ -7,21 +7,30 @@ import sys
 import options
 
 class muc:
+
  def __init__(self, bot):
   self.bot = bot
   self.join_handlers = []
   self.leave_handlers = []
   self.bot.wrapper.register_handler(self.presence_handler, "presence")
+
  def msg(self, t, s, b):
   if (s in self.bot.g.keys()) or (t=="chat"):
+  if (s in self.bot.g.keys()) or (t=='chat'):
    self.bot.wrapper.msg(t, s, b)
   else:
    s = s.split("/")
+   s = s.split('/')
    groupchat = s[0]
    nick = "/".join(s[1:])
    self.bot.wrapper.msg(t, groupchat, "%s: %s" % (nick, b))
+   nick = '/'.join(s[1:])
+   self.bot.wrapper.msg(t, groupchat, '%s: %s' % (nick, b))
+ 
  def is_admin(self, jid):
   return jid and (jid.split("/")[0].lower() in config.ADMINS)
+  return jid and (jid.split('/')[0].lower() in config.ADMINS)
+
  def get_access(self, item):
   access = 0
   if item.role == "participant": access += 1
@@ -33,11 +42,16 @@ class muc:
   if self.is_admin(item.realjid): access += 50
   if self.is_admin(item.jid): access += 100
   return access
+
  def allowed(self, s, required_access):
   return self.get_access(s) >= required_access
+
  def invalid_syntax(self, t, s, text):
   try: s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )).strip())
+  try:
+   s.lmsg(t, "invalid_syntax", self.bot.read_file("doc/syntax/%s.txt" % (text, )).strip())
   except: s.lmsg(t, "invalid_syntax_default")
+  
  def presence_handler(self, x):
   try: typ = x["type"]
   except: typ = "available"
@@ -63,6 +77,8 @@ class muc:
      except: item.realjid = item.jid
      if not item.handled: self.call_join_handlers(item)
     except: self.bot.log.err("Got invalid presence from '%s'?\n%s: %s" % (x["from"], sys.exc_info()[0], sys.exc_info()[1]))
+    except:
+     self.bot.log.err("Got invalid presence from '%s'?\n%s: %s" % (x['from'], sys.exc_info()[0], sys.exc_info()[1]))
     if item.nick == self.get_nick(groupchat.jid): groupchat.bot = item
    else:
     item = groupchat.pop(nick, 0)
@@ -70,6 +86,8 @@ class muc:
      self.call_leave_handlers(item)
      if item.nick == self.get_nick(groupchat.jid): self.bot.g.pop(groupchat.jid)
     else: self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x["from"], x["from"]))
+    else:
+     self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
   else:
    if typ in ("subscribe", "subscribed", "unsubscribe", "unsubscribed"):
     p = domish.Element(("jabber:client", "presence"))
@@ -125,4 +143,3 @@ class muc:
   f = file("data/text/groupchats.txt", "w")
   f.write("\n".join(groupchats))
   f.close()
-

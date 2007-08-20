@@ -1,20 +1,30 @@
-#coding=utf8
-SERVER = u"burdakov.pp.ru"
-USER = u"freq2"
-RESOURCE = u"_"
-PASSWD = u"secret"
-ADMINS = [u"pg@burdakov.pp.ru", u"pg@jabbus.org"]
-NICK = u"Re-2"
-LOGFILE = "./log.html"
+#coding=utf-8
+
+# login
+SERVER = u'burdakov.pp.ru'
+USER = u'freq2'
+RESOURCE = u'_'
+PASSWD = u'secret'
+
+# access
+ADMINS = [u'pg@burdakov.pp.ru', u'pg@jabbus.org']
+
+# log
+LOGFILE = './log.html'
 LOGLEVEL = 0
-ERRLOGFILE = "./err.html"
-LANG = "ru"
+ERRLOGFILE = './err.html'
+
+# MUC
+NICK = u'Re-2'
+LANG = 'ru'
 STATUS = u'Hello, i am online!'
-SVNVERSION = '/usr/local/bin/svnversion -n'
-MSGLIMIT = 400
-PIDFILE = './freq.pid'
-ENABLE_SQLITE = 0
 JOIN_ACCESS = 50
 ROOM_LIMIT = 99
 DEFAULT_MUC_SERVER = u'conference.jabber.ru'
+MSGLIMIT = 400
+
+# misc
+SVNVERSION = '/usr/local/bin/svnversion -n'
+PIDFILE = './freq.pid'
+ENABLE_SQLITE = 0
 
