@@ -18,13 +18,11 @@ def get_type(s, p):
   if s.room.bot.jid == jid: return 3
   if s.jid == jid: return 2
   return 1
- else: return 3
+ else: return 0
 
 def version_handler(t, s, p):
  packet = IQ(bot.wrapper.x, 'get')
- q = packet.addElement('query')
- q.uri = 'jabber:iq:version'
- q.defaultUri = q.uri
+ q = packet.addElement('query', 'jabber:iq:version')
  packet.addCallback(version_result_handler, t, s, p, get_type(s, p))
  reactor.callFromThread(packet.send, get_jid(s, p))
 

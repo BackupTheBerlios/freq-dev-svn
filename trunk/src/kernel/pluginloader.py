@@ -13,12 +13,16 @@ class pluginloader:
    sys.stdout.write('.')
   print ' ok'
  def load(self, p):
-  tl=os.listdir('src/plugins/'+p)
-  tl=[i for i in tl if i.endswith('.py')]
+  tl = os.listdir('src/plugins/'+p)
+  tl = [i for i in tl if i.endswith('.py')]
   for i in tl:
-   fn='src/plugins/%s/%s' % (p, i);
-   fp=file(fn, 'r')
-   pc=fp.read()
+   fn = 'src/plugins/%s/%s' % (p, i);
+   fp = file(fn, 'r')
+   pc = fp.read()
    fp.close()
-   exec pc in self.q
+   try:
+    exec pc in self.q
+   except:
+    sys.stderr.write('\nCan\'t load plugin %s:\n' % (fn, ))
+    raise
 

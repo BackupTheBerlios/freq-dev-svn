@@ -7,7 +7,7 @@ LANG = {}
 ll = [i for i in os.listdir("lang") if i.endswith(".py")]
 for i in ll:
  fp = file("lang/"+i, "r")
- p = fp.read().split("\n")
+ p = fp.read().decode('utf8').split("\n")
  p = [j.strip() for j in p if j.count(" ")]
  fp.close()
  for j in p:
@@ -17,7 +17,7 @@ for i in ll:
   LANG[i][k] = v.replace("\\n", "\n")
 
 def get(m, l=config.LANG):
- try: return LANG[l+".py"][m].decode("utf8")
+ try: return LANG[l+".py"][m]
  except: return "Lang.NotFound:%s:%s" % (l, m)
 def msg(tpl, params=(), l=config.LANG):
  p = []
@@ -37,17 +37,17 @@ def languages():
  return [i[:2] for i in LANG.keys()]
 def dump(l, f):
  q = LANG[l+'.py']
- s = ''
+ s = u''
  x = q.keys()
  x.sort()
  for i in x:
-  s += "%s %s\n" % (i.encode('utf8'), q[i].replace("\n", "\\n"))
+  s += u'%s %s\n' % (i, q[i].replace('\n', '\\n'))
  fp = file(f, 'w')
- fp.write(s)
+ fp.write(s.encode('utf8'))
  fp.close()
 def set(m, l, value):
  f = 'lang/%s.py' % (l, )
  q = '%s.py' % (l, )
- LANG[q][m] = value.encode('utf8')
+ LANG[q][m] = value
  dump(l, f)
 

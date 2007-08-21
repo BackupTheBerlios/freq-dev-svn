@@ -1,9 +1,10 @@
-﻿alias_cleared очищено
 alias_deleted удалил
 alias_empty нема жодного аліасу
 alias_not_found нема такого алиасу
 alias_saved записав
 current_lang поточна мова Українська (ua)
+from_me менe
+from_you тебе
 get_msglimit %s
 groupchats зараз я в %s
 help_categories Категорїї: %s\nщоб отримати перелік команд у категорїї, напишить 'help категорія', наприклад 'help basic'
@@ -12,6 +13,8 @@ help_not_found не знайдено (%s)
 help_other_languages на жаль допомога по команді '%s' ще не написана на мові '%s', використовуйте %s
 help_saved ok
 help_show Категорїї: %s\n\n%s
+idle_error хз
+idle_result %s мовчить %s
 invalid_syntax синтаксис:\n%s
 invalid_syntax_default невірний синтаксис
 joined зайшов до '%s'
@@ -29,6 +32,8 @@ muc_whois %s/%s\n%s(%s)\nзайшов до конфи %s\nрівень дост�
 nick_update ok
 nick_updated ok
 not_allowed фіґ
+ping_error не вийшло
+pong понг від %s %s
 pyexec.ok виконано
 see_private подивись приват
 status_update ok
@@ -39,3 +44,4 @@ version_result_jid на %s %s %s %s
 version_result_nick %s використовує %s %s %s
 version_result_self я %s %s, запущен під %s
 version_result_your в тебе %s %s %s
+﻿alias_cleared очищено
