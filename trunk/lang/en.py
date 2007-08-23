@@ -38,9 +38,14 @@ ping_error can`t ping
 pong pong from %s %s
 pyexec.ok Successful!
 see_private see private
+stats_error unknown
+stats_result Stats for %s\nTotal: %s users\nOnline: %s users
 status_update ok
 status_updated ok
 test.passed passed
+time_error unknown
+uptime_error can't query
+uptime_result %s's uptime is %s
 version_error failed
 version_result_jid on %s %s %s %s
 version_result_nick %s use %s %s %s

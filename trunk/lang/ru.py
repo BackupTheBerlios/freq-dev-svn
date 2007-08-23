@@ -36,9 +36,14 @@ ping_error не получается
 pong понг от %s %s
 pyexec.ok выполнено
 see_private глянь приват
+stats_error хз
+stats_result Статистика %s\nВсего: %s\nОнлайн: %s
 status_update ok
 status_updated ok
 test.passed норма
+time_error хз
+uptime_error хз
+uptime_result %s работает без остановок %s
 version_error не получилось
 version_result_jid на %s %s %s %s
 version_result_nick %s использует %s %s %s

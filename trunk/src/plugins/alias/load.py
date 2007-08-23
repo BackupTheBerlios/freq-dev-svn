@@ -9,6 +9,6 @@ def alias_load(groupchat):
    p = i.find('=')
    a = i[:p].strip()
    b = i[p+1:].strip()
-   ALIASES[groupchat][a] = b
+   if i.strip(): ALIASES[groupchat][a] = b
  except: ALIASES[groupchat] = {}
 
