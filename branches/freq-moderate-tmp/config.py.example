@@ -1,6 +1,6 @@
 #coding=utf-8
 
-# login
+# account
 SERVER = u'burdakov.pp.ru'
 USER = u'freq2'
 RESOURCE = u'_'
@@ -27,4 +27,5 @@ MSGLIMIT = 400
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = './freq.pid'
 ENABLE_SQLITE = 0
+VCARD = u'FN,BDAY,DESC,URL'
 

@@ -18,7 +18,7 @@ def get_type(s, p):
   if s.room.bot.jid == jid: return 3
   if s.jid == jid: return 2
   return 1
- else: return 3
+ else: return 0
 
 def version_handler(t, s, p):
  packet = IQ(bot.wrapper.x, 'get')

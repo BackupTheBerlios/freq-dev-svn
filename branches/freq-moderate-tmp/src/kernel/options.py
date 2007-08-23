@@ -9,6 +9,7 @@ def read_file(groupchat, f):
  fp.close()
  return r.decode('utf8')
 def write_file(groupchat, f, text):
+ check_directory(groupchat)
  fn = "data/text/groupchats/%s/%s.txt" % (groupchat.encode("utf8"), f)
  fp = file(fn, 'w')
  fp.write(text.encode('utf8'))
