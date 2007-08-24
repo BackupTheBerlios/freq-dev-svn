@@ -28,6 +28,9 @@ lang_self English (en)
 leaved Leaved '%s'
 log.header <html><head><title>freq log</title></head><body>\n
 log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S]</font></i> %%s</p>\n
+moderate_error can't
+moderate_not_found who?
+moderate_ok ok
 msglimit_saved saved
 muc_only this command available only in conference
 muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %s

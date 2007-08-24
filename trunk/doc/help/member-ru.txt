@@ -1,0 +1,6 @@
+muc admin
+ .member nick
+ .member jid
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

@@ -26,6 +26,9 @@ lang_self Русский (ru)
 leaved вышел из '%s'
 log.header <html><head><title>freq log</title></head><body>\n
 log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S]</font></i> %%s</p>\n
+moderate_error не получилося
+moderate_not_found кого?
+moderate_ok ok
 msglimit_saved сохранено
 muc_only команда доступна только в конференции
 muc_whois %s/%s\n%s(%s)\nзашел в конфу %s\nуровень доступа: %s

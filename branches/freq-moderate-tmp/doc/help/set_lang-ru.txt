@@ -1,5 +1,0 @@
-lang muc
-выбор языка бота в текущей конференции. синтаксис: .set_lang foo, например: .set_lang ua. Список доступных языков можно посмотреть командой .lang_list
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

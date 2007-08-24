@@ -1,5 +1,8 @@
 import config
 import options
+from twisted.internet.defer import Deferred
+from twisted.words.protocols.jabber.client import IQ
+from twisted.internet.reactor import callFromThread
 from item import item as titem
 
 class room:
@@ -25,4 +28,17 @@ class room:
   return self.set_option('msglimit', str(value))
  def rejoin(self):
   self.globalbot.muc.join(self.jid)
+ def moderate(self, jn, jid_nick, ra, set_to, reason=None):
+  if not reason: reason = self.bot.nick
+  packet = IQ(self.globalbot.wrapper.x, 'set')
+  query = packet.addElement('query', 'http://jabber.org/protocol/muc#admin')
+  i = query.addElement('item')
+  i[jn] = jid_nick
+  i[ra] = set_to
+  i.addElement('reason').addContent(reason)
+  d = Deferred()
+  packet.addCallback(d.callback)
+  #print packet.toXml()
+  callFromThread(packet.send, self.jid)
+  return d
 
