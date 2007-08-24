@@ -19,7 +19,7 @@ class wrapper:
   self.log = log.logger()
   self.handlers = []
   self.msghandlers = []
-  reactor.connectTCP(config.SERVER, 5222, self.c, 5) 
+  reactor.connectTCP(config.SERVER, 5222, self.c) 
  
  def getChild(self, x, n):
   return [i for i in x.children if i.name==n][0]

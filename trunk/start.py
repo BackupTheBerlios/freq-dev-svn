@@ -5,7 +5,6 @@ sys.stdout.write('Initializing... ')
 
 from twisted.words.protocols.jabber.client import IQ
 from twisted.web.html import escape
-import twisted.python.log
 import traceback
 import re
 import config
@@ -28,12 +27,6 @@ fp = file(config.PIDFILE, "w")
 fp.write(str(os.getpid()))
 fp.close()
 
-def error_handler(m):
- if m['isError'] == '1':
-  os.kill(os.getpid(), 9)
-
-twisted.python.log.addObserver(error_handler)
-#twisted.python.log.err('test')
 from freq import freqbot
 import lang
 
@@ -46,5 +39,4 @@ except:
  bot.log.err(escape('fatal error: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
  del bot
  raise
- # if restart...
-
+ 

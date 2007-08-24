@@ -1,4 +1,5 @@
 import twisted
+import twisted.python.log
 from twisted.internet import reactor
 from twisted.web.html import escape
 from twisted.words.xish import domish
@@ -26,7 +27,7 @@ class freqbot:
   self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
   self.wrapper.c.addBootstrap('//event/client/basicauth/authfailed', self.failed)
   self.wrapper.c.addBootstrap('//event/client/basicauth/invaliduser', self.failed)
-  print "ok"
+  print 'ok'
   self.g = {}
   self.alias_engine = None
   self.plug = pluginloader(self, q)
@@ -36,7 +37,16 @@ class freqbot:
   self.cmdhandlers = []
   if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")
- 
+  twisted.python.log.addObserver(self.error_handler)
+  
+ def error_handler(self, m):
+  try:
+   if m['isError'] == 1:
+    self.log.err(escape(repr(m)))
+    reactor.stop()
+   else:
+    self.log.log(escape(repr(m)))
+  except: print m 
  def failed(self, x):
   print 'connect failed!'
   self.log.err('cannot login to jabber account (eg invalid username/password ) :(')
