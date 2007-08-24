@@ -14,16 +14,16 @@ import time
 wd = os.path.dirname(sys.argv[0])
 if not wd: wd = '.'
 os.chdir(wd)
-sys.path.insert(1, "src/kernel")
+sys.path.insert(1, 'src/kernel')
 try:
- fp = file(config.PIDFILE, "r")
+ fp = file(config.PIDFILE, 'r')
  p = fp.read()
  fp.close()
  os.kill(int(p), 9)
  time.sleep(5)
  sys.stdout.write('pid %s killed.. ' % (p, ))
 except: pass
-fp = file(config.PIDFILE, "w")
+fp = file(config.PIDFILE, 'w')
 fp.write(str(os.getpid()))
 fp.close()
 
