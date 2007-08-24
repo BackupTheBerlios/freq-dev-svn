@@ -22,7 +22,7 @@ class wrapper:
   reactor.connectTCP(config.SERVER, 5222, self.c) 
  
  def getChild(self, x, n):
-  return [i for i in x.children if i.name==n][0]
+  return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
  
  def authd(self, x):
   self.x = x
