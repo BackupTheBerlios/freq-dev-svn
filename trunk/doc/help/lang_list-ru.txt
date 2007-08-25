@@ -1,4 +1,4 @@
-lang muc
+lang
 показывает список доступных языков. Синтаксис: .lang_list
 
 ---written by---

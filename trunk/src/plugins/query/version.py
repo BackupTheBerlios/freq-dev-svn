@@ -31,10 +31,10 @@ def version_result_handler(t, s, p, typ, x):
   s.lmsg(t, 'version_error')
  else:
   try:
-   query = x.children[0]
+   query = element2dict(x)['query']
    r = {}
-   for q in query.children:
-    r[q.name] = q.children[0]
+   r = element2dict(query)
+   # r[q.name] = q.children[0]
   except: r = {}
   if typ == 0:
    s.lmsg(t, 'version_result_jid', x['from'], r.get('name'), r.get('version'), r.get('os'))
