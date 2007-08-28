@@ -4,7 +4,7 @@ def set_help_handler(t, s, p):
   k = p[:n].strip()
   v = u'%s\n\n---written by---\n%s\n' % (p[n+1:].strip(), s.jid)
   v = v.encode('utf8')
-  fn = 'doc/help/%s-%s.txt' % (k, lang.getLang(s.jid))
+  fn = u'doc/help/%s-%s.txt' % (k, lang.getLang(s.jid))
   fp = file(fn.encode('utf8'), 'w')
   fp.write(v)
   fp.close()
@@ -13,4 +13,3 @@ def set_help_handler(t, s, p):
  else: s.syntax(t, 'set_help')
 
 bot.register_cmd_handler(set_help_handler, '.set_help', 8)
-

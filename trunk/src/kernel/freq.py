@@ -22,6 +22,7 @@ class freqbot:
   self.version_name = u'freQ'
   self.version_version = u'1.0.0'+self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
+  self.authd = 0
   self.wrapper = wrapper()
   self.wrapper.onauthd = self.onauthd
   self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
@@ -71,11 +72,15 @@ class freqbot:
    for i in self.cmdhandlers:
     if cmd.lower() == i[1]:
      if item.allowed(i[2]):
-      if item.room or not i[3]: i[0](t, item, params)
+      if (item.room and item.room.bot) or not i[3]: i[0](t, item, params)
       else: item.lmsg(t, "muc_only")
      else: item.lmsg(t, "not_allowed")
  
  def onauthd(self):
+  if self.authd:
+   self.log.err('reauthd')
+   reactor.stop()
+  self.authd = 1
   groupchats = self.muc.load_groupchats()
   for i in groupchats: self.muc.join(i)
   print "Joined %s groupchats" % len(groupchats, )

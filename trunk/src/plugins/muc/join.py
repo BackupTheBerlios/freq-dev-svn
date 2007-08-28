@@ -1,5 +1,5 @@
 def join_handler(t, s, p):
- if not p: s.syntax('join')
+ if not p: s.syntax(t, 'join')
  else:
   if p.count(' '):
    groupchat = p.split()[0]
