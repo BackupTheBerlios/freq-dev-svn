@@ -15,6 +15,7 @@ help_saved ok\n
 help_show Категории: %s\n\n%s
 idle_error не получилось
 idle_result %s молчит %s
+info я работаю без остановок %s\nНагрузка: %s станз в секунду, средняя длина станзы %s байт.
 invalid_syntax синтаксис:\n%s
 invalid_syntax_default неправильный синтаксис
 joined зашел в '%s'

@@ -41,4 +41,8 @@ class room:
   #print packet.toXml()
   callFromThread(packet.send, self.jid)
   return d
+ def server(self):
+  jid = self.jid
+  if jid.count('@'): return jid[jid.find('@')+1:]
+  else: return jid
 

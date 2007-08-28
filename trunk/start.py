@@ -3,6 +3,7 @@
 import sys
 sys.stdout.write('Initializing... ')
 
+from twisted.words.protocols.jabber import xmlstream
 from twisted.words.protocols.jabber.client import IQ
 from twisted.web.html import escape
 import traceback

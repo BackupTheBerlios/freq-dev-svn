@@ -16,6 +16,7 @@ help_saved ok
 help_show This command placed in categories: %s\n\n%s
 idle_error can't query
 idle_result %s`s idle is %s
+info freQ's uptime is %s\nload average: %s stanza/sec, stanza length %s
 invalid_syntax Syntax:\n%s
 invalid_syntax_default Invalid syntax
 joined Joined '%s'

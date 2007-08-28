@@ -34,7 +34,9 @@ class muc:
   if item.affiliation == "member": access +=3
   if item.affiliation == "admin": access += 5
   if item.affiliation == "owner": access += 7
-  if self.is_admin(item.realjid): access += 50
+  if self.is_admin(item.realjid):
+   access += 50
+   if item.room and (item.room.server() in config.TRUSTED_SERVERS): access += 50
   if self.is_admin(item.jid): access += 100
   return access
 

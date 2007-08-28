@@ -22,6 +22,7 @@ JOIN_ACCESS = 50
 ROOM_LIMIT = 99
 DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 MSGLIMIT = 400
+TRUSTED_SERVERS = [u'conference.jabber.ru']
 
 # misc
 SVNVERSION = '/usr/local/bin/svnversion -n'
