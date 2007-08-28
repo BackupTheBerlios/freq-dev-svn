@@ -38,6 +38,12 @@ class freqbot:
   self.cmdhandlers = []
   if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")
+  tl = './twisted.log'
+  if not os.access(tl, 0):
+   fp = file(tl, 'w')
+   fp.write('# freQ\n')
+   fp.close()
+  twisted.python.log.startLogging(open(tl, 'a'))
   twisted.python.log.addObserver(self.error_handler)
   
  def error_handler(self, m):
