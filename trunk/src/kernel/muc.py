@@ -128,12 +128,12 @@ class muc:
  def load_groupchats(self):
   try:
    f = file("data/text/groupchats.txt", "r")
-   g = f.read().split("\n")
+   g = f.read().decode('utf8').split(u'\n')
    f.close()
   except: g = []
   return [i.strip() for i in g if i]
  def dump_groupchats(self, groupchats):
   f = file("data/text/groupchats.txt", "w")
-  f.write("\n".join(groupchats))
+  f.write(u'\n'.join(groupchats).encode('utf8'))
   f.close()
 

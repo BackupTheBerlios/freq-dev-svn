@@ -1,4 +1,5 @@
 def join_handler(t, s, p):
+ p = p.replace('\n', '')
  if not p: s.syntax(t, 'join')
  else:
   if p.count(' '):
@@ -12,4 +13,3 @@ def join_handler(t, s, p):
   bot.log.log(u'joining %s' % (p, ), 5)
 
 bot.register_cmd_handler(join_handler, '.join', config.JOIN_ACCESS)
-
