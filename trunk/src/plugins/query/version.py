@@ -15,7 +15,7 @@ def get_type(s, p):
  jid = get_jid(s, p)
  if p == jid: return 0
  if s.room:
-  if s.room.bot.jid == jid: return 3
+  if s.room.bot and (s.room.bot.jid==jid): return 3
   if s.jid == jid: return 2
   return 1
  else: return 0
