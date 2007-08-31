@@ -18,7 +18,8 @@ def cleanup_handler():
 if config.ROOM_LIMIT: reactor.callLater(60, cleanup_handler)
 
 def passive_handler(t, s, p):
- s.msg(t, passive())
+ p = passive()
+ s.msg(t, '%s (%s)' % (p, len(bot.g.get(p, {}).items)))
 
 bot.register_cmd_handler(passive_handler, '.passive')
 

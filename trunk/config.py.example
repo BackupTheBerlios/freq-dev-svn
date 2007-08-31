@@ -13,6 +13,7 @@ ADMINS = [u'pg@burdakov.pp.ru', u'pg@jabbus.org']
 LOGFILE = './log.html'
 LOGLEVEL = 0
 ERRLOGFILE = './err.html'
+#RAWXML = './rawxml.log'
 
 # MUC
 NICK = u'Re-2'
