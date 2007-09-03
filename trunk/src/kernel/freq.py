@@ -14,6 +14,7 @@ import os
 import sys
 import lang
 import log
+import traceback
 
 
 class freqbot:
@@ -78,7 +79,9 @@ class freqbot:
    for i in self.cmdhandlers:
     if cmd.lower() == i[1]:
      if item.allowed(i[2]):
-      if (item.room and item.room.bot) or not i[3]: i[0](t, item, params)
+      if (item.room and item.room.bot) or not i[3]:
+       try: i[0](t, item, params)
+       except: item.msg(t, u''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback)))
       else: item.lmsg(t, "muc_only")
      else: item.lmsg(t, "not_allowed")
  

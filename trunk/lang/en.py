@@ -4,9 +4,15 @@ alias_empty alias list is empty
 alias_not_found alias not found
 alias_saved saved
 current_lang Current language is English (en)
+disco_error can't query
 from_me me
 from_you you
 get_msglimit %s
+google? google?
+google_history_notfound history not found for 'next'
+google_no_results no results
+google_result %s\n%s (%s)
+google_results %s\n(%s results)
 groupchats %s
 help_categories Categories: %s\nto get command list, type 'help category', e.g. 'help basic'
 help_category %s.\nTo get help, you need type '.help command', e.g. '.help test'

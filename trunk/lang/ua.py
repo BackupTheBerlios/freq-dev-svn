@@ -3,9 +3,15 @@ alias_empty нема жодного аліасу
 alias_not_found нема такого алиасу
 alias_saved записав
 current_lang поточна мова Українська (ua)
+disco_error хз
 from_me менe
 from_you тебе
 get_msglimit %s
+google? що шукати?
+google_history_notfound нема исторії пошука для 'next'
+google_no_results не знайдено
+google_result %s\n%s (%s)
+google_results %s\n(всего %s результатов)
 groupchats зараз я в %s
 help_categories Категорїї: %s\nщоб отримати перелік команд у категорїї, напишить 'help категорія', наприклад 'help basic'
 help_category Команди цієї категорїї: %s.\nДля допомоги пишить '.help команда', наприклад '.help test'

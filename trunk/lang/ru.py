@@ -3,9 +3,15 @@ alias_empty нет ни одного алиаса
 alias_not_found нет такого алиаса
 alias_saved сохранил
 current_lang текущий язык русский (ru)
+disco_error не получилось
 from_me меня
 from_you тебя
 get_msglimit %s
+google? чо искать?
+google_history_notfound нет истории поиска для 'next'
+google_no_results не нашел
+google_result %s\n%s (%s)
+google_results %s\n(всего %s результатов)
 groupchats сейчас я сижу в %s
 help_categories Категории: %s\nчтобы получить список команд в категории напиши 'help категория', например 'help basic'
 help_category Команды в этой категории: %s.\nДля справки по команде пишите '.help команда', например '.help test'

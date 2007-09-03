@@ -16,6 +16,7 @@ wd = os.path.dirname(sys.argv[0])
 if not wd: wd = '.'
 os.chdir(wd)
 sys.path.insert(1, 'src/kernel')
+sys.path.insert(1, 'modules')
 try:
  fp = file(config.PIDFILE, 'r')
  p = fp.read()
