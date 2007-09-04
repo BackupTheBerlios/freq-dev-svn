@@ -62,3 +62,4 @@ version_result_jid on %s %s %s %s
 version_result_nick %s use %s %s %s
 version_result_self %s %s %s
 version_result_your you use %s %s %s
+whom? who?

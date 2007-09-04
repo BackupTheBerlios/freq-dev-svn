@@ -60,4 +60,5 @@ version_result_jid на %s %s %s %s
 version_result_nick %s використовує %s %s %s
 version_result_self я %s %s, запущен під %s
 version_result_your в тебе %s %s %s
+whom? каво?
 ﻿alias_cleared очищено
