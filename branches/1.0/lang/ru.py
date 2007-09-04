@@ -2,7 +2,6 @@ alias_deleted удалил
 alias_empty нет ни одного алиаса
 alias_not_found нет такого алиаса
 alias_saved сохранил
-cleaned зачистка выполнена
 current_lang текущий язык русский (ru)
 disco_error не получилось
 from_me меня

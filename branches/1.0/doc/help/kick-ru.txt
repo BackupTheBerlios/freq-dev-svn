@@ -1,0 +1,5 @@
+muc admin
+.kick ник, при желании можно указать причину кика - .kick ник|причина
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

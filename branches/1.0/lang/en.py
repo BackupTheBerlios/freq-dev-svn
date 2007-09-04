@@ -3,7 +3,6 @@ alias_deleted deleted
 alias_empty alias list is empty
 alias_not_found alias not found
 alias_saved saved
-cleaned cleaned
 current_lang Current language is English (en)
 disco_error can't query
 from_me me

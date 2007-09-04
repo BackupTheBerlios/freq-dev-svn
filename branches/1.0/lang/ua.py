@@ -2,7 +2,6 @@ alias_deleted удалил
 alias_empty нема жодного аліасу
 alias_not_found нема такого алиасу
 alias_saved записав
-cleaned зачистка выполнена
 current_lang поточна мова Українська (ua)
 disco_error хз
 from_me менe
