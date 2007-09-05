@@ -3,4 +3,4 @@ def realjid_handler(t, s, p):
  if item: s.msg(t, item.realjid.replace('@', ' at '))
  else: s.lmsg(t, 'whom?')
 
-bot.register_cmd_handler(realjid_handler, '.realjid', 8, 1)
+bot.register_cmd_handler(realjid_handler, '.realjid', 7, 1)

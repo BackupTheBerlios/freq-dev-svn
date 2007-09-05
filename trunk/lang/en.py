@@ -14,7 +14,7 @@ google_history_notfound history not found for 'next'
 google_no_results no results
 google_result %s\n%s (%s)
 google_results %s\n(%s results)
-groupchats %s
+groupchats currently i'm spending time in %s\n(total count: %s)
 help_categories Categories: %s\nto get command list, type 'help category', e.g. 'help basic'
 help_category %s.\nTo get help, you need type '.help command', e.g. '.help test'
 help_not_found not found (%s)

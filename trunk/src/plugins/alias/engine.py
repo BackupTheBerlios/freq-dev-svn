@@ -1,7 +1,7 @@
 def alias_engine(groupchat, text):
  params = text.split()
  if params:
-  alias = params[0]
+  alias = params[0].lower()
   r = alias_get(groupchat, alias)
   if r:
    s = r

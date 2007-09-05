@@ -4,4 +4,4 @@ def clean_handler(t, s, p):
   time.sleep(1.7)
  s.lmsg('groupchat', 'cleaned')
 
-bot.register_cmd_handler(clean_handler, '.clean', 9, 1)
+bot.register_cmd_handler(clean_handler, '.clean', 7, 1)

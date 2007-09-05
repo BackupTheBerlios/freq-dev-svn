@@ -13,7 +13,7 @@ google_history_notfound нема исторії пошука для 'next'
 google_no_results не знайдено
 google_result %s\n%s (%s)
 google_results %s\n(всего %s результатов)
-groupchats зараз я в %s
+groupchats зараз я сижу у %s\n(всего %s конференцій)
 help_categories Категорїї: %s\nщоб отримати перелік команд у категорїї, напишить 'help категорія', наприклад 'help basic'
 help_category Команди цієї категорїї: %s.\nДля допомоги пишить '.help команда', наприклад '.help test'
 help_not_found не знайдено (%s)
