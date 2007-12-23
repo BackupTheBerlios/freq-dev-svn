@@ -9,7 +9,7 @@ from_me менe
 from_you тебе
 get_msglimit %s
 google? що шукати?
-google_history_notfound в історії пошуку немає 'next'
+google_history_notfound нема історії пошуку для використання 'next'
 google_no_results нічого не знайдено
 google_result %s\n%s (%s)
 google_results %s\n(всего %s результатов)
