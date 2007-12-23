@@ -1,16 +1,17 @@
 #coding=utf-8
 
-# account
+# ACCOUNT
 SERVER = u'burdakov.pp.ru'
 USER = u'freq2'
 RESOURCE = u'_'
 PASSWD = u'secret'
 
-# access
+# ACCESS
 ADMINS = [u'pg@burdakov.pp.ru', u'pg@jabbus.org']
 
-# log
+# LOGGING
 LOGFILE = './log.html'
+LOGF = './twisted.log'
 LOGLEVEL = 0
 ERRLOGFILE = './err.html'
 #RAWXML = './rawxml.log'
@@ -25,9 +26,10 @@ DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 MSGLIMIT = 400
 TRUSTED_SERVERS = [u'conference.jabber.ru']
 
-# misc
+# MISC
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = './freq.pid'
+#sqlite support doesn't implemented yet
 ENABLE_SQLITE = 0
 VCARD = u'FN,BDAY,DESC,URL'
 

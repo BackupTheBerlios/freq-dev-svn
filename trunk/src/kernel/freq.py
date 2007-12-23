@@ -39,7 +39,9 @@ class freqbot:
   self.cmdhandlers = []
   if config.ENABLE_SQLITE: self.db = db.db()
   self.wrapper.register_msg_handler(self.call_cmd_handlers, u".*")
-  tl = './twisted.log'
+  try:
+   tl = config.LOGF
+  except: tl = './twisted.log' 
   if not os.access(tl, 0):
    fp = file(tl, 'w')
    fp.write('# freQ\n')
@@ -111,7 +113,6 @@ class freqbot:
     query.addElement('name').addContent(self.version_name)
     query.addElement('version').addContent(self.version_version)
     query.addElement('os').addContent(self.version_os)
-    self.log.log(escape(u'version request: %s\nAnswer: %s' % (x.toXml(), answer.toXml())), 2)
     self.wrapper.send(answer)
  
  def getRev(self):

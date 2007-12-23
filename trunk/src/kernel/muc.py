@@ -88,7 +88,7 @@ class muc:
     p["type"] = typ
     p["to"] = x["from"]
     self.bot.wrapper.send(p)
-    self.bot.log.log("ROSTER:%s - %s" % (typ, p["to"]), 5)
+    self.bot.log.log("ROSTER: %s - %s" % (typ, p["to"]), 5)
  def register_join_handler(self, func):
   self.join_handlers.append(func)
  def register_leave_handler(self, func):
