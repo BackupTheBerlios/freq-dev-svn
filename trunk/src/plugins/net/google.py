@@ -1,14 +1,13 @@
 import google
 
-G_CACHE = {}
-# google search history (for .google next)
+G_CACHE = {} # google search history (for .google next)
+
 def google_handler(t, s, p):
  p = re.search('^(((([0-9]{1,5})(\-([0-9]{1,5}))?)|next))?(\ ?.+)?$', p)
  if p: p = p.groups()
  else:
   s.syntax(t, 'google')
   return
- #s.msg(t, p)
  n = p[1]
  start = p[3]
  if start == '0': start =1
