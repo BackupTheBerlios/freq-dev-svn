@@ -1,16 +1,17 @@
 import os
+from config import DATADIR
 
 OPTIONS = {}
 
 def read_file(groupchat, f):
- fn = "data/text/groupchats/%s/%s.txt" % (groupchat.encode('utf8'), f)
+ fn = '%s/text/groupchats/%s/%s.txt' % (DATADIR, groupchat.encode('utf8'), f)
  fp = file(fn, 'r')
  r = fp.read()
  fp.close()
  return r.decode('utf8')
 def write_file(groupchat, f, text):
  check_directory(groupchat)
- fn = "data/text/groupchats/%s/%s.txt" % (groupchat.encode("utf8"), f)
+ fn = '%s/text/groupchats/%s/%s.txt' % (DATADIR, groupchat.encode("utf8"), f)
  fp = file(fn, 'w')
  fp.write(text.encode('utf8'))
  fp.close()
@@ -26,8 +27,10 @@ def load_options(groupchat):
  OPTIONS[groupchat] = r
  return r
 def check_directory(groupchat):
- groupchat = groupchat.encode("utf8")
- d = 'data/text/groupchats/%s' % (groupchat, )
+ groupchat = groupchat.encode('utf8')
+ prefix='%s/text/groupchats' % (DATADIR, )
+ d = '%s/%s' % (prefix, groupchat, )
+ if not os.access(prefix, os.F_OK): os.mkdir(prefix)
  if not os.access(d, os.F_OK): os.mkdir(d)
 def write_options(groupchat):
  s = ''
@@ -43,4 +46,3 @@ def set_option(groupchat, k, v):
  if not OPTIONS.has_key(groupchat): load_options(groupchat)
  OPTIONS[groupchat][k] = v
  write_options(groupchat)
-

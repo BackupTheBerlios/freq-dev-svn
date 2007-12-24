@@ -32,4 +32,4 @@ PIDFILE = './freq.pid'
 #sqlite support doesn't implemented yet
 ENABLE_SQLITE = 0
 VCARD = u'FN,BDAY,DESC,URL'
-
+DATADIR = './data'           #don't use trailing slash here!

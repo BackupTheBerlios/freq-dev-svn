@@ -1,5 +1,5 @@
 def alias_load(groupchat):
- fn = 'data/text/groupchats/%s/aliases.txt' % (groupchat.encode('utf8'), )
+ fn = '%s/text/groupchats/%s/aliases.txt' % (config.DATADIR, groupchat.encode('utf8'),  )
  try:
   fp = file(fn, 'r')
   q = fp.read().decode('utf8').split('\n')
