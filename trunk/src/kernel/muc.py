@@ -9,6 +9,7 @@ import options
 class muc:
 
  def __init__(self, bot):
+  self.g_file = '%s/text/groupchats.txt' % (config.DATADIR, )
   self.bot = bot
   self.join_handlers = []
   self.leave_handlers = []
@@ -126,17 +127,15 @@ class muc:
    q.remove(groupchat)
    self.dump_groupchats(q)
   self.bot.g.pop(groupchat, None)
-  
-g_file = '%s/text/groupchats.txt' % (config.DATADIR, )
+
  def load_groupchats(self):
   try:
-   f = file(g_file, 'r')
+   f = file(self.g_file, 'r')
    g = f.read().decode('utf8').split(u'\n')
    f.close()
   except: g = []
   return [i.strip() for i in g if i]
  def dump_groupchats(self, groupchats):
-  f = file(g_file, 'w')
+  f = file(self.g_file, 'w')
   f.write(u'\n'.join(groupchats).encode('utf8'))
   f.close()
-
