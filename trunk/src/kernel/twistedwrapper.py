@@ -82,9 +82,9 @@ class wrapper:
  def call(self, f, *args, **kwargs):
   try:
    self.tc = self.tc + 1
-   self.log.log('== started thread #%s: %s', (self.tc, f), 1)
+   self.log.log('== started thread #%s: %s' % (self.tc, f), 1)
    f(*args, **kwargs)
-   self.log.log('== finished thread #%s: %s', (self.tc, f), 1)
+   self.log.log('== finished thread #%s: %s' % (self.tc, f), 1)
   except:
    m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print "STOP: ", m
