@@ -11,6 +11,7 @@ import config
 class wrapper:
 
  def __init__(self):
+  self.tc = 0
   self.jid = jid.JID("%s@%s/%s" % (config.USER, config.SERVER, config.RESOURCE))
   self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
@@ -67,6 +68,7 @@ class wrapper:
     reactor.callInThread(self.call, i[0], typ, f, body)
  
  def send(self, x):
+  self.log.log(u'try to send stanza to %s..' % (x['to'], ), 1)
   reactor.callFromThread(self.x.send, x)
  
  def msg(self, typ, j, body, subject=None):
@@ -78,7 +80,11 @@ class wrapper:
   self.send(m)
  
  def call(self, f, *args, **kwargs):
-  try: f(*args, **kwargs)
+  try:
+   self.tc = self.tc + 1
+   self.log.log('== started thread #%s: %s', (self.tc, f), 1)
+   f(*args, **kwargs)
+   self.log.log('== finished thread #%s: %s', (self.tc, f), 1)
   except:
    m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print "STOP: ", m

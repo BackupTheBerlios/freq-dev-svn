@@ -28,6 +28,7 @@ class muc:
   return jid and (jid.split('/')[0].lower() in config.ADMINS)
 
  def get_access(self, item):
+  self.bot.log.log(u'checking access for %s (%s)...' % (item.jid, item.realjid), 1)
   access = 0
   if item.role == 'participant': access += 1
   if item.role == 'moderator': access +=4
@@ -50,6 +51,7 @@ class muc:
   except: s.lmsg(t, 'invalid_syntax_default')
   
  def presence_handler(self, x):
+  self.bot.log.log(u'presence_handler..', 2)
   try: typ = x['type']
   except: typ = 'available'
   jid = x['from'].split('/')
@@ -74,7 +76,7 @@ class muc:
      except: item.realjid = item.jid
      if not item.handled: self.call_join_handlers(item)
     except:
-     self.bot.log.err("Got invalid presence from '%s'?\n%s: %s" % (x['from'], sys.exc_info()[0], sys.exc_info()[1]))
+     self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s" % (x['from'], sys.exc_info()[0], sys.exc_info()[1]))
     if item.nick == self.get_nick(groupchat.jid): groupchat.bot = item
    else:
     item = groupchat.pop(nick, 0)
