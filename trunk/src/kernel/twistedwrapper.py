@@ -89,4 +89,5 @@ class wrapper:
    m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print "STOP: ", m
    self.log.err(escape(m))
+   self.log.err('=^ failed thread #%s' % (self.tc, ))
    reactor.stop()
