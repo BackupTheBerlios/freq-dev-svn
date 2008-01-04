@@ -12,6 +12,7 @@ class wrapper:
 
  def __init__(self):
   self.tc = 0
+  self.th = {}
   self.jid = jid.JID("%s@%s/%s" % (config.USER, config.SERVER, config.RESOURCE))
   self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
@@ -82,9 +83,13 @@ class wrapper:
  def call(self, f, *args, **kwargs):
   try:
    self.tc = self.tc + 1
-   self.log.log('== started thread #%s: %s' % (self.tc, f), 1)
+   tc = self.tc
+   self.log.log(escape('== started thread #%s' % (self.tc, )), 1)
+   self.th[tc] = (f, args, kwargs)
    f(*args, **kwargs)
-   self.log.log('== finished thread #%s: %s' % (self.tc, f), 1)
+   try: self.th.pop(tc)
+   except: self.log.err('Something wrong with threads management :-S')
+   self.log.log(escape('== finished thread #%s' % (self.tc, )), 1)
   except:
    m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print "STOP: ", m

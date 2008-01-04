@@ -1,35 +1,40 @@
 #coding=utf-8
 
-# ACCOUNT
+### ACCOUNT ###
 SERVER = u'burdakov.pp.ru'
 USER = u'freq2'
 RESOURCE = u'_'
 PASSWD = u'secret'
 
-# ACCESS
+### ACCESS ###
 ADMINS = [u'pg@burdakov.pp.ru', u'pg@jabbus.org']
 
-# LOGGING
+### DEBUG LOGGING ###
 LOGFILE = './log.html'
 LOGF = './twisted.log'
-LOGLEVEL = 0
+LOGLEVEL = 5
+# loglevel: 0 - log all; 9 - log nothing... 
 ERRLOGFILE = './err.html'
+LOGF = './twisted.log'
 #RAWXML = './rawxml.log'
 
-# MUC
-NICK = u'Re-2'
+### MUC ###
+NICK = u'freQ-bot'
 LANG = 'ru'
 STATUS = u'Hello, i am online!'
 JOIN_ACCESS = 50
+#who has access to '.join' command...
 ROOM_LIMIT = 99
+#maximum number of rooms where bot sits.. he can automatically leve non-active rooms
 DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 MSGLIMIT = 400
 TRUSTED_SERVERS = [u'conference.jabber.ru']
 
-# MISC
+### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = './freq.pid'
-#sqlite support doesn't implemented yet
+#sqlite support doesn't implemented yet; 0=disabled
 ENABLE_SQLITE = 0
 VCARD = u'FN,BDAY,DESC,URL'
-DATADIR = './data'           #don't use trailing slash here!
+DATADIR = './data'
+#don't use trailing slash here!
