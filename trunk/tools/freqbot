@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# PROVIDE: freqbot
+# PROVIDE: freq
 
-freqbot_enable="${freqbot_enable-NO}"
+freq_enable="${freq_enable-NO}"
 
 . /etc/rc.subr
 
-name=freqbot
+name=freq
 rcvar=`set_rcvar`
 
 restart_cmd="freq_restart"
@@ -18,8 +18,9 @@ cd /usr/local/etc/
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
 SUSER=freq
-PYTHON=/usr/local/bin/python2.5
-START=/home/kreved/soft-svn/freq/trunk/start.py
+PYTHON=/usr/local/bin/python
+START=/usr/local/share/freq/start.py
+CFG=/usr/local/etc/freq.conf
 
 freq_status()
 {
@@ -30,7 +31,7 @@ freq_status()
 freq_start()
 {
     echo -n "Starting $name: "
-    su $SUSER -c "$PYTHON $START >/dev/null 2>&1 &"
+    su $SUSER -c "$PYTHON $START $CFG >/dev/null 2>&1 &"
     echo "done."
 }
 

@@ -4,3 +4,17 @@ Config file is now freq.conf
 You need to rename your config.py to freq.conf
 Now you can start bot with command like this:
   python start.py /path/to/freq.conf
+
+ === Thu Jan 10 21:26:11 UTC 2008 :: kreved@kreved ===
+now you can install freQ Jabber Bot on your system with command:
+  make install (or gmake install)
+
+you need cp /usr/local/etc/freq.conf.example to /usr/local/etc/freq.conf and edit it..
+
+add freq_enable="YES" to your rc.conf
+
+use
+
+   /usr/local/etc/rc.d/freq start
+
+to start bot.

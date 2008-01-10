@@ -9,9 +9,24 @@ You need have installed
     
    to start bot.
   
-copy freq.conf.example to freq.conf and edit it..
+1) now you can install freQ Jabber Bot on your system with command:
+   make install (or gmake install)
 
-you can start bot with command like this:
+   you need cp /usr/local/etc/freq.conf.example to /usr/local/etc/freq.conf and edit it..
 
-  python start.py /path/to/freq.conf
+   add freq_enable="YES" to your rc.conf   
+
+   use
+
+     /usr/local/etc/rc.d/freq start
+
+   to start bot.
+
+2) or, if you can't (or don't want) install bot, you can start it immediately..
+
+   copy freq.conf.example to freq.conf and edit it..
+
+   Start bot with command like this:
+
+     python start.py /path/to/freq.conf
   
