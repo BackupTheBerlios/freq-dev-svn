@@ -1,22 +1,30 @@
 #!/usr/local/bin/python
 
-import sys
-sys.stdout.write('Initializing... ')
+print 'Initializing...'
 
+import sys
 from twisted.words.protocols.jabber import xmlstream
 from twisted.words.protocols.jabber.client import IQ
 from twisted.web.html import escape
 import traceback
 import re
-import config
 from twisted.internet import reactor
 import os
 import time
+
 wd = os.path.dirname(sys.argv[0])
 if not wd: wd = '.'
 os.chdir(wd)
-sys.path.insert(1, 'src/kernel')
-sys.path.insert(1, 'modules')
+sys.path.insert(0, 'src/kernel')
+sys.path.insert(0, 'modules')
+#print 'sys.path is %s' % (sys.path, )
+
+import config
+if len(sys.argv) > 1: cfg = sys.argv[1]
+else: cfg = './freq.conf'
+print 'Using %s as config file' % (cfg, )
+config.init(cfg)
+  
 try:
  fp = file(config.PIDFILE, 'r')
  p = fp.read()

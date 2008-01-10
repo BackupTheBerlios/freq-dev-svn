@@ -1,22 +1,20 @@
 #coding=utf-8
 
+# Don't edit this file!
+# You can override this defaults in your freq.cfg file
+
 ### ACCOUNT ###
-SERVER = u'burdakov.pp.ru'
-USER = u'freq2'
-RESOURCE = u'_'
-PASSWD = u'secret'
+RESOURCE = u'freQ'
 
 ### ACCESS ###
-ADMINS = [u'pg@burdakov.pp.ru', u'pg@jabbus.org']
+ADMINS = []
 
 ### DEBUG LOGGING ###
-LOGFILE = './log.html'
-LOGF = './twisted.log'
+LOGFILE = '/var/log/freq/log.html'
+LOGF = '/var/log/freq/twisted.log'
 LOGLEVEL = 5
-# loglevel: 0 - log all; 9 - log nothing... 
-ERRLOGFILE = './err.html'
-LOGF = './twisted.log'
-#RAWXML = './rawxml.log'
+ERRLOGFILE = '/var/log/freq/err.html'
+#RAWXML = '/var/log/freq/rawxml.log'
 
 ### MUC ###
 NICK = u'freQ-bot'
@@ -28,13 +26,12 @@ ROOM_LIMIT = 99
 #maximum number of rooms where bot sits.. he can automatically leve non-active rooms
 DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 MSGLIMIT = 400
-TRUSTED_SERVERS = [u'conference.jabber.ru']
+TRUSTED_SERVERS = []
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
-PIDFILE = './freq.pid'
+PIDFILE = '/tmp/freq.pid'
 #sqlite support doesn't implemented yet; 0=disabled
 ENABLE_SQLITE = 0
 VCARD = u'FN,BDAY,DESC,URL'
-DATADIR = './data'
-#don't use trailing slash here!
+DATADIR = '/var/db/freq'

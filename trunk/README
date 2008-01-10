@@ -1,11 +1,17 @@
 freQ-bot written by Burdakov Daniel <kreved@kreved.org>
 
-You need have installed Python2.5 && py-TwistedCore && py-TwistedWords &&
-  && py-TwistedWeb to start bot.
+You need have installed
+
+        * Python2.5
+        * py-TwistedCore
+        * py-TwistedWords
+        * py-TwistedWeb
+    
+   to start bot.
   
-copy config.py.example to config.py and edit it..
+copy freq.conf.example to freq.conf and edit it..
 
 you can start bot with command like this:
 
-  ./start.py
+  python start.py /path/to/freq.conf
   

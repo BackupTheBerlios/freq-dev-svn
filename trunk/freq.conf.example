@@ -1,0 +1,26 @@
+#coding=utf-8
+# You can see config.defaults to learn more options..
+
+### ACCOUNT ###
+SERVER = u'kreved.org'
+USER = u'freq'
+PASSWD = u'secret'
+
+### ACCESS ###
+ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
+
+### DEBUG LOGGING ###
+LOGFILE = '/var/log/freq/log.html'
+LOGF = '/var/log/freq/twisted.log'
+LOGLEVEL = 5
+# loglevel: 0 - log anything; 9 - log nothing... 
+ERRLOGFILE = '/var/log/freq/err.html'
+#RAWXML = '/var/log/freq/rawxml.log'
+
+### MUC ###
+NICK = u'freQ-bot'
+
+### MISC ###
+SVNVERSION = '/usr/local/bin/svnversion -n'
+PIDFILE = '/tmp/freq.pid'
+DATADIR = '/var/db/freq'

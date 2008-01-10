@@ -1,2 +1,6 @@
-Fri Jan  4 21:36:51 EET 2008
-initialized
+
+ === Thu Jan 10 09:26:58 UTC 2008 :: kreved@kreved ===
+Config file is now freq.conf
+You need to rename your config.py to freq.conf
+Now you can start bot with command like this:
+  python start.py /path/to/freq.conf
