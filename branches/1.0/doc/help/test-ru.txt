@@ -1,5 +1,0 @@
-basic
-Команда для проверки бота, особо не заморачивайтесь на ней
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

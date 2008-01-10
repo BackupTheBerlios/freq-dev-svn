@@ -1,5 +1,0 @@
-query
-Статистика сервера, синтаксис: .stats foo.bar, например .stats xmpp.ru
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

@@ -1,5 +1,0 @@
-muc admin
-.moderator ник
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

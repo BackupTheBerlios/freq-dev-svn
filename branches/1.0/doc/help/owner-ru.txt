@@ -1,6 +1,0 @@
-muc admin
- .owner nick
- .owner jid
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

@@ -1,5 +1,0 @@
-muc admin
-.ban ник, при желании можно указать причину кика - .ban ник|причина; вместо ника можно написать jid
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

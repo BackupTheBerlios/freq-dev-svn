@@ -1,7 +1,0 @@
-muc
-команда выхода из конференции
-1) .leave - выйти из текущей конференции (доступно админам конференции)
-2) .leave foo@conference.jabber.org - выйти из foo@ (доступно админам бота)
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

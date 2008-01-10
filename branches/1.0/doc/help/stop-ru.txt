@@ -1,5 +1,0 @@
-superadmin
-По этой команде бот завершается. Синтаксис: .stop
-
----written by---
-main@conference.burdakov.pp.ru/некий субъект

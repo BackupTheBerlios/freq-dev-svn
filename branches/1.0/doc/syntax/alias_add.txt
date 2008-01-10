@@ -1,1 +1,0 @@
-'.alias_add foo=bar'
