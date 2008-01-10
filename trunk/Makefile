@@ -21,6 +21,7 @@ install:
 	$(MAKE) build
 	#copying files..
 	mkdir -p $(prefix)/share/freq
+	mkdir -p $(prefix)/etc/rc.d
 	$(INSTALL) README $(prefix)/share/freq
 	$(INSTALL) CHANGES $(prefix)/share/freq
 	$(INSTALLX) start.py $(prefix)/share/freq
@@ -42,6 +43,7 @@ install:
 	#rc script
 	$(INSTALLX) tools/freqbot $(prefix)/etc/rc.d/freq
 	#user, var..
+	if pw groupshow -n $(botgroup) 2>/dev/null; then echo group $(botgroup) already exists..; else pw groupadd -n $(botgroup); fi
 	if pw usershow -n $(botuser) 2>/dev/null; then echo user $(botuser) already exists..; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
 	mkdir -p /var/log/freq
 	chown -R $(botuser):$(botgroup) /var/log/freq
@@ -57,4 +59,3 @@ deinstall:
 
 userdel:
 	pw userdel -n $(botuser)
-	pw groupdel -n $(botgroup)
