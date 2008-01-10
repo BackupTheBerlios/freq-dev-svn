@@ -6,15 +6,15 @@ You need have installed
         * py-TwistedCore
         * py-TwistedWords
         * py-TwistedWeb
-    
+
    to start bot.
-  
+
 1) now you can install freQ Jabber Bot on your system with command:
    make install (or gmake install)
 
    you need cp /usr/local/etc/freq.conf.example to /usr/local/etc/freq.conf and edit it..
 
-   add freq_enable="YES" to your rc.conf   
+   add freq_enable="YES" to your rc.conf 
 
    use
 
@@ -29,4 +29,3 @@ You need have installed
    Start bot with command like this:
 
      python start.py /path/to/freq.conf
-  

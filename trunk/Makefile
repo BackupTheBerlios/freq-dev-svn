@@ -4,6 +4,11 @@ INSTALLX=install -o root -g wheel -m 755
 botuser=freq
 botgroup=freq
 
+build: doc lang templates tools
+	$(MAKE) depends
+	$(MAKE) -C doc build
+	chmod -R u+w,u+r,o-w,o+r .
+
 clean:
 	#Cleaning
 	$(MAKE) -C doc clean
@@ -11,11 +16,6 @@ clean:
 
 depends: tools/depends.py
 	python tools/depends.py
-
-build: doc lang templates tools
-	$(MAKE) depends
-	$(MAKE) -C doc build
-	chmod -R u+w,u+r,o-w,o+r .
 
 install:
 	$(MAKE) build
