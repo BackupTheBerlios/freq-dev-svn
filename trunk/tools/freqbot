@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# PROVIDE: freqbot
+
+freqbot_enable="${freqbot_enable-NO}"
+
+. /etc/rc.subr
+
+name=freqbot
+rcvar=`set_rcvar`
+
+restart_cmd="freq_restart"
+start_cmd="freq_restart"
+status_cmd="freq_status"
+stop_cmd="freq_stop"
+
+cd /usr/local/etc/
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
+SUSER=freq
+PYTHON=/usr/local/bin/python2.5
+START=/home/kreved/soft-svn/freq/trunk/start.py
+
+freq_status()
+{
+    killall -0 -u $SUSER >/dev/null 2>&1
+    echo $?
+}
+
+freq_start()
+{
+    echo -n "Starting $name: "
+    su $SUSER -c "$PYTHON $START >/dev/null 2>&1 &"
+    echo "done."
+}
+
+freq_stop()
+{
+    echo -n "Stopping $name: "
+    killall -u $SUSER >/dev/null 2>&1
+    sleep 6
+    killall -u $SUSER -kill >/dev/null 2>&1
+    echo "done."
+}
+
+freq_restart()
+{
+freq_stop
+freq_start
+}
+
+load_rc_config $name
+run_rc_command "$1"
