@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mkdir -p $1/text/groupchats
+mkdir -p $1/db
