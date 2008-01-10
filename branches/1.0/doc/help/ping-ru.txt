@@ -1,0 +1,5 @@
+query
+Определение скорости отклика сервера. Синтаксис команды такой же, как для .version (help version)
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

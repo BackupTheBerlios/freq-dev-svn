@@ -1,0 +1,9 @@
+net
+инструмент для поиска в Google. Примеры использования:
+ 1) .google jabber
+ 2) .google 5 jabber - показать пятый результат по запросу "jabber" 
+ 3) .google 1-10 jabber - показать первые десять результатов
+ 4) .google next - повторить предыдущий поиск и показать новые результаты
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

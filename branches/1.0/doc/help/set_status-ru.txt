@@ -1,0 +1,5 @@
+muc options
+меняет статусное сообщение бота в текущей конференции. Синтаксис: .set_status foo
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

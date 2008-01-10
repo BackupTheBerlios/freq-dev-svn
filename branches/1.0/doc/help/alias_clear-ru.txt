@@ -1,0 +1,5 @@
+alias
+.alias_clear - удаляет ВСЕ алиасы текущей конференции.
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект
