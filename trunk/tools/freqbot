@@ -39,7 +39,7 @@ freq_stop()
 {
     echo -n "Stopping $name: "
     killall -u $SUSER >/dev/null 2>&1
-    sleep 6
+    sleep 3
     killall -u $SUSER -kill >/dev/null 2>&1
     echo "done."
 }

@@ -14,6 +14,7 @@ class muc:
   self.join_handlers = []
   self.leave_handlers = []
   self.bot.wrapper.register_handler(self.presence_handler, 'presence')
+  self.bot.g = {}
 
  def msg(self, t, s, b):
   if (s in self.bot.g.keys()) or (t=='chat'):
@@ -51,7 +52,7 @@ class muc:
   except: s.lmsg(t, 'invalid_syntax_default')
   
  def presence_handler(self, x):
-  self.bot.log.log(u'presence_handler..', 2)
+  self.bot.log.log(u'presence_handler..', 1)
   try: typ = x['type']
   except: typ = 'available'
   jid = x['from'].split('/')
@@ -92,20 +93,27 @@ class muc:
     p['to'] = x['from']
     self.bot.wrapper.send(p)
     self.bot.log.log('ROSTER: %s - %s' % (typ, p['to']), 5)
+
  def register_join_handler(self, func):
   self.join_handlers.append(func)
+
  def register_leave_handler(self, func):
   self.leave_handlers.append(func)
+
  def call_join_handlers(self, item):
   if item.room.bot:
    for i in self.join_handlers: i(item)
   item.handled = 1
+
  def call_leave_handlers(self, item):
   for i in self.leave_handlers: i(item)
+
  def get_nick(self, groupchat):
   return options.get_option(groupchat, 'nick', config.NICK)
+
  def set_nick(self, groupchat, nick):
   options.set_option(groupchat, 'nick', nick)
+
  def join(self, groupchat, nick=None):
   if nick == None: nick = self.get_nick(groupchat)
   else: self.set_nick(groupchat, nick)
@@ -118,6 +126,7 @@ class muc:
   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
+
  def leave(self, groupchat, reason='leave'):
   p = domish.Element(('jabber:client', 'presence'))
   p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
@@ -137,6 +146,7 @@ class muc:
    f.close()
   except: g = []
   return [i.strip() for i in g if i]
+
  def dump_groupchats(self, groupchats):
   f = file(self.g_file, 'w')
   f.write(u'\n'.join(groupchats).encode('utf8'))

@@ -1,26 +1,32 @@
 #coding=utf-8
-# You can see config.defaults to learn more options..
 
-### ACCOUNT ###
+# You can see config.defaults to learn more options...
+
+### JABBER ###
 SERVER = u'kreved.org'
 USER = u'freq'
 PASSWD = u'secret'
+RECONNECT_COUNT = 3
 
 ### ACCESS ###
 ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
 
+### MUC ###
+NICK = u'freQ-bot'
+
+### BOT ###
+DATADIR = '/var/freq'
+
+### MISC ###
+SVNVERSION = '/usr/local/bin/svnversion -n'
+
 ### DEBUG LOGGING ###
+LOGLEVEL = 5
 LOGFILE = '/var/log/freq/log.html'
 LOGF = '/var/log/freq/twisted.log'
-LOGLEVEL = 5
 # loglevel: 0 - log anything; 9 - log nothing... 
 ERRLOGFILE = '/var/log/freq/err.html'
 #RAWXML = '/var/log/freq/rawxml.log'
 
-### MUC ###
-NICK = u'freQ-bot'
-
-### MISC ###
-SVNVERSION = '/usr/local/bin/svnversion -n'
-PIDFILE = '/tmp/freq.pid'
-DATADIR = '/var/freq'
+### PLUGINS ###
+# ...

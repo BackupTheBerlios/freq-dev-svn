@@ -22,10 +22,10 @@ class wrapper:
   self.handlers = []
   self.msghandlers = []
   reactor.connectTCP(config.SERVER, 5222, self.c) 
- 
+
  def getChild(self, x, n):
   return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
- 
+
  def authd(self, x):
   self.x = x
   print 'Authenticated'
@@ -36,7 +36,7 @@ class wrapper:
   self.x.addObserver("/*", self.cb)
   self.x.addObserver("/message", self.cbmessage)
   self.onauthd()
- 
+
  def cb(self, x):
   n = x.name
   try: id = x["id"]
@@ -50,13 +50,13 @@ class wrapper:
    if (i[0] in (n, None)) and (i[1] in (typ, None)) and (i[2] in (id, None)) and (i[3] in (body, None)) and (i[4] in (f, None)):
     if i[6]: self.handlers.remove(i)
     reactor.callInThread(self.call, i[5], x);
- 
+
  def register_handler(self, func, stanza=None, typ=None, id=None, body=None, f=None, once=None):
   self.handlers.append((stanza, typ, id, body, f, func, once))
- 
- def register_msg_handler(self, func, body, typ=None, f=None):
-  self.msghandlers.append((func, body, typ, f))
- 
+
+ def register_msg_handler(self, func):
+  self.msghandlers.append(func)
+
  def cbmessage(self, x):
   delayed = [i for i in x.children if (i.__class__==domish.Element) and ((i.name=='delay') or ((i.name=='x') and (i.uri=='jabber:x:delay')))]
   try: body = self.getChild(x, 'body').children[0]
@@ -65,13 +65,14 @@ class wrapper:
   try: typ = x['type']
   except: typ = 'chat'
   for i in self.msghandlers:
-   if re.search(i[1], body, re.DOTALL) and (i[2] in (typ, None)) and (i[3] in (f, None)) and not delayed:
-    reactor.callInThread(self.call, i[0], typ, f, body)
- 
+   if not delayed:
+    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body)
+   else: i(typ, f, body)
+
  def send(self, x):
   self.log.log(u'try to send stanza to %s..' % (x['to'], ), 1)
   reactor.callFromThread(self.x.send, x)
- 
+
  def msg(self, typ, j, body, subject=None):
   m = domish.Element(("jabber:client", "message"))
   m["type"] = typ
@@ -79,7 +80,7 @@ class wrapper:
   m.addElement("body").addContent(body)
   if subject: m.addElement("subject").addContent(subject)
   self.send(m)
- 
+
  def call(self, f, *args, **kwargs):
   try:
    self.tc = self.tc + 1

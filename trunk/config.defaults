@@ -1,25 +1,18 @@
 #coding=utf-8
 
 # Don't edit this file!
-# You can override this defaults in your freq.cfg file
+# You can override these default settings in your freq.cfg file
 
-### ACCOUNT ###
+### JABBER ###
+RECONNECT_COUNT = 3
 RESOURCE = u'freQ'
 
 ### ACCESS ###
 ADMINS = []
 
-### DEBUG LOGGING ###
-LOGFILE = '/var/log/freq/log.html'
-LOGF = '/var/log/freq/twisted.log'
-LOGLEVEL = 5
-ERRLOGFILE = '/var/log/freq/err.html'
-#RAWXML = '/var/log/freq/rawxml.log'
-
 ### MUC ###
 NICK = u'freQ-bot'
-LANG = 'ru'
-STATUS = u'Hello, i am online!'
+STATUS = u''
 JOIN_ACCESS = 50
 #who has access to '.join' command...
 ROOM_LIMIT = 99
@@ -28,10 +21,23 @@ DEFAULT_MUC_SERVER = u'conference.jabber.ru'
 MSGLIMIT = 400
 TRUSTED_SERVERS = []
 
+### BOT ###
+LANG = 'ru'
+DATADIR = '/var/db/freq'
+USE_THREADS = True
+
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = '/tmp/freq.pid'
 #sqlite support doesn't implemented yet; 0=disabled
 ENABLE_SQLITE = 0
+
+### DEBUG LOGGING ###
+LOGLEVEL = 5
+LOGFILE = '/var/log/freq/log.html'
+LOGF = '/var/log/freq/twisted.log'
+ERRLOGFILE = '/var/log/freq/err.html'
+#RAWXML = '/var/log/freq/rawxml.log'
+
+### PLUGINS ###
 VCARD = u'FN,BDAY,DESC,URL'
-DATADIR = '/var/db/freq'

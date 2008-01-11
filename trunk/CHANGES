@@ -18,3 +18,10 @@ use
    /usr/local/etc/rc.d/freq start
 
 to start bot.
+
+ === Fri Jan 11 19:37:04 UTC 2008 :: kreved@kreved ===
+lang/*.py renamed to lang/*.msg
+
+ === Fri Jan 11 19:38:47 UTC 2008 :: kreved@kreved ===
+some changes in kernel... added reconnect...
+set RECONNECT_COUNT in your freq.conf
