@@ -47,7 +47,7 @@ class freqbot:
   self.alias_engine = None
   self.plug = pluginloader(self, q)
   print 'Initialized'
-  self.log.log('freQ %s (PID: %s) Initialized' % (self.version_version, os.getpid()))
+  self.log.log('<b>freQ %s (PID: %s) Initialized</b>' % (self.version_version, os.getpid()))
 
  def error_handler(self, m):
   try:
@@ -75,7 +75,7 @@ class freqbot:
  def register_leave_handler(self, func):
   self.leavehandlers.append(func)
 
- def call_cmd_handlers(self, t, s, b):
+ def call_cmd_handlers(self, t, s, b, stanza):
   groupchat = s.split('/')[0]
   b = self.alias_engine(groupchat, b)
   params = b.split()
@@ -92,12 +92,13 @@ class freqbot:
     if cmd.lower() == i[1]:
      if item.allowed(i[2]):
       if (item.room and item.room.bot) or not i[3]:
-       self.log.log(u'Calling command handler %s, message is "%s", from "%s"' % (i[0], b, s), 4)
+       self.log.log(u'Calling command handler <b>%s</b> for message <font color=red>%s</font> from <font color=blue>%s</font><br/>stanza: <font color=grey>%s</font>'
+       		 % (escape(repr(i[0])), escape(b), s, escape(stanza.toXml())), 4)
        i[0](t, item, params)
       else: item.lmsg(t, 'muc_only')
      else: item.lmsg(t, 'not_allowed')
 
- def call_msg_handlers(self, t, s, b):
+ def call_msg_handlers(self, t, s, b, stanza):
   for i in self.msghandlers:
     if (t == 'groupchat') or not i[1]: i[0](t, s, b)
 

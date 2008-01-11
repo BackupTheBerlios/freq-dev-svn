@@ -66,8 +66,8 @@ class wrapper:
   except: typ = 'chat'
   for i in self.msghandlers:
    if not delayed:
-    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body)
-   else: i(typ, f, body)
+    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body, x)
+   else: i(typ, f, body, x)
 
  def send(self, x):
   self.log.log(u'try to send stanza to %s..' % (x['to'], ), 1)

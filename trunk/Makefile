@@ -63,7 +63,7 @@ install:
 	mkdir -p $(vardir)
 	chown -R $(botuser):$(botgroup) $(vardir)
 	su freq -c "./tools/mkdata $(vardir)"
-	echo "freQ installed to $(prefix)"
+	echo " === $(dist) installed into $(prefix) ==="
 
 deinstall:
 	rm -rf $(prefix)/share/freq
