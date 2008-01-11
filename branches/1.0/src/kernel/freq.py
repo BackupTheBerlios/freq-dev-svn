@@ -21,7 +21,7 @@ class freqbot:
 
  def __init__(self, q):
   self.version_name = u'freQ'
-  self.version_version = u'1.0-dev'+self.getRev()
+  self.version_version = u'0.9.99.' + self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.authd = 0
   self.wrapper = wrapper()
@@ -120,6 +120,5 @@ class freqbot:
    p = os.popen(config.SVNVERSION)
    time.sleep(1)
    r = p.read()
-   if r: r = '-r'+r
    return r
-  except: return '' 
+  except: return 'dev' 

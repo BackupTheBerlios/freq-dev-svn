@@ -1,12 +1,12 @@
 # New ports collection makefile for:	freq
-# Date created:				??
+# Date created:				..
 # Whom:					Daniel Burdakov <kreved@kreved.org>
 #
 # ~~~
 #
 
 PORTNAME=	freqbot
-PORTVERSION=	1.0.d.20080111
+PORTVERSION=	1.0.99.169
 CATEGORIES=	net-im
 MASTER_SITES=	http://kreved.org/files/
 DISTNAME=	${PORTNAME}-${PORTVERSION}
