@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -r ./VERSION ]; then python VERSION
+else
+ q=`svnversion -n`
+ r=$?
+ if [ $r -eq 0 ]; then echo -n $q; else echo 'dev'; fi
+fi

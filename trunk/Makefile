@@ -5,8 +5,14 @@ botuser=freq
 botgroup=freq
 vardir=/var/freq
 logdir=/log/freq
+distname=freqbot
+distver=1.0.99
+rev=`tools/getrev 2>/dev/null`
+dist=$(distname)-$(distver).$(rev)
+tarballtg=..
 
 build: doc lang templates tools
+	echo Building $(dist)
 	$(MAKE) depends
 	$(MAKE) -C doc build
 	chmod -R u+w,u+r,o-w,o+r .
@@ -40,8 +46,12 @@ install:
 	mkdir -p $(prefix)/share/freq/templates
 	$(INSTALL) templates/*.html $(prefix)/share/freq/templates/
 	cp -r src $(prefix)/share/freq/
+	cat src/kernel/freq.py | sed s/self.getRev\(\)/\'$(rev)\'/ >$(prefix)/share/freq/src/kernel/freq.py
 	rm -rf `find $(prefix)/share/freq -name ".svn"`
 	chown -R root:wheel $(prefix)/share/freq
+	find $(prefix) -name "*.pyc" -delete
+	find $(prefix) -name "*~" -delete
+	
 	#rc script
 	$(INSTALLX) tools/freqbot $(prefix)/etc/rc.d/freq
 	#user, var..
@@ -62,3 +72,14 @@ deinstall:
 
 userdel:
 	pw userdel -n $(botuser)
+
+tarball:
+	rm -rf $(tarballtg)/$(dist)
+	rm -f $(tarballtg)/$(dist).tar.bz2
+	cp -r . $(tarballtg)/$(dist)
+	find $(tarballtg)/$(dist) -name "*~" -delete
+	find $(tarballtg)/$(dist) -name "freq.conf" -delete
+	find $(tarballtg)/$(dist) -name "*.pyc" -delete
+	find $(tarballtg)/$(dist) -name ".svn" -delete
+	tar -C $(tarballtg) -cjf $(tarballtg)/$(dist).tar.bz2 $(dist)
+	rm -rf $(tarballtg)/$(dist)
