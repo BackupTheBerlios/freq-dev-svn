@@ -82,7 +82,7 @@ tarball:
 	find $(tarballdir)/$(dist) -name "freq.conf" -delete
 	find $(tarballdir)/$(dist) -name "config.py" -delete
 	find $(tarballdir)/$(dist) -name "*.pyc" -delete
-	find $(tarballdir)/$(dist) -name ".svn" -delete
+	find $(tarballdir)/$(dist) -name ".svn" | xargs rm -rf
 	tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tar.bz2 $(dist)
 	rm -rf $(tarballdir)/$(dist)
 
