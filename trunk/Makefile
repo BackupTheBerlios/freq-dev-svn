@@ -3,6 +3,8 @@ INSTALL=install -o root -g wheel -m 644
 INSTALLX=install -o root -g wheel -m 755
 botuser=freq
 botgroup=freq
+vardir=/var/freq
+logdir=/log/freq
 
 build: doc lang templates tools
 	$(MAKE) depends
@@ -45,17 +47,18 @@ install:
 	#user, var..
 	if pw groupshow -n $(botgroup) 2>/dev/null; then echo group $(botgroup) already exists..; else pw groupadd -n $(botgroup); fi
 	if pw usershow -n $(botuser) 2>/dev/null; then echo user $(botuser) already exists..; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
-	mkdir -p /var/log/freq
-	chown -R $(botuser):$(botgroup) /var/log/freq
-	mkdir -p /var/freq
-	chown -R $(botuser):$(botgroup) /var/freq
+	mkdir -p $(logdir)
+	chown -R $(botuser):$(botgroup) $(logdir)
+	mkdir -p $(vardir)
+	chown -R $(botuser):$(botgroup) $(vardir)
+	su freq -c "./tools/mkdata $(vardir)"
 	echo "freQ installed to $(prefix)"
 
 deinstall:
 	rm -rf $(prefix)/share/freq
 	rm -f $(prefix)/etc/rc.d/freq
 	rm -f $(prefix)/etc/freq.conf.example
-	echo "you can also remove /var/log/freq && /var/freq"
+	echo you can also remove $(logdir) && $(vardir)
 
 userdel:
 	pw userdel -n $(botuser)
