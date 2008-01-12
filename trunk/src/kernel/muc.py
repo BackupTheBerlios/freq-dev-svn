@@ -1,4 +1,5 @@
 from twisted.words.xish import domish
+from twisted.web.html import escape
 from item import item as new_item
 from room import room as new_room
 import config
@@ -17,12 +18,14 @@ class muc:
   self.bot.g = {}
 
  def msg(self, t, s, b):
+  self.bot.log.log(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
    self.bot.wrapper.msg(t, s, b)
   else:
    s = s.split('/')
    groupchat = s[0]
    nick = '/'.join(s[1:])
+   self.bot.log.log(u'send message to %s (type "%s", body: %s)' % (groupchat, t, b), 3)
    self.bot.wrapper.msg(t, groupchat, '%s: %s' % (nick, b))
  
  def is_admin(self, jid):
@@ -75,17 +78,55 @@ class muc:
      item.role = _item['role']
      try: item.realjid = _item['jid'].split('/')[0]
      except: item.realjid = item.jid
-     if not item.handled: self.call_join_handlers(item)
     except:
-     self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s" % (x['from'], sys.exc_info()[0], sys.exc_info()[1]))
-    if item.nick == self.get_nick(groupchat.jid): groupchat.bot = item
+     self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
+    if not item.handled:
+     item.handled = True
+     self.call_join_handlers(item)
+     self.bot.call_join_handlers(item)
+     if item.nick == self.get_nick(groupchat.jid):
+      if groupchat.joiner:
+       self.bot.log.log(u'reporting to %s about successful joining..' % (groupchat.joiner[0].jid, ), 6)
+       groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_success', groupchat.jid, nick)
+       groupchat.joiner = None
+      groupchat.bot = item
    else:
     item = groupchat.pop(nick, 0)
     if item:
      self.call_leave_handlers(item)
-     if item.nick == self.get_nick(groupchat.jid): self.bot.g.pop(groupchat.jid)
+     # parse leave_type, reason
+     # typ: 0: leave
+     #      1: kick
+     #      2: ban
+     #      3: rename
+     try:
+      _x = [i for i in x.children if (i.name=='x') and (i.uri == 'http://jabber.org/protocol/muc#user')][0]
+      _item = [i for i in _x.children if i.name=='item'][0]
+      _status = [i['code'] for i in _x.children if i.name=='status']
+      try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
+      except: reason = ''
+      if '303' in _status: leave_type = 3
+      else:
+       if '301' in _status: leave_type = 2
+       else:
+        if '307' in _status: leave_type = 1
+        else: leave_type = 0
+     except:
+      self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
+      leave_type = 0
+      reason = ''
+     self.bot.call_leave_handlers(item, leave_type, reason)
+     if item.nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid)
     else:
-     self.bot.log.err("'unavailable' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
+     #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
+     self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
+     #if nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid, 'non-available presence')
+     self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % (x['from'], escape(x.toXml())), 7)
+     if groupchat.joiner:
+      self.bot.log.log(u'reporting to %s about failed joining..' % (groupchat.joiner[0].jid, ), 6)
+      groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_failed', groupchat.jid, nick, x.toXml())
+      groupchat.joiner = None
+     self.leave(groupchat.jid, 'non-available presence')
   else:
    if typ in ('subscribe', 'subscribed', 'unsubscribe', 'unsubscribed'):
     p = domish.Element(('jabber:client', 'presence'))
@@ -103,7 +144,6 @@ class muc:
  def call_join_handlers(self, item):
   if item.room.bot:
    for i in self.join_handlers: i(item)
-  item.handled = 1
 
  def call_leave_handlers(self, item):
   for i in self.leave_handlers: i(item)
@@ -126,6 +166,7 @@ class muc:
   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
+  return groupchat
 
  def leave(self, groupchat, reason='leave'):
   p = domish.Element(('jabber:client', 'presence'))

@@ -94,7 +94,11 @@ class freqbot:
       if (item.room and item.room.bot) or not i[3]:
        self.log.log(u'Calling command handler <b>%s</b> for message <font color=red>%s</font> from <font color=blue>%s</font><br/>stanza: <font color=grey>%s</font>'
        		 % (escape(repr(i[0])), escape(b), s, escape(stanza.toXml())), 4)
-       i[0](t, item, params)
+       try: i[0](t, item, params)
+       except:
+	m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+	self.log.err(escape(m))
+	item.msg(t, 'ERROR')
       else: item.lmsg(t, 'muc_only')
      else: item.lmsg(t, 'not_allowed')
 
@@ -102,21 +106,31 @@ class freqbot:
   for i in self.msghandlers:
     if (t == 'groupchat') or not i[1]: i[0](t, s, b)
 
- def call_join_handlers(self, room, nick):
-  for i in self.joinhandlers: i(room, nick)
+ def call_join_handlers(self, item):
+  for i in self.joinhandlers:
+   self.log.log('call_join_handler: %s' % (escape(repr(i)), ), 1)
+   i(item)
 
- def call_leave_handlers(self, room, nick, typ, reason):
-  for i in self.leavehandlers: i(room, nick, typ, reason)
+ def call_leave_handlers(self, item, typ, reason):
+  for i in self.leavehandlers:
+   i(item, typ, reason)
+   self.log.log('called_leave_handler(reason=%s,typ=%s): %s' % (reason, typ, escape(repr(i))), 1)
   # typ: 0: leave
   #      1: kick
   #      2: ban
+  #      3: rename
 
  def onauthd(self):
+  self.log.log('onauthd: stage 1')
   self.authd += 1
   if self.authd > config.RECONNECT_COUNT:
-   self.log.err('reauthd')
+   self.log.err('RECONNECT limit exceeded...')
    reactor.stop()
   self.muc = muc(self)
+  reactor.callLater(5, self.onauthd2)
+
+ def onauthd2(self):
+  self.log.log('onauthd: stage 2')
   groupchats = self.muc.load_groupchats()
   for i in groupchats: self.muc.join(i)
   print 'Joined %s groupchats' % len(groupchats, )

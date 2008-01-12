@@ -1,4 +1,5 @@
 def set_nick_handler(t, s, p):
+ p = p.strip().replace('/', '(slash)')[:30].replace('\n', '')
  if p:
   s.room.set_option('nick', p)
   s.room.rejoin()

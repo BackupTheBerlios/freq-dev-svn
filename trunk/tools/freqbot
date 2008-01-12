@@ -10,7 +10,7 @@ name=freq
 rcvar=`set_rcvar`
 
 restart_cmd="freq_restart"
-start_cmd="freq_restart"
+start_cmd="freq_start"
 status_cmd="freq_status"
 stop_cmd="freq_stop"
 
@@ -41,6 +41,7 @@ freq_stop()
     killall -u $SUSER >/dev/null 2>&1
     sleep 3
     killall -u $SUSER -kill >/dev/null 2>&1
+    sleep 2
     echo "done."
 }
 

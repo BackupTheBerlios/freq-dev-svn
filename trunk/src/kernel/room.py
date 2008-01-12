@@ -1,15 +1,18 @@
 import config
 import options
+import lang
 from twisted.internet.defer import Deferred
 from twisted.words.protocols.jabber.client import IQ
 from twisted.internet.reactor import callFromThread
 from item import item as titem
 
 class room:
+
  def __init__(self, bot, jid):
   self.bot = None
   self.globalbot = bot
   self.items = {}
+  self.joiner = ()
   self.__getitem__ = self.items.__getitem__
   self.__setitem__ = self.items.__setitem__
   self.get = self.items.get
@@ -18,16 +21,22 @@ class room:
   self.jid = jid
   self.setdefault = self.items.setdefault
   self.pop = self.items.pop
+
  def get_option(self, k, d=None):
   return options.get_option(self.jid, k, d)
+
  def set_option(self, k, v):
   options.set_option(self.jid, k, v)
+
  def get_msglimit(self):
   return int(self.get_option('msglimit', config.MSGLIMIT))
+
  def set_msglimit(self, value):
   return self.set_option('msglimit', str(value))
+
  def rejoin(self):
   self.globalbot.muc.join(self.jid)
+
  def moderate(self, jn, jid_nick, ra, set_to, reason=None):
   if not reason: reason = self.bot.nick
   packet = IQ(self.globalbot.wrapper.x, 'set')
@@ -41,8 +50,14 @@ class room:
   #print packet.toXml()
   callFromThread(packet.send, self.jid)
   return d
+
  def server(self):
   jid = self.jid
   if jid.count('@'): return jid[jid.find('@')+1:]
   else: return jid
 
+ def msg(self, body):
+  self.globalbot.muc.msg('groupchat', self.jid, body)
+
+ def lmsg(self, template, *params):
+  self.msg(lang.msg(template, params, lang.getLang(self.jid)))

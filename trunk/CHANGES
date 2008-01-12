@@ -25,3 +25,6 @@ lang/*.py renamed to lang/*.msg
  === Fri Jan 11 19:38:47 UTC 2008 :: kreved@kreved ===
 some changes in kernel... added reconnect...
 set RECONNECT_COUNT in your freq.conf
+
+ === Sat Jan 12 11:43:48 UTC 2008 :: kreved@kreved ===
+now bot delete non-exists room from list..

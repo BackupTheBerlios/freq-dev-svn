@@ -30,7 +30,8 @@ class item:
   self.bot.muc.invalid_syntax(typ, self, text)
 
  def access(self):
-  return self.bot.muc.get_access(self)
+  try: return self.bot.muc.get_access(self)
+  except: return 0
 
  def allowed(self, required_access):
   return self.access() >= required_access

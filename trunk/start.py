@@ -46,7 +46,7 @@ try:
  print 'reactor.run()'
  reactor.run()
 except:
- bot.log.err(escape('fatal error: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
+ bot.log.err(escape('FATAL ERROR: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
  del bot
  raise
  

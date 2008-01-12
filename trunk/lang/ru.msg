@@ -25,7 +25,7 @@ idle_result %s молчит %s
 info я работаю без остановок %s\nНагрузка: %s станз в секунду, средняя длина станзы %s байт.
 invalid_syntax синтаксис:\n%s
 invalid_syntax_default неправильный синтаксис
-joined зашел в '%s'
+join_try пытаюсь зайти в <%s>...
 lang_changed язык изменен
 lang_list доступные языки - %s
 lang_msg_saved записано
@@ -61,4 +61,17 @@ version_result_nick %s использует %s %s %s
 version_result_self я %s %s, запущен под %s
 version_result_your у тебя %s %s %s
 whom? каво?
-﻿alias_cleared очищено
+alias_cleared очищено
+ok O'key
+noisy_already_on "шумный" режим уже включён
+noisy_already_off "шумный" режим не включён
+noisy_leave %s: ты ушёл? :( (%s)
+noisy_kick зачем кикнули %s?? %s?
+noisy_ban %s зобанен: %s
+noisy_rename %s: шифруешся??
+noisy_join /me категорически приветствует %s
+join_failed не получилось зайти в %s (c ником %s)\nстанза с ошибкой:\n%s
+join_success зашёл в конфу %s с ником %s
+join_slash в имени конфы и нике не толжно быть /
+join_already_there я уже там... если это не так, то попросите аdмина бота dать команту .rejoin
+globmsg_sent сообщение отправлено в %s конференций
