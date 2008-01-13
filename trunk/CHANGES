@@ -28,3 +28,6 @@ set RECONNECT_COUNT in your freq.conf
 
  === Sat Jan 12 11:43:48 UTC 2008 :: kreved@kreved ===
 now bot delete non-exists room from list..
+
+ === Sun Jan 13 19:13:28 UTC 2008 :: kreved@kreved ===
+now .ping available in roster... other fixes

@@ -1,4 +1,5 @@
 import options
+
 def alias_dump(groupchat):
  options.check_directory(groupchat)
  fn = '%s/text/groupchats/%s/aliases.txt' % (config.DATADIR, groupchat.encode('utf8'),  )

@@ -15,5 +15,5 @@ def ping_result_handler(t, s, p, tpl, ping_time, x):
   else: print 1/0
  except: s.lmsg(t, 'ping_error')
 
-bot.register_cmd_handler(ping_handler, '.ping', g=1)
+bot.register_cmd_handler(ping_handler, '.ping', g=0)
 
