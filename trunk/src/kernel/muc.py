@@ -20,7 +20,7 @@ class muc:
  def msg(self, t, s, b):
   self.bot.log.log(escape(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b)), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
-   if body == '': body = '[empty message]'
+   if b == '': b = '[empty message]'
    self.bot.wrapper.msg(t, s, b)
   else:
    s = s.split('/')
