@@ -18,14 +18,15 @@ class muc:
   self.bot.g = {}
 
  def msg(self, t, s, b):
-  self.bot.log.log(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b), 3)
+  self.bot.log.log(escape(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b)), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
+   if body == '': body = '[empty message]'
    self.bot.wrapper.msg(t, s, b)
   else:
    s = s.split('/')
    groupchat = s[0]
    nick = '/'.join(s[1:])
-   self.bot.log.log(u'send message to %s (type "%s", body: %s)' % (groupchat, t, b), 3)
+   self.bot.log.log(escape(u'send message to %s (type "%s", body: %s)' % (groupchat, t, b)), 3)
    self.bot.wrapper.msg(t, groupchat, '%s: %s' % (nick, b))
  
  def is_admin(self, jid):
