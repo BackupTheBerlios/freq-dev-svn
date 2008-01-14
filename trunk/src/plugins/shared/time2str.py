@@ -5,7 +5,7 @@ def time2str(t, rnd=None, lng=config.LANG):
  hours, minutes = divmod(minutes, 60)
  days, hours = divmod(hours, 24)
  if rnd: r = u'%d %s' % (seconds, get_seconds(round(seconds), lng))
- else: r = u'%0.2f %s' % (seconds, get_seconds(9, lng))
+ else: r = u'%0.2f %s' % (seconds, get_seconds(2, lng))
  if t>60: r = u'%d %s %s' % (minutes, get_minutes(round(minutes), lng), r)
  if t>3600: r = u'%d %s %s' % (hours, get_hours(round(hours), lng), r)
  if t>86400: r = u'%d %s %s' % (days, get_days(round(days), lng), r)
@@ -24,7 +24,7 @@ def get_seconds(c, l):
 def get_minutes(c, l):
  if l == u'ru':
   if c % 100 in xrange(10,20): return u'минут'
-  elif c % 10 == 1: return u'минута'
+  elif c % 10 == 1: return u'минуту'
   elif c % 10 in [2, 3, 4]: return u'минуты'
   else: return u'минут'
  else:
