@@ -31,3 +31,6 @@ now bot delete non-exists room from list..
 
  === Sun Jan 13 19:13:28 UTC 2008 :: kreved@kreved ===
 now .ping available in roster... other fixes
+
+ === Mon Jan 14 08:50:13 UTC 2008 :: kreved@kreved ===
+new cmd status
