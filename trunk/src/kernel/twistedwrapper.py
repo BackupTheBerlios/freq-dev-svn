@@ -87,7 +87,12 @@ class wrapper:
    tc = self.tc
    self.log.log(escape('== started thread #%s' % (self.tc, )), 1)
    self.th[tc] = (f, args, kwargs)
-   f(*args, **kwargs)
+   try: f(*args, **kwargs)
+   except:
+    m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+    m = '<font color=red><b>UNCATCHED ERROR:</b></font>%s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>'
+         % (escape(m), escape(repr((f, args, kwargs, tc))))
+    self.log.err(m)
    try: self.th.pop(tc)
    except: self.log.err('Something wrong with threads management :-S')
    self.log.log(escape('== finished thread #%s' % (self.tc, )), 1)
