@@ -34,3 +34,11 @@ now .ping available in roster... other fixes
 
  === Mon Jan 14 08:50:13 UTC 2008 :: kreved@kreved ===
 new cmd status
+
+ === Mon Jan 14 09:57:52 UTC 2008 :: kreved@kreved ===
+*** WARNING! - huge changes in options.py, old options in conferences (bot nick, msg_limit, etc..) will be deleted
+conference list, alias lists will not be deleted :)
+
+
+ === Mon Jan 14 10:10:14 UTC 2008 :: kreved@kreved ===
+small changes in alias plugin

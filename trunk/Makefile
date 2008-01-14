@@ -29,6 +29,7 @@ depends: tools/depends.py
 install:
 	$(MAKE) build
 	#copying files..
+	rm -rf $(prefix)/share/freq/src/plugins
 	mkdir -p $(prefix)/share/freq
 	mkdir -p $(prefix)/etc/rc.d
 	$(INSTALL) README $(prefix)/share/freq

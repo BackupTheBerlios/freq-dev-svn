@@ -1,0 +1,5 @@
+#!/bin/sh
+
+svn up .. && make install clean && /usr/local/etc/rc.d/freq restart
+chown -R kreved ..
+

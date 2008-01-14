@@ -39,6 +39,7 @@ fp.close()
 
 from freq import freqbot
 import lang
+import options
 
 bot = freqbot(globals())
 try:
