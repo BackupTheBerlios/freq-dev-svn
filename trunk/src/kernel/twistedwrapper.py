@@ -89,8 +89,8 @@ class wrapper:
    self.th[tc] = (f, args, kwargs)
    try: f(*args, **kwargs)
    except:
-    m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-    m = '<font color=red><b>UNCATCHED ERROR:</b></font>%s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>'
+    m = u'; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+    m = u'<font color=red><b>UNCATCHED ERROR:</b></font>%s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>'
          % (escape(m), escape(repr((f, args, kwargs, tc))))
     self.log.err(m)
    try: self.th.pop(tc)
