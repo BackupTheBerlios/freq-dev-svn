@@ -39,7 +39,7 @@ def load_options(groupchat):
 
 def check_directory(groupchat):
  groupchat = groupchat.encode(enc)
- preprefix = '%s/text'
+ preprefix = '%s/text' % (DATADIR, )
  prefix='%s/text/groupchats' % (DATADIR, )
  d = '%s/%s' % (prefix, groupchat, )
  if not os.access(preprefix, os.F_OK): os.mkdir(preprefix)
