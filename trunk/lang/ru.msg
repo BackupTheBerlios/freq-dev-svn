@@ -22,7 +22,7 @@ help_saved ok\n
 help_show Категории: %s\n\n%s
 idle_error не получилось
 idle_result %s молчит %s
-info я работаю без остановок %s\nНагрузка: %s станз в секунду, средняя длина станзы %s байт.
+info я, %s %s, работаю без остановок %s\nНагрузка: %s станз в секунду, средняя длина станзы %s байт.
 invalid_syntax синтаксис:\n%s
 invalid_syntax_default неправильный синтаксис
 join_try пытаюсь зайти в <%s>...
@@ -73,7 +73,15 @@ noisy_join /me категорически приветствует %s
 join_failed не получилось зайти в %s (c ником %s)\nстанза с ошибкой:\n%s
 join_success зашёл в конфу %s с ником %s
 join_slash в имени конфы и нике не толжно быть /
-join_already_there я уже там... если это не так, то попросите аdмина бота dать команту .rejoin
+join_already_there я уже там... если это не так, то попросите админа бота дать команду .rejoin
 globmsg_sent сообщение отправлено в %s конференций
 status_whom кого?
-
+disco_empty список пуст
+cerberus_invalid_mode нет такого режима. Прочитай справку по команде
+censor_list_empty список пуст
+censor_subscribed вы подписались на цензор из %s
+censor_unsubscribed вы отписались от цензора из %s
+censor_nojid не вижу вашего jid..
+censor_not_subscribed вы не подписаны на цензор из этой комнаты
+censor_already_subscribed вы уже подписаны
+censor цензор из %s\nник %s(%s)\nцензор: %s\n%s 

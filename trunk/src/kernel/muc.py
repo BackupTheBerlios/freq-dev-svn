@@ -7,6 +7,8 @@ import lang
 import sys
 import options
 
+msglimit = 8000
+
 class muc:
 
  def __init__(self, bot):
@@ -18,6 +20,7 @@ class muc:
   self.bot.g = {}
 
  def msg(self, t, s, b):
+  if len(b)>msglimit: b = b[:msglimit]+'... (truncated)'
   self.bot.log.log(escape(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b)), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
    if b == '': b = '[empty message]'
@@ -28,7 +31,7 @@ class muc:
    nick = '/'.join(s[1:])
    self.bot.log.log(escape(u'send message to %s (type "%s", body: %s)' % (groupchat, t, b)), 3)
    self.bot.wrapper.msg(t, groupchat, '%s: %s' % (nick, b))
- 
+
  def is_admin(self, jid):
   return jid and (jid.split('/')[0].lower() in config.ADMINS)
 
@@ -54,7 +57,7 @@ class muc:
   try:
    s.lmsg(t, 'invalid_syntax', self.bot.read_file('doc/syntax/%s.txt' % (text, )).strip())
   except: s.lmsg(t, 'invalid_syntax_default')
-  
+
  def presence_handler(self, x):
   self.bot.log.log(u'presence_handler..', 1)
   try: typ = x['type']
@@ -85,12 +88,15 @@ class muc:
      item.handled = True
      self.call_join_handlers(item)
      self.bot.call_join_handlers(item)
-     if item.nick == self.get_nick(groupchat.jid):
+     if item.nick == self.get_nick(groupchat.jid): # if item is bot...
       if groupchat.joiner:
        self.bot.log.log(u'reporting to %s about successful joining..' % (groupchat.joiner[0].jid, ), 6)
        groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_success', groupchat.jid, nick)
        groupchat.joiner = None
       groupchat.bot = item
+    if not(item.nick == self.get_nick(groupchat.jid)): #if item isn't bot...
+     self.bot.check_text(item, item.nick)
+     self.bot.check_text(item, item.status)
    else:
     item = groupchat.pop(nick, 0)
     if item:
@@ -169,7 +175,7 @@ class muc:
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
   return groupchat
 
- def leave(self, groupchat, reason='leave'):
+ def leave(self, groupchat, reason = 'leave'):
   p = domish.Element(('jabber:client', 'presence'))
   p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
   p['type'] = 'unavailable'

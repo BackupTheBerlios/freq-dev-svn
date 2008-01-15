@@ -22,7 +22,7 @@ help_saved ok
 help_show Категорїї: %s\n\n%s
 idle_error хз
 idle_result %s мовчить %s
-info я працюю без зупинок %s\nНавантаження: %s станзи в секунду, середня довжина станзи %s байт.
+info я, %s %s, працюю без зупинок %s\nНавантаження: %s станзи в секунду, середня довжина станзи %s байт.
 invalid_syntax синтаксис:\n%s
 invalid_syntax_default некоректний синтаксис
 joined зайшов до '%s'
@@ -61,4 +61,19 @@ version_result_nick %s використовує %s %s %s
 version_result_self я %s %s, запущений під %s
 version_result_your в тебе %s %s %s
 whom? кого??
-﻿alias_cleared очищено
+alias_cleared очищено
+ok добре
+noisy_already_on "галасливий" режим вже включено
+noisy_already_off "галасливий" режим не включено
+noisy_leave %s: ти вже пішов? :( (%s)
+noisy_kick ну навіщо кікнули %s?? %s?
+noisy_ban %s зобанений: %s
+noisy_rename %s: зашифрувався??
+noisy_join /me категорично вітає %s
+join_failed не вдалося зайти  в %s (під ніком %s)\nстанза з помилкою:\n%s
+join_success зайшов в конфу  %s під ніком %s
+join_slash в ім'ї конфи і в ніку не повинно бути /
+join_already_there я вже там, якщо це не так, то, будь ласка, попросіть адміна бота дати команду .rejoin
+globmsg_sent повідомлення відправлено в  %s конференцій
+status_whom кого?
+disco_empty список пустий

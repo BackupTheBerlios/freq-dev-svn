@@ -1,9 +1,9 @@
 def echo_handler(t, s, p):
- if p: s.msg(t, p)
+ if p: s.msg(t, context_replace(p, t, s))
  else: s.syntax(t, 'echo')
 
 def say_handler(t, s, p):
- if p: s.room.msg(p)
+ if p: s.room.msg(context_replace(p, t, s))
  else: s.msg(t, '?')
 
 def globmsg_handler(t, s, p):

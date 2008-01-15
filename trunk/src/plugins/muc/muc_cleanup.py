@@ -9,6 +9,7 @@ def passive():
  return r
 
 def cleanup_handler():
+ bot.log.log('muc cleanup...', 2)
  q = len(bot.g) - config.ROOM_LIMIT
  while q>0:
   bot.muc.leave(passive(), 'MUC cleanup plugin')

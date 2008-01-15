@@ -53,6 +53,7 @@ class optstringlist:
 
  def __setitem__(self, groupchat, values):
   write_file(groupchat, self.fname, u'\n'.join([quote(i.encode(enc)).decode(enc) for i in values]))
+  self.values[groupchat] = values
   #print [quote(i) for i in values]
   #print values
 # =================================================================

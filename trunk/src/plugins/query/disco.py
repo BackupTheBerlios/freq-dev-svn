@@ -24,7 +24,7 @@ def disco_result_handler(t, s, p, grep, x):
      for i in query:
       try: g = re.search('^(.+)\(([0-9]+)\)$', i['name']).groups()
       except: g = (i['name'], '0')
-      r.append((g[0], i['jid'], g[1]))
+      if int(g[1]) < 99: r.append((g[0], i['jid'], g[1]))
      r.sort(lambda x, y: cmp(int(y[2]), int(x[2])))
      r = ['%s - %s (%s)' % i for i in r]
    else:

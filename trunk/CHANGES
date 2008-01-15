@@ -42,3 +42,9 @@ conference list, alias lists will not be deleted :)
 
  === Mon Jan 14 10:10:14 UTC 2008 :: kreved@kreved ===
 small changes in alias plugin
+
+ === Tue Jan 15 00:38:47 UTC 2008 :: kreved@kreved ===
+new category cerberus (bad words filter, censor)
+some work around contexts
+some bugfixes
+

@@ -6,7 +6,6 @@
 SERVER = u'kreved.org'
 USER = u'freq'
 PASSWD = u'secret'
-RECONNECT_COUNT = 3
 
 ### ACCESS ###
 ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']

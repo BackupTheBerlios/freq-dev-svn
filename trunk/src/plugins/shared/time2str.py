@@ -4,11 +4,13 @@ def time2str(t, rnd=None, lng=config.LANG):
  minutes, seconds = divmod(t, 60)
  hours, minutes = divmod(minutes, 60)
  days, hours = divmod(hours, 24)
+ months, days = divmod(days, 30)
  if rnd: r = u'%d %s' % (seconds, get_seconds(round(seconds), lng))
  else: r = u'%0.2f %s' % (seconds, get_seconds(2, lng))
  if t>60: r = u'%d %s %s' % (minutes, get_minutes(round(minutes), lng), r)
  if t>3600: r = u'%d %s %s' % (hours, get_hours(round(hours), lng), r)
  if t>86400: r = u'%d %s %s' % (days, get_days(round(days), lng), r)
+ if t>2592000: r = u'%d %s %s' % (months, get_months(round(months), lng), r)
  return r
 
 def get_seconds(c, l):
@@ -50,3 +52,13 @@ def get_days(c, l):
  else:
   if c == 1: return u'day'
   else: return u'days'
+
+def get_months(c, l):
+ if l == u'ru':
+  if c % 100 in xrange(10,20): return u'месяцев'
+  elif c % 10 == 1: return u'месяц'
+  elif c % 10 in [2, 3, 4]: return u'месяца'
+  else: return u'месяцев'
+ else:
+  if c == 1: return u'month'
+  else: return u'months'

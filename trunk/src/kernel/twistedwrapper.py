@@ -83,9 +83,8 @@ class wrapper:
 
  def call(self, f, *args, **kwargs):
   try:
-   self.tc = self.tc + 1
-   tc = self.tc
-   self.log.log(escape('== started thread #%s' % (self.tc, )), 1)
+   tc, self.tc = self.tc + 1, self.tc + 1
+   self.log.log(escape('== started thread #%s' % (tc, )), 1)
    self.th[tc] = (f, args, kwargs)
    try: f(*args, **kwargs)
    except:
@@ -95,7 +94,7 @@ class wrapper:
     self.log.err(m)
    try: self.th.pop(tc)
    except: self.log.err('Something wrong with threads management :-S')
-   self.log.log(escape('== finished thread #%s' % (self.tc, )), 1)
+   self.log.log(escape('== finished thread #%s' % (tc, )), 1)
   except:
    m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print "STOP: ", m

@@ -17,7 +17,6 @@ class item:
   self.show = None
 
  def msg(self, typ, body):
-  if len(body)>8000: body = body[:8000]+'... (truncated)'
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
    self.bot.muc.msg(typ, self.jid, lang.msg('see_private', l=lang.getLang(self.jid)))
    typ = 'chat'

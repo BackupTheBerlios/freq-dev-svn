@@ -23,7 +23,7 @@ help_saved ok
 help_show This command placed in categories: %s\n\n%s
 idle_error can't query
 idle_result %s`s idle is %s
-info freQ's uptime is %s\nload average: %s stanza/sec, stanza length %s
+info %s %s's uptime is %s\nload average: %s stanza/sec, stanza length %s
 invalid_syntax Syntax:\n%s
 invalid_syntax_default Invalid syntax
 joined Joined '%s'
@@ -63,3 +63,19 @@ version_result_nick %s use %s %s %s
 version_result_self %s %s %s
 version_result_your you use %s %s %s
 whom? who?
+ok O'key
+noisy_already_on "noisy" mode already turned on
+noisy_already_off "noisy" mode is not enabled
+noisy_leave %s: you leave? :( (%s)
+noisy_kick bustards! the killed %s?? %s?
+noisy_ban %s banned... %s
+noisy_rename %s: change nick??
+noisy_join %s: hello
+join_failed can't join to %s (with nick %s)\nerror:\n%s
+join_success joined to %s with nick %s
+join_slash invalid room or nick: "/" is not allowed
+join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"
+globmsg_sent sent to %s rooms
+status_whom who?
+disco_empty disco list is empty
+censor censor from %s\nnick %s(%s)\ncensor: %s\n%s 

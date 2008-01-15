@@ -15,7 +15,7 @@ import sys
 import lang
 import log
 import traceback
-
+from cerberus import censor
 
 class freqbot:
 
@@ -27,11 +27,13 @@ class freqbot:
    fp.close()
   twisted.python.log.startLogging(open(config.LOGF, 'a'))
   twisted.python.log.addObserver(self.error_handler)
+  self.censor = censor()
   self.g = {}
   self.cmdhandlers = []
   self.msghandlers = []
   self.joinhandlers = []
   self.leavehandlers = []
+  self.badhandlers = []
   self.version_name = u'freQ'
   self.version_version = u'1.0.99.' + self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
@@ -48,6 +50,17 @@ class freqbot:
   self.plug = pluginloader(self, q)
   print 'Initialized'
   self.log.log('<b>freQ %s (PID: %s) Initialized</b>' % (self.version_version, os.getpid()))
+
+ def check_text(self, source, text):
+  #if source.room and (source.room.bot.nick == self.muc.get_nick(source.room.jid)):
+  # return #ignore own messages/presences
+  if not text: return #ignore empty messages/statuses
+  self.log.log(u'checking %s (from %s)' % (escape(text), escape(source.jid)), 1)
+  bad_word = self.censor.respond(text)
+  if bad_word:
+   self.log.log(u'found bad word &lt;%s&gt;, let\'s call bad_handlers!' % (escape(bad_word), ), 3)
+   self.call_bad_handlers(source, text, bad_word)
+  else: self.log.log(u'bad words not found (result: %s)' % (bad_word, ), 1)
 
  def error_handler(self, m):
   try:
@@ -72,12 +85,15 @@ class freqbot:
  def register_join_handler(self, func):
   self.joinhandlers.append(func)
 
+ def register_bad_handler(self, func):
+  self.badhandlers.append(func)
+
  def register_leave_handler(self, func):
   self.leavehandlers.append(func)
 
- def call_cmd_handlers(self, t, s, b, stanza):
+ def call_cmd_handlers(self, t, s, body, stanza):
   groupchat = s.split('/')[0]
-  b = self.alias_engine(groupchat, b)
+  b = self.alias_engine(groupchat, body)
   params = b.split()
   nick = s[len(groupchat)+1:]
   try: item = self.g[groupchat][nick]
@@ -85,6 +101,9 @@ class freqbot:
    item = new_item(self)
    item.jid = s
    item.realjid = s
+  if item.room and (item.nick == self.muc.get_nick(item.room.jid)):
+   self.log.log(u'own message from %s ignored' % (item.jid, ), 2)
+   return #ignore own messages
   if len(params):
    cmd = b.split()[0]
    params = b[len(cmd)+1:]
@@ -101,10 +120,14 @@ class freqbot:
 	item.msg(t, 'ERROR')
       else: item.lmsg(t, 'muc_only')
      else: item.lmsg(t, 'not_allowed')
+  if item.room and (t == 'groupchat'): self.check_text(item, body) 
 
  def call_msg_handlers(self, t, s, b, stanza):
   for i in self.msghandlers:
     if (t == 'groupchat') or not i[1]: i[0](t, s, b)
+
+ def call_bad_handlers(self, s, text, badword):
+  for i in self.badhandlers: i(s, text, badword)
 
  def call_join_handlers(self, item):
   for i in self.joinhandlers:

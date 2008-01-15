@@ -41,3 +41,6 @@ ERRLOGFILE = '/var/log/freq/err.html'
 
 ### PLUGINS ###
 VCARD = u'FN,BDAY,DESC,URL'
+CERBERUS_MODE = 'ignore'
+CERBERUS_REASON = u'эээ... здесь не ругаются..'
+CERBERUS_WARNING = u'не дебоширь!'
