@@ -46,7 +46,8 @@ class muc:
   if item.affiliation == 'owner': access += 7
   if self.is_admin(item.realjid):
    access += 50
-   if item.room and (item.room.server() in config.TRUSTED_SERVERS): access += 50
+   if item.room and (item.room.server() in config.TRUSTED_SERVERS):
+    access += 50
   if self.is_admin(item.jid): access += 100
   return access
 
@@ -85,15 +86,15 @@ class muc:
     except:
      self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
     if not item.handled:
-     item.handled = True
-     self.call_join_handlers(item)
-     self.bot.call_join_handlers(item)
      if item.nick == self.get_nick(groupchat.jid): # if item is bot...
+      groupchat.bot = item
       if groupchat.joiner:
        self.bot.log.log(u'reporting to %s about successful joining..' % (groupchat.joiner[0].jid, ), 6)
        groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_success', groupchat.jid, nick)
        groupchat.joiner = None
-      groupchat.bot = item
+     item.handled = True
+     self.call_join_handlers(item)
+     self.bot.call_join_handlers(item)
     if not(item.nick == self.get_nick(groupchat.jid)): #if item isn't bot...
      self.bot.check_text(item, item.nick)
      self.bot.check_text(item, item.status)

@@ -1,4 +1,8 @@
-def alias_engine(groupchat, text):
+def alias_engine(q):
+ bot.log.log(escape(u'alias_engine called with command=%s' % (q, )), 1)
+ t, source, text, stanza = q
+ if source.room: groupchat = source.room.jid
+ else: groupchat = source.jid
  params = text.split()
  if params:
   alias = params[0].lower()
@@ -9,11 +13,10 @@ def alias_engine(groupchat, text):
    for i in range(len(params)):
     s = s.replace('%%%s' % (i, ), params[i])
    s = s.replace('%*', text[len(alias)+1:])
-   return s
-  else: return text
- else: return text
- 
+   return [(t, source, s, stanza)]
+  else: return False
+ else: return False
+
 ALIASES = {}
 
-bot.alias_engine = alias_engine
-
+bot.register_rewrite_engine(alias_engine)

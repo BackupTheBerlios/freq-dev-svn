@@ -45,6 +45,7 @@ install:
 	mkdir -p $(prefix)/share/freq/modules
 	$(INSTALL) modules/*.py $(prefix)/share/freq/modules
 	cp -r src $(prefix)/share/freq/
+	cp -r static $(prefix)/share/freq/
 	mkdir -p $(prefix)/share/freq/templates
 	$(INSTALL) templates/*.html $(prefix)/share/freq/templates/
 	cp -r src $(prefix)/share/freq/

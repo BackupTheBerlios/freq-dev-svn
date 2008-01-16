@@ -78,4 +78,7 @@ join_already_there I'm already in that room... if not, you should to ask my admi
 globmsg_sent sent to %s rooms
 status_whom who?
 disco_empty disco list is empty
-censor censor from %s\nnick %s(%s)\ncensor: %s\n%s 
+censor censor from %s\nnick: %s(%s)\ncensor: %s\n%s 
+ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
+rewrite_cycle ERROR: recursion level more than %s
+rewrite_too_many_commands Too many commands! need to be <%s

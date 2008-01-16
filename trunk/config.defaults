@@ -5,7 +5,7 @@
 
 ### JABBER ###
 RECONNECT_COUNT = 3
-RESOURCE = u'freQ'
+RESOURCE = u'Python'
 
 ### ACCESS ###
 ADMINS = []
@@ -23,8 +23,9 @@ TRUSTED_SERVERS = []
 
 ### BOT ###
 LANG = 'ru'
-DATADIR = '/var/db/freq'
+DATADIR = '/var/freq'
 USE_THREADS = True
+REWRITE_POWER = 7
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'

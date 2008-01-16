@@ -20,7 +20,7 @@ class item:
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
    self.bot.muc.msg(typ, self.jid, lang.msg('see_private', l=lang.getLang(self.jid)))
    typ = 'chat'
-  self.bot.muc.msg(typ, self.jid, body)
+  if typ <> 'null': self.bot.muc.msg(typ, self.jid, body)
 
  def lmsg(self, typ, template, *params):
   self.msg(typ, lang.msg(template, params, lang.getLang(self.jid)))

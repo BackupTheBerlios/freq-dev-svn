@@ -6,12 +6,14 @@
 SERVER = u'kreved.org'
 USER = u'freq'
 PASSWD = u'secret'
+RESOURCE = u'Python'
 
 ### ACCESS ###
 ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
 
 ### MUC ###
 NICK = u'freQ-bot'
+STATUS = u''
 
 ### BOT ###
 DATADIR = '/var/freq'
