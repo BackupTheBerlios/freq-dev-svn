@@ -61,3 +61,6 @@ class room:
 
  def lmsg(self, template, *params):
   self.msg(lang.msg(template, params, lang.getLang(self.jid)))
+
+ def count(self):
+  return len(self.items)

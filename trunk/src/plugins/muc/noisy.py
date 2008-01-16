@@ -25,7 +25,8 @@ def noisy_join_handler(item):
 def noisy_leave_handler(item, leave_type, reason):
  if item.room.get_option('noisy', 'off') == 'on':
   pattern = ('noisy_leave', 'noisy_kick', 'noisy_ban', 'noisy_rename')[leave_type]
-  item.room.lmsg(pattern, item.nick, reason)
+  if leave_type<3: item.room.lmsg(pattern, item.nick, reason)
+  else: item.room.lmsg(pattern, item.nick)
 
 bot.register_leave_handler(noisy_leave_handler)
 bot.register_join_handler(noisy_join_handler)

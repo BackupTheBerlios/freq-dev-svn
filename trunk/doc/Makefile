@@ -1,3 +1,5 @@
+version="unknown version"
+
 clean:
 	rm -rf html
 
@@ -5,7 +7,7 @@ html: help/* ../tools/builddoc.py ../templates/*
 	#Building HTML docs...
 	$(MAKE) clean
 	mkdir html
-	python ../tools/builddoc.py help html ../templates || rm -rf html
+	python ../tools/builddoc.py help html ../templates $(version) || rm -rf html
 
 build: html
 

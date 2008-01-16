@@ -12,7 +12,9 @@ def help_handler(t, s, p):
  if p:
   if p.startswith('.'): p = p[1:]
   if p in HELP_CATEGORIES:
-   answer = ', '.join(HELP_CATEGORIES[p])
+   answer = HELP_CATEGORIES[p]
+   answer.sort()
+   answer = ', '.join(answer)
    s.lmsg(t, 'help_category', answer)
   else:
    if p in HELP_LANGS:
@@ -27,7 +29,9 @@ def help_handler(t, s, p):
      s.lmsg(t, 'help_other_languages', p, rlang, ', '.join(languages))
    else: s.lmsg(t, 'help_not_found', p)
  else:
-  categories = ', '.join(['%s(%s)' % (w, len(HELP_CATEGORIES[w])) for w in HELP_CATEGORIES.keys()])
+  ans = ['%s(%s)' % (w, len(HELP_CATEGORIES[w])) for w in HELP_CATEGORIES.keys()]
+  ans.sort()
+  categories = ', '.join(ans)
   s.lmsg(t, 'help_categories', categories)
 
 bot.register_cmd_handler(help_handler, '.help')

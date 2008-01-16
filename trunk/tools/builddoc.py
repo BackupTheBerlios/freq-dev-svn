@@ -6,6 +6,7 @@ from twisted.web.html import escape
 help = sys.argv[1]
 html = sys.argv[2]
 tpl = sys.argv[3]
+vvv = sys.argv[4]
 
 def use_tpl(fn, lng, *params):
  t = open('%s/%s-%s.html' % (tpl, fn, lng), 'r').read()
@@ -43,7 +44,7 @@ for i in q:
 def process(lng):
  print 'creating "%s" docs' % (lng, )
  os.mkdir('%s/%s' % (html, lng))
- idx = use_tpl('doc.idx.head', lng)
+ idx = use_tpl('doc.idx.head', lng, vvv)
  for cat in HELP_CATEGORIES.keys():
   q = use_tpl('doc.ctg.head', lng, cat)
   idx = idx + use_tpl('doc.idx.ctg', lng, cat, cat)

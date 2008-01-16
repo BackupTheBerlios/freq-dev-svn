@@ -14,7 +14,7 @@ tarballdir=..
 build: doc lang templates tools
 	echo Building $(dist)
 	$(MAKE) depends
-	$(MAKE) -C doc build
+	$(MAKE) -C doc build version=$(distver).$(rev)
 	chmod -R u+w,u+r,o-w,o+r .
 
 clean:
