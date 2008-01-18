@@ -36,6 +36,15 @@ def private_handler(q):
   text = text[len(cm):]
   return [('chat', source, text, stanza)]
 
+def mynick_handler(q):
+ typ, source, text, stanza = q
+ if not source.room or not source.room.bot: return False
+ cm = u'%s: ' % (source.room.bot.nick, )
+ if text.startswith(cm):
+  text = text[len(cm):]
+  return [(typ, source, text, stanza)]
+
 bot.register_rewrite_engine(commands_handler)
 bot.register_rewrite_engine(null_handler)
 bot.register_rewrite_engine(private_handler)
+bot.register_rewrite_engine(mynick_handler)

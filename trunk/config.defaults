@@ -26,6 +26,8 @@ LANG = 'ru'
 DATADIR = '/var/freq'
 USE_THREADS = True
 REWRITE_POWER = 7
+QUEUE_SEND_INTERVAL = 1.5
+QUEUE_LIMIT = 16
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'

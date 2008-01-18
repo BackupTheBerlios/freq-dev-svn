@@ -139,16 +139,16 @@ class freqbot:
      params = b[len(cmd)+1:]
      for i in self.cmdhandlers:
       if cmd.lower() == i[1]:
-       if item.allowed(i[2]):
-        if (item.room and item.room.bot) or not i[3]:
-         self.log.log(u'Calling command handler <b>%s</b> for message <font color=red>%s</font> from <font  color=blue>%s</font><br/>stanza: <font color=grey>%s</font>' % (escape(repr(i[0])), escape(b), s, escape(stanza.toXml())), 4)
-         try: i[0](t, item, params)
+       if s.allowed(i[2]):
+        if (s.room and s.room.bot) or not i[3]:
+         self.log.log(u'Calling command handler <b>%s</b> for command <font color=red>%s</font> from <font  color=blue>%s (%s)</font><br/>stanza: <font color=grey>%s</font>' % (escape(repr(i[0])), escape(b), escape(s.jid), escape(repr(s)), escape(stanza.toXml())), 4)
+         try: i[0](t, s, params)
          except: 
           m = ''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
           self.log.err(escape(m))
           item.lmsg(t, 'ERROR', config.ERRLOGFILE)
-        else: item.lmsg(t, 'muc_only')
-       else: item.lmsg(t, 'not_allowed')
+        else: s.lmsg(t, 'muc_only')
+       else: s.lmsg(t, 'not_allowed')
 
  def call_msg_handlers(self, t, s, b, stanza):
   for i in self.msghandlers:

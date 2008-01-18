@@ -15,7 +15,7 @@ def censor_subscribe(t, s, p):
   else:
    q.append(jid)
    s.lmsg(t, 'censor_subscribed', s.room.jid)
-   bot.muc.msg('chat', jid, lang.msg('censor_subscribed', [s.room.jid], l=lang.getLang(jid)))
+   bot.muc.msg('chat', jid, lang.msg('censor_subscribed', [s.room.jid], l=lang.getLang(s.room.jid)))
    CENSORLIST[s.room.jid] = q
  else: s.lmsg(t, 'censor_nojid')
 
@@ -27,14 +27,14 @@ def censor_unsubscribe(t, s, p):
   else:
    q.remove(jid)
    s.lmsg(t, 'censor_unsubscribed', s.room.jid)
-   bot.muc.msg('chat', jid, lang.msg('censor_unsubscribed', (s.room.jid, ), l=lang.getLang(jid)))
+   bot.muc.msg('chat', jid, lang.msg('censor_unsubscribed', (s.room.jid, ), l=lang.getLang(s.room.jid)))
    CENSORLIST[s.room.jid] = q
  else: s.lmsg(t, 'censor_nojid')
 
 def censor_handler(source, text, badword):
  q = CENSORLIST[source.room.jid]
  for jid in q:
-  bot.muc.msg('chat', jid, lang.msg('censor', [source.room.jid, source.nick, source.realjid, badword, text], l=lang.getLang(jid)))
+  bot.muc.msg('chat', jid, lang.msg('censor', [source.room.jid, source.nick, source.realjid, badword, text], l=lang.getLang(source.room.jid)))
 
 bot.register_bad_handler(censor_handler)
 bot.register_cmd_handler(censor_list, '.censor_list', 9, g=1)

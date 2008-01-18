@@ -15,6 +15,7 @@ class item:
   self.joined = time.time()
   self.status = None
   self.show = None
+  self.ACC = None
 
  def msg(self, typ, body):
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
@@ -29,7 +30,11 @@ class item:
   self.bot.muc.invalid_syntax(typ, self, text)
 
  def access(self):
-  try: return self.bot.muc.get_access(self)
+  #print self
+  #print self.ACC
+  try:
+   if self.ACC == None: return self.bot.muc.get_access(self)
+   else: return self.ACC
   except: return 0
 
  def allowed(self, required_access):
@@ -62,3 +67,25 @@ class item:
  def can_owner(self, item):
   return self.access()>10
 
+ def config_jid(self):
+  if self.room: return self.room.jid
+  else: return self.jid.split('/')[0] # bare jid
+
+def item_x(i, access): # IMHO this function is ugly, but i don't know how to do it better //kreved
+ r = item(i.bot, i.room)
+ #print 'item_x(i=..'
+ #print i
+ #print access
+ r.jid = i.jid
+ r.realjid = i.realjid
+ r.nick = i.nick
+ r.role = i.role
+ r.affiliation = i.affiliation
+ r.joined = i.joined
+ r.status = i.status
+ r.show = i.show
+ r.ACC = access
+ #print 'r.ACC'
+ #print r
+ #print r.ACC
+ return r

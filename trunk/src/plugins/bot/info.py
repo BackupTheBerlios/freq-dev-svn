@@ -1,5 +1,5 @@
 def info_handler(t, s, p):
- ut = time2str(time.time()-BOOTUP_TIMESTAMP, 1)
+ ut = time2str(time.time() - BOOTUP_TIMESTAMP, 1, lang.getLang(s.jid))
  mc = float(INFO[0][0]+INFO[1][0]+INFO[2][0]+INFO[3][0])/240
  sc = float(INFO[0][1]+INFO[1][1]+INFO[2][1]+INFO[3][1])/240
  if not mc: mc = 0.001

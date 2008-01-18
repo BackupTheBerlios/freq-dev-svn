@@ -11,7 +11,7 @@ def ping_result_handler(t, s, p, tpl, ping_time, x):
  try:
   if x['type'] != 'error':
    pong_time = time.time()
-   s.lmsg(t, 'pong', tpl, time2str(pong_time-ping_time))
+   s.lmsg(t, 'pong', tpl, time2str(pong_time-ping_time, False, lang.getLang(s.jid)))
   else: print 1/0
  except: s.lmsg(t, 'ping_error')
 

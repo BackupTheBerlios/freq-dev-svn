@@ -7,13 +7,16 @@ import re
 import log
 import sys
 import config
+import time
 
 class wrapper:
 
  def __init__(self):
+  #self.lastsent = {}
+  #self.queues = {}
   self.tc = 0
   self.th = {}
-  self.jid = jid.JID("%s@%s/%s" % (config.USER, config.SERVER, config.RESOURCE))
+  self.jid = jid.JID('%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE))
   self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
   self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd);
@@ -21,7 +24,9 @@ class wrapper:
   self.log = log.logger()
   self.handlers = []
   self.msghandlers = []
-  reactor.connectTCP(config.SERVER, 5222, self.c) 
+  #self.send_from_queue(True)
+  #self.clean_queue()
+  reactor.connectTCP(config.SERVER, 5222, self.c)
 
  def getChild(self, x, n):
   return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
@@ -29,23 +34,23 @@ class wrapper:
  def authd(self, x):
   self.x = x
   print 'Authenticated'
-  p = domish.Element(("jabber:client", "presence"))
-  p.addElement("status").addContent(config.STATUS)
-  p.addElement("show").addContent("chat")
+  p = domish.Element(('jabber:client', 'presence'))
+  p.addElement('status').addContent(config.STATUS)
+  p.addElement('show').addContent('chat')
   self.x.send(p)
-  self.x.addObserver("/*", self.cb)
-  self.x.addObserver("/message", self.cbmessage)
+  self.x.addObserver('/*', self.cb)
+  self.x.addObserver('/message', self.cbmessage)
   self.onauthd()
 
  def cb(self, x):
   n = x.name
-  try: id = x["id"]
-  except: id = "something"
-  try: typ = x["type"]
+  try: id = x['id']
+  except: id = 'something'
+  try: typ = x['type']
   except: typ = ''
-  try: body = self.getChild(x, "body").children[0]
+  try: body = self.getChild(x, 'body').children[0]
   except: body = ''
-  f = x["from"]
+  f = x['from']
   for i in self.handlers:
    if (i[0] in (n, None)) and (i[1] in (typ, None)) and (i[2] in (id, None)) and (i[3] in (body, None)) and (i[4] in (f, None)):
     if i[6]: self.handlers.remove(i)
@@ -64,21 +69,54 @@ class wrapper:
   f = x['from']
   try: typ = x['type']
   except: typ = 'chat'
+  #if typ == 'error':
+   #self.log.err('got ERROR message stanza: <font color=grey>%s</font><br>something wrong?' % (escape(x.toXml()), ))
   for i in self.msghandlers:
    if not delayed:
     if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body, x)
    else: i(typ, f, body, x)
 
  def send(self, x):
-  self.log.log(u'try to send stanza to %s..' % (x['to'], ), 1)
+  #ujid = jid.JID(x['to'])
+  self.log.log(u'try to send stanza to %s.. STAGE 1' % (x['to'], ), 0)
   reactor.callFromThread(self.x.send, x)
+  #if {???}: #time.time()-self.lastsent.get(ujid.userhost(), 0)<config.QUEUE_SEND_INTERVAL:
+   ##don't send, add it to queue
+   #q = self.queues.setdefault(ujid.userhost(), [])
+   #if len(q) > config.QUEUE_LIMIT:
+    #self.log.err('WARNING: QUEUE overflow for jid=%s!' % (ujid.userhost(), ))
+   #else:
+    #q.append(x)
+    #reactor.callFromThread(self.send_from_queue)
+  #else:
+   #send now
+   #self.log.log(u'try to send stanza to %s.. STAGE 2 [immediately]' % (x['to'], ), 0)
+   #reactor.callFromThread(self.x.send, x)
+   #self.lastsent[ujid.userhost()] = time.time()
+
+ #def send_from_queue(self, b=False):
+  #for sjid in self.queues.keys():
+   #if (time.time()-self.lastsent.get(sjid, 0)>config.QUEUE_SEND_INTERVAL) and (len(self.queues[sjid])>0):
+    #x = self.queues[sjid].pop(0)
+    #self.log.log(u'try to send stanza to %s.. STAGE 2 [from queue]' % (x['to'], ), 1)
+    #self.lastsent[sjid] = time.time()
+    #self.x.send(x)
+  #if b: reactor.callLater(1, self.send_from_queue)
+
+ #def clean_queue(self):
+  #for sjid in self.lastsent.keys():
+   #if time.time()-self.lastsent[sjid]>60: self.lastsent.pop(sjid)
+  #for sjid in self.queues.keys():
+   #if len(self.queues[sjid]) == 0: self.queues.pop(sjid)
+  #self.log.log('twistedwrapper.clean_queue executed...', 2)
+  #reactor.callLater(60, self.clean_queue)
 
  def msg(self, typ, j, body, subject=None):
-  m = domish.Element(("jabber:client", "message"))
-  m["type"] = typ
-  m["to"] = j
-  m.addElement("body").addContent(body)
-  if subject: m.addElement("subject").addContent(subject)
+  m = domish.Element(('jabber:client', 'message'))
+  m['type'] = typ
+  m['to'] = j
+  m.addElement('body').addContent(body)
+  if subject: m.addElement('subject').addContent(subject)
   self.send(m)
 
  def call(self, f, *args, **kwargs):

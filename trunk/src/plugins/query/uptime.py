@@ -8,7 +8,7 @@ def uptime_handler(t, s, p):
 
 def uptime_result_handler(t, s, p, x):
  try:
-  s.lmsg(t, 'uptime_result', p, time2str(int(x.children[0]['seconds']), 1))
+  s.lmsg(t, 'uptime_result', p, time2str(int(x.children[0]['seconds']), 1, lang.getLang(s.jid)))
  except:
   s.lmsg(t, 'uptime_error')
   #raise

@@ -11,4 +11,5 @@ def info_timer():
  reactor.callLater(60, info_timer)
 
 info_timer()
+
 bot.wrapper.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, lambda x: bot.wrapper.x.addObserver('/*', info_msg))
