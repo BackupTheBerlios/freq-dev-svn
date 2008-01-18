@@ -1,3 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+#~#######################################################################
+#~ Copyright (c) 2008 Burdakov Daniel <kreved@kreved.org>               #
+#~                                                                      #
+#~ This file is part of FreQ-bot.                                       #
+#~                                                                      #
+#~ FreQ-bot is free software: you can redistribute it and/or modify     #
+#~ it under the terms of the GNU General Public License as published by #
+#~ the Free Software Foundation, either version 3 of the License, or    #
+#~ (at your option) any later version.                                  #
+#~                                                                      #
+#~ FreQ-bot is distributed in the hope that it will be useful,          #
+#~ but WITHOUT ANY WARRANTY; without even the implied warranty of       #
+#~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        #
+#~ GNU General Public License for more details.                         #
+#~                                                                      #
+#~ You should have received a copy of the GNU General Public License    #
+#~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
+#~#######################################################################
 from twisted.words.protocols.jabber import client, jid, xmlstream
 from twisted.words.xish import domish
 from twisted.internet import reactor
@@ -50,7 +70,8 @@ class wrapper:
   except: typ = ''
   try: body = self.getChild(x, 'body').children[0]
   except: body = ''
-  f = x['from']
+  try: f = x['from']
+  except: f = config.SERVER
   for i in self.handlers:
    if (i[0] in (n, None)) and (i[1] in (typ, None)) and (i[2] in (id, None)) and (i[3] in (body, None)) and (i[4] in (f, None)):
     if i[6]: self.handlers.remove(i)
@@ -66,7 +87,8 @@ class wrapper:
   delayed = [i for i in x.children if (i.__class__==domish.Element) and ((i.name=='delay') or ((i.name=='x') and (i.uri=='jabber:x:delay')))]
   try: body = self.getChild(x, 'body').children[0]
   except: body = ''
-  f = x['from']
+  try: f = x['from']
+  except: f = config.SERVER
   try: typ = x['type']
   except: typ = 'chat'
   #if typ == 'error':
