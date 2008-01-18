@@ -1,0 +1,5 @@
+muc
+очистка истории конференции, синтаксис: .clean
+
+---written by---
+main@conference.burdakov.pp.ru/некий субъект

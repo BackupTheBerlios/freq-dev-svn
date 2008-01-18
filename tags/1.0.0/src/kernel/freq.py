@@ -21,7 +21,7 @@ class freqbot:
 
  def __init__(self, q):
   self.version_name = u'freQ'
-  self.version_version = u'1.0.0.' + self.getRev()
+  self.version_version = u'1.0.0 (20080118)'
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.authd = 0
   self.wrapper = wrapper()
