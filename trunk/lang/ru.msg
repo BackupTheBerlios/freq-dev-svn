@@ -102,3 +102,5 @@ chatlog_banned запретили входить в конференцию
 chatlog_kicked_reason выгнали из конференции: %s
 chatlog_banned_reason запретили входить в конференцию: %s
 chatlog_changed_nick сменил ник
+chatlogs_enabled логирование включено
+chatlogs_disabled логирование отключено
