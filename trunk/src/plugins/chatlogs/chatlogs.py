@@ -41,7 +41,7 @@ def check_dir(s):
 
 def write_to_log(groupchat, text, with_timestamp=True, with_br=True):
  if config.CHATLOGS_IN_MAIN_THREAD:
-  self.callFromThread(write_to_log_, groupchat, text, with_timestamp, with_br)
+  reactor.callFromThread(write_to_log_, groupchat, text, with_timestamp, with_br)
  else: write_to_log_(groupchat, text, with_timestamp, with_br)
 
 def write_to_log_(groupchat, text, with_timestamp=True, with_br=True):
