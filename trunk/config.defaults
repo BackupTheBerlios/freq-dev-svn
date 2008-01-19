@@ -51,3 +51,4 @@ CERBERUS_WARNING = u'не дебоширь!'
 CHATLOGS_DIR = '/var/freq/chatlogs'
 CHATLOGS_ENABLE = 'off'
 CHATLOGS_ALLOW_SWICH = True
+CHATLOGS_IN_MAIN_THREAD = True

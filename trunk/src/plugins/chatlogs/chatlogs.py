@@ -40,6 +40,11 @@ def check_dir(s):
  if not os.access(s, os.F_OK): os.mkdir(s)
 
 def write_to_log(groupchat, text, with_timestamp=True, with_br=True):
+ if config.CHATLOGS_IN_MAIN_THREAD:
+  self.callFromThread(write_to_log_, groupchat, text, with_timestamp, with_br)
+ else: write_to_log_(groupchat, text, with_timestamp, with_br)
+
+def write_to_log_(groupchat, text, with_timestamp=True, with_br=True):
  p1 = '%s/%s' % (config.CHATLOGS_DIR, groupchat.encode('utf8', 'replace'))
  p2 = '%s/%s' % (p1, time.strftime('%Y'))
  p3 = '%s/%s' % (p2, time.strftime('%m'))
