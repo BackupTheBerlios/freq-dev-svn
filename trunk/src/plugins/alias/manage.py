@@ -41,6 +41,7 @@ class alias():
   self.a2 = q[2]
   self.command = command
  def check(self, text):
+  text = text.lower()
   if self.glue: return text.startswith(self.alias)
   else: return (text==self.alias) or text.startswith(self.alias + u' ')
  def string(self):

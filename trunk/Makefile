@@ -34,6 +34,7 @@ install:
 	mkdir -p $(prefix)/etc/rc.d
 	$(INSTALL) README $(prefix)/share/freq
 	$(INSTALL) CHANGES $(prefix)/share/freq
+	$(INSTALL) COPYING $(prefix)/share/freq
 	$(INSTALLX) start.py $(prefix)/share/freq
 	$(INSTALL) config.defaults $(prefix)/share/freq
 	$(INSTALL) freq.conf.example $(prefix)/etc

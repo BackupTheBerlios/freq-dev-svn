@@ -19,12 +19,12 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-def time2str(t, rnd=None, lng=config.LANG):
+def time2str(t, rnd=False, lng=config.LANG):
  minutes, seconds = divmod(t, 60)
  hours, minutes = divmod(minutes, 60)
  days, hours = divmod(hours, 24)
  months, days = divmod(days, 30)
- if rnd: r = u'%d %s' % (seconds, get_seconds(round(seconds), lng))
+ if rnd: r = u'%d %s' % (round(seconds), get_seconds(round(seconds), lng))
  else: r = u'%0.2f %s' % (seconds, get_seconds(2, lng))
  if t>60: r = u'%d %s %s' % (minutes, get_minutes(round(minutes), lng), r)
  if t>3600: r = u'%d %s %s' % (hours, get_hours(round(hours), lng), r)

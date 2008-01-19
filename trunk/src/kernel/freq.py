@@ -172,7 +172,7 @@ class freqbot:
 
  def call_msg_handlers(self, t, s, b, stanza):
   for i in self.msghandlers:
-    if (t == 'groupchat') or not i[1]: i[0](t, s, b)
+    if (t == 'groupchat') or not i[1]: i[0](s, b)
 
  def call_bad_handlers(self, s, text, badword):
   for i in self.badhandlers: i(s, text, badword)

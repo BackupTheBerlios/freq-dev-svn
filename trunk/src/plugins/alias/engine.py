@@ -33,14 +33,16 @@ def alias_engine(q):
    r = r[0]
    s = r.command
    params = r.parse(text).split()
-   #replacing %0, %1, %2, %3... %*
+   #print 'r.parse(text)'
+   #print r.parse(text)
+   #replacing %1, %2, %3... %*
    if r.with_access:
     if not source.allowed(r.a1):
      return [(t, source, '.echo '+lang.msg('alias_not_allowed', l=lang.getLang(source.jid)), stanza)]
     else:
      source = item_x(source, r.a2)
    for i in range(len(params)): s = s.replace('%%%s' % (i+1, ), params[i])
-   s = s.replace('%*', text[len(alias)+1:])
+   s = s.replace('%*', r.parse(text))
    s = context_replace(s, t, source)
    return [(t, source, s, stanza)]
   else: return False
