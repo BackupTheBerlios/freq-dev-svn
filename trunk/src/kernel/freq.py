@@ -36,6 +36,7 @@ import lang
 import log
 import traceback
 from cerberus import censor
+from twisted.words.protocols.jabber.jid import JID
 
 class freqbot:
 
@@ -51,6 +52,7 @@ class freqbot:
   self.g = {}
   self.cmdhandlers = []
   self.msghandlers = []
+  self.topichandlers = []
   self.joinhandlers = []
   self.leavehandlers = []
   self.badhandlers = []
@@ -105,6 +107,9 @@ class freqbot:
  def register_msg_handler(self, func, g = None):
   self.msghandlers.append((func, g))
 
+ def register_topic_handler(self, func):
+  self.topichandlers.append(func)
+
  def register_join_handler(self, func):
   self.joinhandlers.append(func)
 
@@ -114,7 +119,8 @@ class freqbot:
  def register_leave_handler(self, func):
   self.leavehandlers.append(func)
 
- def call_cmd_handlers(self, t, s, body, stanza):
+ def call_cmd_handlers(self, t, s, body, subject, stanza):
+  if subject: return
   #found or create item
   groupchat = s.split('/')[0]
   nick = s[len(groupchat)+1:]
@@ -170,8 +176,16 @@ class freqbot:
         else: s.lmsg(t, 'muc_only')
        else: s.lmsg(t, 'not_allowed')
 
- def call_msg_handlers(self, t, s, b, stanza):
-  for i in self.msghandlers:
+ def call_msg_handlers(self, t, s, b, subject, stanza):
+  if subject:
+   j = JID(s)
+   if not j.userhost() in self.g.keys():
+    self.log.log('ignored subject from %s, stanza was %s' % (escape(s), escape(stanza.toXml())), 3)
+   else:
+    self.log.log('got subject from %s, stanza was %s, let\'s call topichandlers' % (escape(s), escape(stanza.toXml())), 1)
+    for i in self.topichandlers: i(s, subject)
+  else:
+   for i in self.msghandlers:
     if (t == 'groupchat') or not i[1]: i[0](s, b)
 
  def call_bad_handlers(self, s, text, badword):

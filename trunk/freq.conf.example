@@ -27,7 +27,10 @@ LOGFILE = '/var/log/freq/log.html'
 LOGF = '/var/log/freq/twisted.log'
 # loglevel: 0 - log anything; 9 - log nothing... 
 ERRLOGFILE = '/var/log/freq/err.html'
-#RAWXML = '/var/log/freq/rawxml.log'
+#RAWXML = '/var/log/freq/raw.xml'
 
 ### PLUGINS ###
-# ...
+CHATLOGS_DIR = '/var/freq/chatlogs'
+CHATLOGS_ENABLE = 'off'
+CHATLOGS_ALLOW_SWICH = True
+#if CHATLOGS_ALLOW_SWICH, then room owner can enable/disable logging

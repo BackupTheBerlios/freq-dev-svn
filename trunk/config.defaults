@@ -40,10 +40,14 @@ LOGLEVEL = 5
 LOGFILE = '/var/log/freq/log.html'
 LOGF = '/var/log/freq/twisted.log'
 ERRLOGFILE = '/var/log/freq/err.html'
-#RAWXML = '/var/log/freq/rawxml.log'
+#RAWXML = '/var/log/freq/raw.xml'
+RAWXML = None
 
 ### PLUGINS ###
 VCARD = u'FN,BDAY,DESC,URL'
 CERBERUS_MODE = 'ignore'
 CERBERUS_REASON = u'эээ... здесь не ругаются..'
 CERBERUS_WARNING = u'не дебоширь!'
+CHATLOGS_DIR = '/var/freq/chatlogs'
+CHATLOGS_ENABLE = 'off'
+CHATLOGS_ALLOW_SWICH = True

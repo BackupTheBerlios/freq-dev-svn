@@ -7,7 +7,7 @@
 - ники для юзеров (по jid) в конфе... .nickname_set jid [ник], .nickname_search ник, .nickname_del ник
 - статистика в стиле http://ultra.net/ultra/ http://stat.i386.net.ru/index_murman.html
 - .set_subject
-- возможность register_topic_handler
+~ возможность register_topic_handler
 - трабл: любой админ может дать команду .ban owner@blabla
   при команде .ban .member .none запретить боту применять их к овнерам и админам...вот и всё <]
   при каждом вызове этой команды, проверять списки админов/овнеров

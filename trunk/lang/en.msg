@@ -82,3 +82,17 @@ censor censor from %s\nnick: %s(%s)\ncensor: %s\n%s
 ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
 rewrite_cycle ERROR: recursion level more than %s
 rewrite_too_many_commands Too many commands! need to be <%s
+vcard_error failed to fetch vcard
+alias_saved_with_access alias saved (required level: %s, alias grants: %s)
+alias_no_access not allowed
+alias_not_allowed not allowed
+chatlog_joined joins the room
+chatlog_leaved leaves the room
+chatlog_subject Subject: %s
+chatlog_kicked %s was kicked
+chatlog_banned %s was banned
+chatlog_kicked_reason %s was kicked: %s
+chatlog_banned_reason %s was banned: %s
+chatlog_change_subject %s has set the subject: %s
+chatlog_leaved_reason leaves the room: %s
+chatlog_changed_nick changes nick

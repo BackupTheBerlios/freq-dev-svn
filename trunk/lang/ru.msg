@@ -92,3 +92,13 @@ vcard_error не получилось
 alias_saved_with_access алиас сохранён (уровень доступа к алиасу: %s, алиас будет выполняться с уровнем доступа %s)
 alias_no_access у вас недостаточно прав, чтобы поставить такой высокий уровень выполнения алиаса
 alias_not_allowed у вас недостаточно прав для выполнения этого алиаса
+chatlog_joined зашёл в конференцию
+chatlog_leaved вышел из конференции
+chatlog_leaved_reason вышел из конференции: %s
+chatlog_subject Тема: %s
+chatlog_change_subject %s установил(а) тему: %s
+chatlog_kicked выгнали из конференции
+chatlog_banned запретили входить в конференцию
+chatlog_kicked_reason выгнали из конференции: %s
+chatlog_banned_reason запретили входить в конференцию: %s
+chatlog_changed_nick сменил ник

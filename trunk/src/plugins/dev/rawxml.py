@@ -19,12 +19,16 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 def rawxml(x):
+ if not os.access(config.RAWXML, os.F_OK):
+  fp = open(config.RAWXML, 'w')
+  fp.write('<rawxml>\n\n')
+  fp.close()
  try:
   f = config.RAWXML
   f = open(f, 'a')
-  f.write('[%s] receive: %s\n\n' % (time.strftime('%d:%m:%y %H:%M:%S'), x.toXml().encode('utf8')))
+  f.write('<receive time=\'%s\'>\n%s\n</receive>\n\n' % (time.strftime('%d:%m:%y %H:%M:%S'), x.toXml().encode('utf8')))
   f.close()
  except: pass
 
-bot.wrapper.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, lambda x: bot.wrapper.x.addObserver('/*', rawxml))
-
+if config.RAWXML:
+ bot.wrapper.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, lambda x: bot.wrapper.x.addObserver('/*', rawxml))

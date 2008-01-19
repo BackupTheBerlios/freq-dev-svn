@@ -87,16 +87,18 @@ class wrapper:
   delayed = [i for i in x.children if (i.__class__==domish.Element) and ((i.name=='delay') or ((i.name=='x') and (i.uri=='jabber:x:delay')))]
   try: body = self.getChild(x, 'body').children[0]
   except: body = ''
+  try: subject = self.getChild(x, 'subject').children[0]
+  except: subject = None
   try: f = x['from']
   except: f = config.SERVER
   try: typ = x['type']
   except: typ = 'chat'
   #if typ == 'error':
    #self.log.err('got ERROR message stanza: <font color=grey>%s</font><br>something wrong?' % (escape(x.toXml()), ))
-  for i in self.msghandlers:
-   if not delayed:
-    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body, x)
-   else: i(typ, f, body, x)
+  if subject or not delayed:
+   for i in self.msghandlers:
+    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body, subject, x)
+    else: i(typ, f, body, subject, x)
 
  def send(self, x):
   #ujid = jid.JID(x['to'])

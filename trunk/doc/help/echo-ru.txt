@@ -5,4 +5,4 @@ basic
 пример:
   ".echo мы находимся в конфе %ROOM%, я %BOT%, ты %NICK%, %AFFILIATION%/%ROLE%"
 
-доступные контексты: %NICK%, %JID%, %ROLE%, %AFFILIATION%, %ROOM%, %BOT%
+доступные контексты: %NICK%, %JID%, %ROLE%, %AFFILIATION%, %ROOM%, %BOT%, %SUBJECT%
