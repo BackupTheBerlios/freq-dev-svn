@@ -19,6 +19,7 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 def m_parse(text):
+ text = text.strip()
  if text.count('|'):
   n = text.find('|')
   return (text[:n], text[n+1:])

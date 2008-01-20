@@ -95,4 +95,5 @@ chatlog_kicked_reason %s was kicked: %s
 chatlog_banned_reason %s was banned: %s
 chatlog_change_subject %s has set the subject: %s
 chatlog_leaved_reason leaves the room: %s
-chatlog_changed_nick changes nick
+chatlog_changed_nick changes nick to %s
+ 

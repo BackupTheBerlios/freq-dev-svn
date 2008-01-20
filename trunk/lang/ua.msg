@@ -93,4 +93,4 @@ chatlog_kicked_reason %s выгнали из конференции: %s
 chatlog_banned_reason %s запретили входить в конференцию: %s
 chatlog_change_subject %s установил(а) тему: %s
 chatlog_leaved_reason вышел из конференции: %s
-chatlog_changed_nick сменил ник
+chatlog_changed_nick сменил на %s

@@ -4,7 +4,6 @@
 # You can override these default settings in your freq.cfg file
 
 ### JABBER ###
-RECONNECT_COUNT = 3
 RESOURCE = u'Python'
 
 ### ACCESS ###

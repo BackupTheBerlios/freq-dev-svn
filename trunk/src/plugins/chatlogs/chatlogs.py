@@ -53,7 +53,7 @@ def write_to_log_(groupchat, text, with_timestamp=True, with_br=True):
   close_log(LOG_FILES[groupchat])
   LOG_FILES[groupchat] = p4
   topic = TOPICS.get(groupchat)
-  if topic: chatlogs_topic_handler(groupchat, topic)
+  if topic: chatlogs_topic_handler(groupchat, topic, immediately=True)
  LOG_FILES[groupchat] = p4
  if not os.access(p4, os.F_OK):
   check_dir(p1)
@@ -111,7 +111,7 @@ def chatlogs_msg_handler(source, body):
    m = u'<font class="mn">&lt;%s&gt;</font> %s' % (escape(nick), replace_links(escape(body).replace('\n', '<br/>')))
   write_to_log(room, m)
 
-def chatlogs_topic_handler(source, subject):
+def chatlogs_topic_handler(source, subject, immediately=False):
  j = jid.JID(source)
  room = j.userhost()
  #bot.g[room].topic = subject
@@ -132,8 +132,9 @@ def chatlogs_topic_handler(source, subject):
    m = u'<div class="roomsubject">' + m + u'</div>'
   #print 'let\'s write_to_log'
   #print (room, m, nick <> None)
-  write_to_log(room, m, nick <> None, nick <> None)
- else: bot.log.log('got subject.. but logs disabled', 1)
+  if immediately: write_to_log_(room, m, nick <> None, nick <> None)
+  else: write_to_log(room, m, nick <> None, nick <> None)
+ else: bot.log.log('got subject.. but logs disabled', 2)
 
 def chatlogs_join_handler(item):
  if item.room and (item.room.get_option('chatlogs', config.CHATLOGS_ENABLE)=='on'):
@@ -156,9 +157,11 @@ def chatlogs_leave_handler(item, typ, reason):
    if reason: m = lang.msg('chatlog_banned_reason', (escape(reason), ), lang.getLang(item.jid))
    else: m = lang.get('chatlog_banned', lang.getLang(item.jid))
   elif typ == 3:
-   m = lang.get('chatlog_changed_nick', lang.getLang(item.jid))
+   m = lang.msg('chatlog_changed_nick', (escape(item.nick), ), lang.getLang(item.jid))
    # in the future we need here to log new nick too
-  m = u'<font class="ml">%s %s</font>' % (escape(item.nick), m)
+  if typ == 3: nick = reason
+  else: nick = item.nick
+  m = u'<font class="ml">%s %s</font>' % (escape(nick), m)
   write_to_log(item.room.jid, m)
 
 if config.CHATLOGS_ALLOW_SWICH: log_access = 11

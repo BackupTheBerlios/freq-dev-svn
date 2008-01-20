@@ -208,8 +208,8 @@ class freqbot:
  def onauthd(self):
   self.log.log('onauthd: stage 1')
   self.authd += 1
-  if self.authd > config.RECONNECT_COUNT:
-   self.log.err('RECONNECT limit exceeded...')
+  if self.authd > 1: #config.RECONNECT_COUNT:
+   self.log.err('Disconnected... (reconnect disabled...)')
    reactor.stop()
   self.muc = muc(self)
   reactor.callLater(5, self.onauthd2)

@@ -86,7 +86,7 @@ class muc:
   jid = x['from'].split('/')
   groupchat = jid[0]
   nick = x['from'][len(groupchat)+1:]
-  groupchat = self.bot.g.get(groupchat, 0)
+  groupchat = self.bot.g.get(groupchat)
   if groupchat:
    if typ == 'available':
     item = groupchat.setdefault(nick, new_item(self.bot, groupchat))
@@ -108,9 +108,10 @@ class muc:
     if not item.handled:
      if item.nick == self.get_nick(groupchat.jid): # if item is bot...
       groupchat.bot = item
-      if groupchat.joiner:
-       self.bot.log.log(u'reporting to %s about successful joining..' % (groupchat.joiner[0].jid, ), 6)
-       groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_success', groupchat.jid, nick)
+      gj = groupchat.joiner
+      if gj:
+       gj[0].lmsg(gj[1], 'join_success', groupchat.jid, nick)
+       self.bot.log.log(u'reporting to %s about successful joining..' % (gj[0].jid, ), 6)
        groupchat.joiner = None
      item.handled = True
      self.call_join_handlers(item)
@@ -119,7 +120,7 @@ class muc:
      self.bot.check_text(item, item.nick)
      self.bot.check_text(item, item.status)
    else:
-    item = groupchat.pop(nick, 0)
+    item = groupchat.pop(nick)
     if item:
      self.call_leave_handlers(item)
      # parse leave_type, reason
@@ -133,6 +134,8 @@ class muc:
       _status = [i['code'] for i in _x.children if i.name=='status']
       try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
       except: reason = ''
+      try: new_nick = _item['nick']
+      except: new_nick = '[unknown nick]'
       if '303' in _status: leave_type = 3
       else:
        if '301' in _status: leave_type = 2
@@ -143,18 +146,26 @@ class muc:
       self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
       leave_type = 0
       reason = ''
+     if leave_type == 3: #if item changes nickname
+      reason = item.nick
+      item.jid = u'%s/%s' % (groupchat.jid, new_nick)
+      item.nick = new_nick
+      groupchat[new_nick] = item
      self.bot.call_leave_handlers(item, leave_type, reason)
-     if item.nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid)
+     if (item.nick == self.get_nick(groupchat.jid)) and (leave_type <> 3): self.leave(groupchat.jid)
     else:
      #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
-     self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
+     #self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
      #if nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid, 'non-available presence')
-     self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % (x['from'], escape(x.toXml())), 7)
-     if groupchat.joiner:
-      self.bot.log.log(u'reporting to %s about failed joining..' % (groupchat.joiner[0].jid, ), 6)
-      groupchat.joiner[0].lmsg(groupchat.joiner[1], 'join_failed', groupchat.jid, nick, x.toXml())
+     self.bot.log.err(u'unavailable|error from %s\nstanza:\n%s' % (escape(x['from']), escape(x.toXml())))
+     gj = groupchat.joiner
+     if gj:
+      self.bot.log.log(u'reporting to %s about failed joining..' % (escape(gj[0].jid), ), 6)
+      gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick, x.toXml())
       groupchat.joiner = None
-     self.leave(groupchat.jid, 'non-available presence')
+     if jid.endswith(self.get_nick(groupchat.jid)):
+      self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % (escape(x['from']), escape(x.toXml())), 7)
+      self.leave(groupchat.jid, 'error|unavailable presence...')
   else:
    if typ in ('subscribe', 'subscribed', 'unsubscribe', 'unsubscribed'):
     p = domish.Element(('jabber:client', 'presence'))
