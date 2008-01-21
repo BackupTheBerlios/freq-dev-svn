@@ -18,13 +18,9 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-def set_nick_handler(t, s, p):
- p = p.strip().replace('/', '(slash)')[:30].replace('\n', '')
- if p in s.room.keys(): s.lmsg(t, 'nick_in_use')
- elif p:
-  s.room.set_option('nick', p)
-  s.room.rejoin()
-  s.lmsg(t, 'nick_updated')
- else: s.syntax(t, 'set_nick')
 
-bot.register_cmd_handler(set_nick_handler, '.set_nick', 8, 1)
+def set_subject_handler(t, s, p):
+ if p: s.room.set_subject(p)
+ else: s.lmsg('what_subject')
+
+bot.register_cmd_handler(set_subject_handler, '.set_subject', 7, 1)

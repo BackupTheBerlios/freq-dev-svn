@@ -139,7 +139,7 @@ class wrapper:
   m = domish.Element(('jabber:client', 'message'))
   m['type'] = typ
   m['to'] = j
-  m.addElement('body').addContent(body)
+  if body: m.addElement('body').addContent(body)
   if subject: m.addElement('subject').addContent(subject)
   self.send(m)
 

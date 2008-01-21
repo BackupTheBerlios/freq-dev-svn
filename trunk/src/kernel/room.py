@@ -84,3 +84,6 @@ class room:
 
  def count(self):
   return len(self.items)
+
+ def set_subject(self, subject):
+  self.globalbot.wrapper.msg('groupchat', self.jid, None, subject)

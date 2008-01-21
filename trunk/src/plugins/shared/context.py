@@ -20,6 +20,10 @@
 #~#######################################################################
 def context_replace(text, t, s):
  text = text.replace(r'%NICK%', s.nick).replace(r'%JID%', s.realjid).replace(r'%ROLE%', s.role).replace(r'%AFFILIATION%', s.affiliation)
- if s.room: text = text.replace(r'%ROOM%', s.room.jid).replace(r'%SUBJECT%', TOPICS.get(s.room.jid, '[empty]'))
- if s.room and s.room.bot: text = text.replace(r'%BOT%', s.room.bot.nick)
+ text = text.replace(r'%DAY%', time.strftime('%d')).replace(r'%MONTH%', time.strftime('%m'))
+ text = text.replace(r'%YEAR%', time.strftime('%Y'))
+ if s.room:
+  text = text.replace(r'%ROOM%', s.room.jid).replace(r'%SUBJECT%', TOPICS.get(s.room.jid, '[empty]'))
+  if s.room.bot: text = text.replace(r'%BOT%', s.room.bot.nick)
+  text = text.replace(r'%ITEMS%', ', '.join(s.room.keys()))
  return text

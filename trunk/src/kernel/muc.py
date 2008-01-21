@@ -80,6 +80,7 @@ class muc:
   except: s.lmsg(t, 'invalid_syntax_default')
 
  def presence_handler(self, x):
+  if self.bot.stopped: return
   self.bot.log.log(u'presence_handler..', 1)
   try: typ = x['type']
   except: typ = 'available'
@@ -120,7 +121,7 @@ class muc:
      self.bot.check_text(item, item.nick)
      self.bot.check_text(item, item.status)
    else:
-    item = groupchat.pop(nick)
+    item = groupchat.pop(nick, None)
     if item:
      self.call_leave_handlers(item)
      # parse leave_type, reason
@@ -128,31 +129,36 @@ class muc:
      #      1: kick
      #      2: ban
      #      3: rename
-     try:
-      _x = [i for i in x.children if (i.name=='x') and (i.uri == 'http://jabber.org/protocol/muc#user')][0]
-      _item = [i for i in _x.children if i.name=='item'][0]
-      _status = [i['code'] for i in _x.children if i.name=='status']
-      try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
-      except: reason = ''
-      try: new_nick = _item['nick']
-      except: new_nick = '[unknown nick]'
-      if '303' in _status: leave_type = 3
-      else:
-       if '301' in _status: leave_type = 2
+     if typ == 'unavailable':
+      #unavailable
+      try:
+       _x = [i for i in x.children if (i.name=='x') and (i.uri == 'http://jabber.org/protocol/muc#user')][0]
+       _item = [i for i in _x.children if i.name=='item'][0]
+       _status = [i['code'] for i in _x.children if i.name=='status']
+       try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
+       except: reason = ''
+       try: new_nick = _item['nick']
+       except: new_nick = '[unknown nick]'
+       if '303' in _status: leave_type = 3
        else:
-        if '307' in _status: leave_type = 1
-        else: leave_type = 0
-     except:
-      self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
-      leave_type = 0
-      reason = ''
-     if leave_type == 3: #if item changes nickname
-      reason = item.nick
-      item.jid = u'%s/%s' % (groupchat.jid, new_nick)
-      item.nick = new_nick
-      groupchat[new_nick] = item
-     self.bot.call_leave_handlers(item, leave_type, reason)
-     if (item.nick == self.get_nick(groupchat.jid)) and (leave_type <> 3): self.leave(groupchat.jid)
+        if '301' in _status: leave_type = 2
+        else:
+         if '307' in _status: leave_type = 1
+         else: leave_type = 0
+      except:
+       self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
+       leave_type = 0
+       reason = ''
+      if leave_type == 3: #if item changes nickname
+       reason = item.nick
+       item.jid = u'%s/%s' % (groupchat.jid, new_nick)
+       item.nick = new_nick
+       groupchat[new_nick] = item
+      self.bot.call_leave_handlers(item, leave_type, reason)
+      if (item.nick == self.get_nick(groupchat.jid)) and (leave_type <> 3): self.leave(groupchat.jid)
+     else:
+      #error
+      self.bot.log.err(u'unknown error presence: '+escape(x.toXml()))
     else:
      #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
      #self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
@@ -196,7 +202,7 @@ class muc:
  def join(self, groupchat, nick=None):
   if nick == None: nick = self.get_nick(groupchat)
   else: self.set_nick(groupchat, nick)
-  groupchat = groupchat.replace("\n", "")
+  groupchat = groupchat.replace('\n', '')
   groupchat = self.bot.g.setdefault(groupchat, new_room(self.bot, groupchat))
   p = domish.Element(('jabber:client', 'presence'))
   p['to'] = u'%s/%s' % (groupchat.jid, nick)
