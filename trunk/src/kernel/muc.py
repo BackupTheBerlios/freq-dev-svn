@@ -169,7 +169,7 @@ class muc:
       self.bot.log.log(u'reporting to %s about failed joining..' % (escape(gj[0].jid), ), 6)
       gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick, x.toXml())
       groupchat.joiner = None
-     if jid.endswith(self.get_nick(groupchat.jid)):
+     if x['from'].endswith(self.get_nick(groupchat.jid)):
       self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % (escape(x['from']), escape(x.toXml())), 7)
       self.leave(groupchat.jid, 'error|unavailable presence...')
   else:
