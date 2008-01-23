@@ -39,21 +39,32 @@ sys.path.insert(0, 'modules')
 #print 'sys.path is %s' % (sys.path, )
 
 import config
+
 if len(sys.argv) > 1: cfg = sys.argv[1]
 else: cfg = './freq.conf'
 print 'Using %s as config file' % (cfg, )
 config.init(cfg)
-  
+
+tm = int(time.time()) + config.RESTART_INTERVAL
+# we should not restart until time.time() == tm
+
+pid = str(os.getpid())
+
 try:
  fp = file(config.PIDFILE, 'r')
  p = fp.read()
  fp.close()
- os.kill(int(p), 9)
- time.sleep(5)
- sys.stdout.write('pid %s killed.. ' % (p, ))
+ if p <> pid:
+  os.kill(int(p), 3)
+  time.sleep(3)
+  try: os.kill(int(p), 9)
+  except: pass
+  time.sleep(1)
+  sys.stdout.write('pid %s killed.. ' % (p, ))
 except: pass
+
 fp = file(config.PIDFILE, 'w')
-fp.write(str(os.getpid()))
+fp.write(pid)
 fp.close()
 
 from freq import freqbot
@@ -61,12 +72,29 @@ import lang
 import options
 
 bot = freqbot(globals())
+
 try:
  bot.plug.load_all()
  print 'reactor.run()'
  reactor.run()
 except:
  bot.log.err(escape('FATAL ERROR: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
- del bot
  raise
- 
+
+def log(m):
+ bot.log.log(m)
+
+if bot.smart_shutdown:
+ log('freQ-bot normally stopped')
+elif not config.RESTART_INTERVAL:
+ log('freQ-bot fault (restart disabled)')
+else:
+ log('freQ-bot fault (restarting...)')
+ tm = tm - int(time.time())
+ if tm > 0:
+  log('wait %s seconds...' % (tm, ))
+  try: time.sleep(tm)
+  except: sys_exit(1)
+ cmd = config.RESTART_CMD
+ log(escape('restart now: %s' % (cmd, )))
+ os.execv(cmd.split()[0], tuple(cmd.split()))

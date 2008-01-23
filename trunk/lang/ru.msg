@@ -33,7 +33,7 @@ lang_not_found язык '%s' недоступен, или его не сущес
 lang_self Русский (ru)
 leaved вышел из '%s'
 log.header <html><head><title>freq log</title></head><body>\n
-log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S]</font></i> %%s</p>\n
+log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S] [PID $PID$]</font></i> %%s</p>\n
 moderate_error не получилося
 moderate_not_found кого?
 moderate_ok ok

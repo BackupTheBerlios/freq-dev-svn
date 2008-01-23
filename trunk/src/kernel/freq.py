@@ -20,7 +20,7 @@
 #~#######################################################################
 import twisted
 import twisted.python.log
-from twisted.internet import reactor
+from twisted.internet import reactor, task
 from twisted.web.html import escape
 from twisted.words.xish import domish
 from item import item as new_item
@@ -49,6 +49,7 @@ class freqbot:
   twisted.python.log.startLogging(open(config.LOGF, 'a'))
   twisted.python.log.addObserver(self.error_handler)
   self.stopped = False
+  self.smart_shutdown = False
   self.censor = censor()
   self.g = {}
   self.cmdhandlers = []
@@ -75,7 +76,8 @@ class freqbot:
   print 'Initialized'
   self.log.log('<b>freQ %s (PID: %s) Initialized</b>' % (self.version_version, os.getpid()))
   #reactor.addSystemEventTrigger('before', 'shutdown', self.shutdown)
-  self.clean_cmd_cache()
+  self.cc = task.LoopingCall(self.clean_cmd_cache)
+  self.cc.start(10)
 
  def check_for_ddos(self, jid):
   q = self.cmd_cache.get(jid, 0)
@@ -84,7 +86,6 @@ class freqbot:
 
  def clean_cmd_cache(self):
   self.cmd_cache = {}
-  reactor.callLater(10, self.clean_cmd_cache)
 
  def shutdown(self, *args, **kwargs):
   try:
@@ -236,7 +237,7 @@ class freqbot:
   self.log.log('onauthd: stage 1')
   self.authd += 1
   if self.authd > 1: #config.RECONNECT_COUNT:
-   self.log.err('Disconnected... (reconnect disabled...)')
+   self.log.err('Disconnected (reconnect disabled)')
    reactor.stop()
   self.muc = muc(self)
   reactor.callLater(5, self.onauthd2)

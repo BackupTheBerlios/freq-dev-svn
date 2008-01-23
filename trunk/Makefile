@@ -12,7 +12,7 @@ dist=$(distname)-$(distver).$(rev)
 tarballdir=..
 
 build: doc lang templates tools
-	echo Building $(dist)
+	@echo Building $(dist)
 	$(MAKE) depends
 	$(MAKE) -C doc build version=$(distver).$(rev)
 	chmod -R u+w,u+r,o-w,o+r .
@@ -66,13 +66,13 @@ install:
 	mkdir -p $(vardir)
 	chown -R $(botuser):$(botgroup) $(vardir)
 	su freq -c "./tools/mkdata $(vardir)"
-	echo " === $(dist) installed into $(prefix) ==="
+	@echo " === $(dist) installed into $(prefix) ==="
 
 deinstall:
 	rm -rf $(prefix)/share/freq
 	rm -f $(prefix)/etc/rc.d/freq
 	rm -f $(prefix)/etc/freq.conf.example
-	echo you can also remove $(logdir) && $(vardir)
+	@echo you can also remove $(logdir) && $(vardir)
 
 userdel:
 	pw userdel -n $(botuser)
@@ -90,4 +90,4 @@ tarball:
 	rm -rf $(tarballdir)/$(dist)
 
 version:
-	echo $(dist)
+	@echo $(dist)

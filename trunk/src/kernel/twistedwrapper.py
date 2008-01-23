@@ -36,17 +36,21 @@ class wrapper:
   #self.queues = {}
   self.tc = 0
   self.th = {}
-  self.jid = jid.JID('%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE))
+  self.jid = jid.JID(u'%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE))
   self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
-  self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd);
+  self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd)
+  #self.c.addBootstrap(xmlstream.INIT_FAILED_EVENT, self.failed)
   self.x = None
   self.log = log.logger()
   self.handlers = []
   self.msghandlers = []
   #self.send_from_queue(True)
   #self.clean_queue()
-  reactor.connectTCP(config.SERVER, 5222, self.c)
+  port = config.PORT
+  server = config.CONNECT_SERVER
+  if not server: server = config.SERVER
+  reactor.connectTCP(server, port, self.c)
 
  def getChild(self, x, n):
   return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
@@ -61,6 +65,10 @@ class wrapper:
   self.x.addObserver('/*', self.cb)
   self.x.addObserver('/message', self.cbmessage)
   self.onauthd()
+
+ def failed(self, x):
+  self.log.err('INIT_FAILED_EVENT')
+  reactor.stop()
 
  def cb(self, x):
   n = x.name

@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def passive():
  r = 'null'
  q = 999
@@ -28,15 +29,18 @@ def passive():
    q = p
  return r
 
+from twisted.internet import task
+
 def cleanup_handler():
  bot.log.log('muc cleanup...', 2)
  q = len(bot.g) - config.ROOM_LIMIT
  while q>0:
   bot.muc.leave(passive(), 'MUC cleanup plugin')
   q -= 1
- reactor.callLater(60, cleanup_handler)
 
-if config.ROOM_LIMIT: reactor.callLater(60, cleanup_handler)
+if config.ROOM_LIMIT:
+ l = task.LoopingCall(cleanup_handler)
+ l.start(60)
 
 def passive_handler(t, s, p):
  p = passive()

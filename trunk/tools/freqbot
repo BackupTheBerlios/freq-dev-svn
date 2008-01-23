@@ -31,6 +31,10 @@ freq_status()
 
 freq_start()
 {
+    if killall -0 -u $SUSER >/dev/null 2>&1; then
+        echo "$name is already running"
+        exit
+    fi
     echo -n "Starting $name: "
     su $SUSER -c "$PYTHON $START $CFG >$STDOUT 2>&1 &"
     echo "done."

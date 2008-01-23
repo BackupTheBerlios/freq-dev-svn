@@ -2,7 +2,7 @@
 
 # You can see config.defaults to learn more options...
 
-### JABBER ###
+### ACCOUNT ###
 SERVER = u'kreved.org'
 USER = u'freq'
 PASSWD = u'secret'
