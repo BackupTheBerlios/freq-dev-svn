@@ -7,4 +7,4 @@ basic
 
 доступные контексты:
 %NICK%, %JID%, %ROLE%, %AFFILIATION%, %ROOM%, %BOT%
-%SUBJECT%, %DAY%, %MONTH%, %YEAR%, %ACCESS%, %ITEMS%
+%SUBJECT%, %DAY%, %MONTH%, %YEAR%, %ACCESS%, %ITEMS%, %QNICK%

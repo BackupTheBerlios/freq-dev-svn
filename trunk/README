@@ -16,7 +16,7 @@ You need have installed
 
    you need cp /usr/local/etc/freq.conf.example to /usr/local/etc/freq.conf and edit it...
 
-   add freq_enable="YES" to your rc.conf 
+   add freq_enable="YES" to your /etc/rc.conf 
 
    use
 

@@ -41,7 +41,14 @@ class item:
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
    self.bot.muc.msg(typ, self.jid, lang.msg('see_private', l=lang.getLang(self.jid)))
    typ = 'chat'
-  if typ <> 'null': self.bot.muc.msg(typ, self.jid, body)
+  if typ in ['chat', 'groupchat']: self.bot.muc.msg(typ, self.jid, body)
+  elif typ == 'null': pass
+  elif typ.startswith('redirect:'):
+   nick = typ[9:]
+   if self.room and (nick in self.room.keys()):
+    self.room[nick].msg('chat', body)
+   else: raise ValueError('can\'t send redirect:* msg')
+  else: raise ValueError('invalid typ: '+typ)
 
  def lmsg(self, typ, template, *params):
   self.msg(typ, lang.msg(template, params, lang.getLang(self.jid)))

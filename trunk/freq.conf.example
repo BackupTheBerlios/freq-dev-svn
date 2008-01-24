@@ -20,6 +20,7 @@ DATADIR = '/var/freq'
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
+PIDFILE = '/var/freq/freq.pid'
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5

@@ -18,15 +18,49 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-def context_replace(text, t, s):
- text = text.replace(r'%JID%', s.realjid)
- text = text.replace(r'%DAY%', time.strftime('%d')).replace(r'%MONTH%', time.strftime('%m'))
- text = text.replace(r'%YEAR%', time.strftime('%Y'))
- text = text.replace(r'%ACCESS%', str(s.access()))
- if s.room:
-  text = text.replace(r'%NICK%', s.nick).replace(r'%ROLE%', s.role).replace(r'%AFFILIATION%', s.affiliation)
-  text = text.replace('%QNICK%', my_quote(s.nick))
-  text = text.replace(r'%ROOM%', s.room.jid).replace(r'%SUBJECT%', TOPICS.get(s.room.jid, '[empty]'))
-  if s.room.bot: text = text.replace(r'%BOT%', s.room.bot.nick)
-  text = text.replace(r'%ITEMS%', ', '.join(s.room.keys()))
- return text
+
+# .test 'abc\\\\'d'
+
+def my_quote(text):
+ return '"' + text.replace('\\', '\\\\').replace('"', '\\"') + '"'
+
+def my_replace(text, s1, s2):
+ if text.count(s1):
+  n = text.index(s1)
+  return text[:n] + s2 + my_replace(text[n+len(s1):], s1, s2)
+ else: return text
+
+def get_end_count(text, d, n):
+ if text.endswith(d): return get_end_count(text[:len(text)-1], d, n+1)
+ else: return n
+
+def get_param(text):
+ text = text.strip()
+ if not text: return ('', '')
+ if text[0] in ["'", '"']:
+  d = text[0]
+  text = text[1:]
+  if text.count(d):
+   n = text.find(d)
+   if (n > 0) and (text[n-1] == '\\'):
+    p = text[:n-1]
+    text = text[n:].strip()
+    q = get_end_count(p, '\\', 0)
+    print (p, text, q)
+    if q % 2 == 1:
+     p = my_replace(p, '\\\\', '\\')
+     text = text[1:].strip()
+    else:
+     p = my_replace(p, '\\\\', '\\')
+     a, b = get_param(text)
+     p, text = p + d + a, b
+   else:
+    p, text = my_replace(text[:n], '\\\\', '\\'), text[n+1:].strip()
+  else: raise ValueError('unbalanced quotes')
+ else:
+  if text.count(' '):
+   n = text.find(' ')
+   p = text[:n]
+   text = text[n:].strip()
+  else: p, text = text, ''
+ return (p, text)

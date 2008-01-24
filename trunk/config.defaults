@@ -41,7 +41,7 @@ RESTART_CMD = '/usr/local/bin/python /usr/local/share/freq/start.py /usr/local/e
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
-PIDFILE = '/tmp/freq.pid'
+PIDFILE = '/var/freq/freq.pid'
 # sqlite support doesn't implemented yet; 0=disabled
 ENABLE_SQLITE = 0
 

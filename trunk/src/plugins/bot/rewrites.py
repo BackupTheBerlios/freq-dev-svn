@@ -56,6 +56,18 @@ def private_handler(q):
   text = text[len(cm):]
   return [('chat', source, text, stanza)]
 
+def redirect_handler(q):
+ typ, source, text, stanza = q
+ text = context_replace(text, typ, source)
+ cm = '.redirect '
+ if text.startswith(cm):
+  nick, text = get_param(text[len(cm):])
+  if source.room and (nick in source.room.keys()):
+   return [('redirect:' + nick, source, text, stanza)]
+  else:
+   print (nick, source.room.keys())
+   return [(typ, source, '.echo nick not found', stanza)]
+
 def mynick_handler(q):
  typ, source, text, stanza = q
  if not source.room or not source.room.bot: return False
@@ -68,3 +80,4 @@ bot.register_rewrite_engine(commands_handler)
 bot.register_rewrite_engine(null_handler)
 bot.register_rewrite_engine(private_handler)
 bot.register_rewrite_engine(mynick_handler)
+bot.register_rewrite_engine(redirect_handler)
