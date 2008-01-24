@@ -30,7 +30,7 @@ def parse_alias(text):
   if text.endswith('&'): return (2, None, None, text[:-1], True)
   else: return (2, None, None, text, False)
 
-class alias():
+class alias:
  def __init__(self, text, command):
   q = parse_alias(text)
   self.glue = q[4]

@@ -83,7 +83,7 @@ class wrapper:
   for i in self.handlers:
    if (i[0] in (n, None)) and (i[1] in (typ, None)) and (i[2] in (id, None)) and (i[3] in (body, None)) and (i[4] in (f, None)):
     if i[6]: self.handlers.remove(i)
-    reactor.callInThread(self.call, i[5], x);
+    self.call(i[5], x)
 
  def register_handler(self, func, stanza=None, typ=None, id=None, body=None, f=None, once=None):
   self.handlers.append((stanza, typ, id, body, f, func, once))
@@ -105,8 +105,7 @@ class wrapper:
    #self.log.err('got ERROR message stanza: <font color=grey>%s</font><br>something wrong?' % (escape(x.toXml()), ))
   if subject or not delayed:
    for i in self.msghandlers:
-    if config.USE_THREADS: reactor.callInThread(self.call, i, typ, f, body, subject, x)
-    else: i(typ, f, body, subject, x)
+    self.call(i, typ, f, body, subject, x)
 
  def send(self, x):
   #ujid = jid.JID(x['to'])
@@ -152,24 +151,26 @@ class wrapper:
   self.send(m)
 
  def call(self, f, *args, **kwargs):
+  tc, self.tc = self.tc + 1, self.tc + 1
+  self.th[tc] = (f, args, kwargs)
+  if config.USE_THREADS: reactor.callInThread(self._call, f, tc, *args, **kwargs)
+  else: self._call(f, tc, *args, **kwargs)
+  try: self.th.pop(tc)
+  except: self.log.err('Something wrong with threads management: can\'t self.th.pop(%s)' % (tc, ))
+
+ def _call(self, f, tc, *args, **kwargs):
   try:
-   tc, self.tc = self.tc + 1, self.tc + 1
-   self.log.log(escape('== started thread #%s' % (tc, )), 1)
-   self.th[tc] = (f, args, kwargs)
+   self.log.log(escape('=== started thread #%s' % (tc, )), 1)
    try: f(*args, **kwargs)
    except:
     m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-    try: m = m.decode('utf8', 'replace')
-    except: pass
+    m = m.decode('utf8', 'replace')
     m = u'<font color=red><b>UNCATCHED ERROR:</b></font>%s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>' \
          % (escape(m), escape(repr((f, args, kwargs, tc))))
     self.log.err(m)
-   try: self.th.pop(tc)
-   except: self.log.err('Something wrong with threads management :-S')
-   self.log.log(escape('== finished thread #%s' % (tc, )), 1)
+   self.log.log(escape('=== finished thread #%s' % (tc, )), 1)
   except:
-   m = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-   print "STOP: ", m
+   m = ''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+   print 'STOP: ', m
    self.log.err(escape(m))
-   self.log.err('=^ failed thread #%s' % (self.tc, ))
-   reactor.stop()
+   self.log.err('=^= failed thread #%s' % (self.tc, ))

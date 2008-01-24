@@ -105,3 +105,9 @@ chatlog_changed_nick сменил ник на %s
 chatlogs_enabled логирование включено
 chatlogs_disabled логирование отключено
 nick_in_use этот ник уже используется в конференции
+access_add_invalid_syntax синтаксис: .access_add jid access
+access_added сохранил
+access_del_404 нет такой записи
+access_deleted удалено
+access_cleared список очищен
+access_list_empty список пуст

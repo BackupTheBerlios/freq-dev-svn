@@ -2,10 +2,10 @@ freQ is a Jabber bot, written by Burdakov Daniel <kreved@kreved.org>
 
 You need have installed
 
-        * Python2.5
-        * py-TwistedCore
-        * py-TwistedWords
-        * py-TwistedWeb
+        * Python2.5       - http://python.org/
+        * py-TwistedCore  - http://twistedmatrix.com/
+        * py-TwistedWords - http://twistedmatrix.com/
+        * py-TwistedWeb   - http://twistedmatrix.com/
 
    to start bot. (run "python ./tools/depends.py" to check if you have installed all dependencies)
 

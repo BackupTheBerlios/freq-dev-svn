@@ -24,7 +24,7 @@ CENSORLIST = optstringlist('censor')
 
 def censor_list(t, s, p):
  q = CENSORLIST[s.room.jid]
- if q: s.msg('chat', show_list(q, p))
+ if q: s.msg(t, show_list(q, p))
  else: s.lmsg(t, 'censor_list_empty')
 
 def censor_subscribe(t, s, p):

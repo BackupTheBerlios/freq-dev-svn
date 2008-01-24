@@ -18,12 +18,12 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-def show_list(seq, grep=None):
+def show_list(seq, grep=None, empty='[empty list]'):
  if len(seq) == 1: return seq[0]
  else:
   r = ''
   for i in range(len(seq)):
    r += '%s) %s\n' % (i+1, seq[i])
   if grep: r = '\n'.join([i for i in r.split('\n') if i.lower().count(grep.lower())])
+  if not r: r = empty
   return r
-

@@ -24,8 +24,10 @@ import config
 import lang
 
 class logger:
+
  def __init__(self):
   self.pid = str(os.getpid())
+
  def _log(self, fn, m, h):
   if not os.access(fn, 0):
    fp = file(fn, 'w')
@@ -34,8 +36,15 @@ class logger:
   fp = file(fn, 'a')
   fp.write(m.replace(r'$PID$', self.pid).encode('utf8', 'replace'))
   fp.close()
+
  def log(self, m, level=9):
   if level >= config.LOGLEVEL: self._log(config.LOGFILE, time.strftime(lang.get('log.record')) % (m, ), lang.get('log.header'))
+
  def err(self, m):
   self._log(config.ERRLOGFILE, time.strftime(lang.get('log.record')) % (m, ), lang.get('log.header'))
 
+ def err_e(self, m):
+  self.err(escape(m))
+
+ def log_e(self, m):
+  self.log(escape(m))

@@ -59,6 +59,7 @@ class freqbot:
   self.leavehandlers = []
   self.badhandlers = []
   self.rewriteengines = []
+  self.access_modificators = []
   self.cmd_cache = {}
   self.version_name = u'freQ'
   self.version_version = u'1.0.99.' + self.getRev()
@@ -83,6 +84,9 @@ class freqbot:
   q = self.cmd_cache.get(jid, 0)
   self.cmd_cache[jid] = q + 1
   return q < config.CMD_LIMIT
+
+ def register_access_modificator(self, func):
+  self.access_modificators.append(func)
 
  def clean_cmd_cache(self):
   self.cmd_cache = {}

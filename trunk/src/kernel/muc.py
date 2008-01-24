@@ -69,6 +69,7 @@ class muc:
    if item.room and (item.room.server() in config.TRUSTED_SERVERS):
     access += 50
   if self.is_admin(item.jid): access += 100
+  for m in self.bot.access_modificators: access = m(item, access)
   return access
 
  def allowed(self, s, required_access):
