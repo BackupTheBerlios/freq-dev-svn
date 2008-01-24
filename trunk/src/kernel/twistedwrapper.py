@@ -53,16 +53,20 @@ class wrapper:
   if not server: server = config.SERVER
   reactor.connectTCP(server, port, self.c)
 
+ def presence(self, status=None):
+  if not self.x: return
+  if not status: status = config.STATUS.replace(r'%VERSION%', self.version)
+  p = domish.Element(('jabber:client', 'presence'))
+  p.addElement('status').addContent(status)
+  p.addElement('show').addContent('chat')
+  self.x.send(p)
+
  def getChild(self, x, n):
   return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
 
  def authd(self, x):
   self.x = x
   print 'Authenticated'
-  p = domish.Element(('jabber:client', 'presence'))
-  p.addElement('status').addContent(config.STATUS.replace(r'%VERSION%', self.version))
-  p.addElement('show').addContent('chat')
-  self.x.send(p)
   self.x.addObserver('/*', self.cb)
   self.x.addObserver('/message', self.cbmessage)
   self.onauthd()
@@ -166,7 +170,7 @@ class wrapper:
    except:
     m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
     m = m.decode('utf8', 'replace')
-    m = u'<font color=red><b>UNCATCHED ERROR:</b></font>%s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>' \
+    m = u'<font color=red><b>UNCATCHED ERROR:</b></font> %s\n<br/>\n(f, *args, *kwargs, thread) was <font color=grey>(%s)</font>' \
          % (escape(m), escape(repr((f, args, kwargs, tc))))
     self.log.err(m)
    self.log.log(escape('=== finished thread #%s' % (tc, )), 1)

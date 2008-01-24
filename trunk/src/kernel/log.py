@@ -27,6 +27,7 @@ class logger:
 
  def __init__(self):
   self.pid = str(os.getpid())
+  self.version = '?'
 
  def _log(self, fn, m, h):
   if not os.access(fn, 0):
@@ -34,7 +35,8 @@ class logger:
    fp.write(h.encode('utf8', 'replace'))
    fp.close()
   fp = file(fn, 'a')
-  fp.write(m.replace(r'$PID$', self.pid).encode('utf8', 'replace'))
+  fp.write(m.replace(r'$PID$', self.pid).replace('$VERSION$', \
+  self.version).encode('utf8', 'replace'))
   fp.close()
 
  def log(self, m, level=9):

@@ -63,6 +63,7 @@ class freqbot:
   self.cmd_cache = {}
   self.version_name = u'freQ'
   self.version_version = u'1.0.99.' + self.getRev()
+  self.log.version = self.version_version
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.authd = 0
   self.wrapper = wrapper(self.version_version)
@@ -79,6 +80,12 @@ class freqbot:
   #reactor.addSystemEventTrigger('before', 'shutdown', self.shutdown)
   self.cc = task.LoopingCall(self.clean_cmd_cache)
   self.cc.start(10)
+  self.k_a = task.LoopingCall(self.keep_alive)
+  self.k_a.start(config.KEEP_ALIVE)
+
+ def keep_alive(self):
+  self.log.log('keep-alive', 1)
+  self.wrapper.presence()
 
  def check_for_ddos(self, jid):
   q = self.cmd_cache.get(jid, 0)
@@ -238,6 +245,7 @@ class freqbot:
   #      3: rename
 
  def onauthd(self):
+  self.wrapper.presence()
   self.log.log('onauthd: stage 1')
   self.authd += 1
   if self.authd > 1: #config.RECONNECT_COUNT:
