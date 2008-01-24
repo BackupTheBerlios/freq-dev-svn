@@ -50,9 +50,7 @@ class item:
   self.bot.muc.invalid_syntax(typ, self, text)
 
  def access(self):
-  if self.ACC == None:
-   if self.room: return self.bot.muc.get_access(self)
-   else: return 0
+  if self.ACC == None: return self.bot.muc.get_access(self)
   else: return self.ACC
 
  def allowed(self, required_access):

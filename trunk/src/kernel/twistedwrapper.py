@@ -31,9 +31,10 @@ import time
 
 class wrapper:
 
- def __init__(self):
+ def __init__(self, version):
   #self.lastsent = {}
   #self.queues = {}
+  self.version = version
   self.tc = 0
   self.th = {}
   self.jid = jid.JID(u'%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE))
@@ -59,7 +60,7 @@ class wrapper:
   self.x = x
   print 'Authenticated'
   p = domish.Element(('jabber:client', 'presence'))
-  p.addElement('status').addContent(config.STATUS)
+  p.addElement('status').addContent(config.STATUS.replace(r'%VERSION%', self.version))
   p.addElement('show').addContent('chat')
   self.x.send(p)
   self.x.addObserver('/*', self.cb)

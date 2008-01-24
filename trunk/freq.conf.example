@@ -13,7 +13,7 @@ ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
 
 ### MUC ###
 NICK = u'freQ-bot'
-STATUS = u''
+STATUS = u'freQ %VERSION% is online'
 
 ### BOT ###
 DATADIR = '/var/freq'

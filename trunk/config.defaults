@@ -14,7 +14,7 @@ ADMINS = []
 
 ### MUC ###
 NICK = u'freQ-bot'
-STATUS = u''
+STATUS = u'freQ %VERSION% is online'
 JOIN_ACCESS = 50
 # who has access to '.join' command...
 ROOM_LIMIT = 99

@@ -65,7 +65,7 @@ class freqbot:
   self.version_version = u'1.0.99.' + self.getRev()
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.authd = 0
-  self.wrapper = wrapper()
+  self.wrapper = wrapper(self.version_version)
   self.wrapper.onauthd = self.onauthd
   self.wrapper.c.addBootstrap('//event/client/basicauth/authfailed', self.failed)
   self.wrapper.c.addBootstrap('//event/client/basicauth/invaliduser', self.failed)
