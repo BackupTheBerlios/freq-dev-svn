@@ -40,7 +40,7 @@ class muc:
   self.bot.g = {}
 
  def msg(self, t, s, b):
-  if len(b)>msglimit: b = b[:msglimit]+'... (truncated)'
+  if len(b) > msglimit: b = b[:msglimit]+'... (truncated)'
   self.bot.log.log(escape(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b)), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
    if b == '': b = '[empty message]'

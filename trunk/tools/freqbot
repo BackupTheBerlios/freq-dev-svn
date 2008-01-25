@@ -27,7 +27,7 @@ CFG=/usr/local/etc/freq.conf
 freq_start()
 {
     if [ -e $PIDFILE ]; then
-        echo "$name is already running? $PIDFILE exists"
+        echo "$name is already running? $PIDFILE exists."
         exit
     fi
     echo -n "Starting $name: "
@@ -38,7 +38,7 @@ freq_start()
 freq_stop()
 {
     if !([ -e $PIDFILE ]); then
-        echo "$name is not running? pid file not found"
+        echo "$name is not running? $PIDFILE not found."
     fi
     echo -n "Stopping $name: "
     killall -u $SUSER >/dev/null 2>&1
