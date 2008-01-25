@@ -78,7 +78,7 @@ class freqbot:
   self.cc = task.LoopingCall(self.clean_cmd_cache)
   self.cc.start(10)
   self.k_a = task.LoopingCall(self.keep_alive)
-  self.k_a.start(config.KEEP_ALIVE)
+  self.k_a.start(config.KEEP_ALIVE_INTERVAL)
 
  def keep_alive(self):
   #self.wrapper.presence()
@@ -86,10 +86,15 @@ class freqbot:
   ping['to'] = config.SERVER
   ping['id'] = 'keep-alive'
   ping['type'] = 'get'
-  ping.addElement('ping', 'urn:xmpp:ping')
+  ping.addElement('query', 'jabber:iq:version')
   self.log.log_e(u'keep-alive: ' + ping.toXml(), 1)
-  # <iq from='juliet@capulet.lit/balcony' to='capulet.lit' id='c2s1' type='get'>
-  # <ping xmlns='urn:xmpp:ping'/>
+  if self.wrapper.x: self.wrapper.send(ping)
+  # <iq
+  # type='get'
+  # from='romeo@montague.net/orchard'
+  # to='juliet@capulet.com/balcony'
+  # id='version_1'>
+  # <query xmlns='jabber:iq:version'/>
   # </iq>
 
  def check_for_ddos(self, jid):
@@ -294,8 +299,9 @@ class freqbot:
     query.addElement('os').addContent(self.version_os)
     self.wrapper.send(answer)
   else:
-   self.log.err_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s' 
-   % (xmlns, fro, ID, typ))
+   self.log.err_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s stanza: %s'
+   % (xmlns, fro, ID, typ, x.toXml()))
+   if typ == 'error': return
    answer = domish.Element(('jabber:client', 'iq'))
    answer['to'] = fro
    if ID:

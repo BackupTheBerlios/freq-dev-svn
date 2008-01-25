@@ -115,7 +115,7 @@ class wrapper:
 
  def send(self, x):
   #ujid = jid.JID(x['to'])
-  self.log.log(u'try to send stanza to %s.. STAGE 1' % (x['to'], ), 0)
+  self.log.log(u'try to send stanza to %s..' % (x['to'], ), 0)
   reactor.callFromThread(self.x.send, x)
   #if {???}: #time.time()-self.lastsent.get(ujid.userhost(), 0)<config.QUEUE_SEND_INTERVAL:
    ##don't send, add it to queue
