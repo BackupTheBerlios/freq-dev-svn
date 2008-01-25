@@ -34,6 +34,7 @@ def access_parse(text):
  return {'jid': p[0].lower(), 'access': int(p[1])}
 
 def access_add(t, s, p):
+ p = p.lower()
  try: j = access_parse(p)
  except:
   s.lmsg(t, 'access_add_invalid_syntax')
@@ -49,6 +50,7 @@ def access_add(t, s, p):
  else: s.lmsg(t, 'not_allowed')
 
 def access_del(t, s, p):
+ p = p.lower()
  if not p:
   s.syntax(t, 'access_del')
   return
@@ -66,11 +68,13 @@ def access_clear(t, s, p):
  s.lmsg(t, 'access_cleared')
 
 def access_show(t, s, p):
+ p = p.lower()
  l = ACCESS_LISTS[s.room.jid]
  if l: s.msg(t, show_list(l, p, 'not found'))
  else: s.lmsg(t, 'access_list_empty')
 
 def access_add_global(t, s, p):
+ p = p.lower()
  try: j = access_parse(p)
  except:
   s.lmsg(t, 'access_add_invalid_syntax')
@@ -82,6 +86,7 @@ def access_add_global(t, s, p):
  s.lmsg(t, 'access_added')
 
 def access_del_global(t, s, p):
+ p = p.lower()
  if not p:
   s.syntax(t, 'access_del')
   return
@@ -98,6 +103,7 @@ def access_clear_global(t, s, p):
  s.lmsg(t, 'access_cleared')
 
 def access_show_global(t, s, p):
+ p = p.lower()
  l = ACCESS_LISTS['global']
  if l: s.msg(t, show_list(l, p, 'not found'))
  else: s.lmsg(t, 'access_list_empty')

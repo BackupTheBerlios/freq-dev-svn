@@ -298,6 +298,8 @@ class freqbot:
     query.addElement('version').addContent(self.version_version)
     query.addElement('os').addContent(self.version_os)
     self.wrapper.send(answer)
+  elif (xmlns == 'jabber:iq:roster') and (typ == 'set'):
+   pass
   else:
    self.log.err_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s stanza: %s'
    % (xmlns, fro, ID, typ, x.toXml()))

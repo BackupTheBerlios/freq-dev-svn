@@ -29,7 +29,7 @@ depends: tools/depends.py
 
 install:
 	@$(MAKE) build
-	@echo -n "Copying files.. "
+	@echo -n "Copying files to $(prefix)/share/freq/: "
 	@rm -rf $(prefix)/share/freq/src/
 	@mkdir -p $(prefix)/share/freq
 	@mkdir -p $(prefix)/etc/rc.d
