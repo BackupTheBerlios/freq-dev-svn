@@ -16,6 +16,7 @@ stop_cmd="freq_stop"
 
 cd /usr/local/etc/
 
+PIDFILE=/var/freq/freq.pid
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
 SUSER=freq
 STDOUT=/var/log/freq/stdout.txt
@@ -23,16 +24,10 @@ PYTHON=/usr/local/bin/python
 START=/usr/local/share/freq/start.py
 CFG=/usr/local/etc/freq.conf
 
-freq_status()
-{
-    killall -0 -u $SUSER >/dev/null 2>&1
-    echo $?
-}
-
 freq_start()
 {
-    if killall -0 -u $SUSER >/dev/null 2>&1; then
-        echo "$name is already running"
+    if [ -e $PIDFILE ]; then
+        echo "$name is already running? $PIDFILE exists"
         exit
     fi
     echo -n "Starting $name: "
@@ -42,12 +37,16 @@ freq_start()
 
 freq_stop()
 {
+    if !([ -e $PIDFILE ]); then
+        echo "$name is not running? pid file not found"
+    fi
     echo -n "Stopping $name: "
     killall -u $SUSER >/dev/null 2>&1
-    sleep 3
+    if [ -e $PIDFILE ]; then sleep 1; fi
     killall -u $SUSER -kill >/dev/null 2>&1
-    sleep 2
+    sleep 1
     echo "done."
+    rm -rf $PIDFILE
 }
 
 freq_restart()

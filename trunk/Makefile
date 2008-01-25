@@ -12,61 +12,67 @@ dist=$(distname)-$(distver).$(rev)
 tarballdir=..
 
 build: doc lang templates tools
-	@echo Building $(dist)
-	$(MAKE) depends
-	$(MAKE) -C doc build version=$(distver).$(rev)
-	chmod -R u+w,u+r,o-w,o+r .
+	@echo Building $(dist)...
+	@$(MAKE) depends
+	@$(MAKE) -C doc build version=$(distver).$(rev)
+	@chmod -R u+w,u+r,o-w,o+r .
 
 clean:
-	#Cleaning
-	$(MAKE) -C doc clean
-	find . -name "*~" -delete
-	find . -name "*.pyc" -delete
+	@ echo Cleaning.
+	@$(MAKE) -C doc clean
+	@find . -name "*~" -delete
+	@find . -name "*.pyc" -delete
 
 depends: tools/depends.py
-	python tools/depends.py
+	@echo Checking if all dependencies installed
+	@python tools/depends.py
 
 install:
-	$(MAKE) build
-	#copying files..
-	rm -rf $(prefix)/share/freq/src/
-	mkdir -p $(prefix)/share/freq
-	mkdir -p $(prefix)/etc/rc.d
-	$(INSTALL) README $(prefix)/share/freq
-	$(INSTALL) CHANGES $(prefix)/share/freq
-	$(INSTALL) COPYING $(prefix)/share/freq
-	$(INSTALLX) start.py $(prefix)/share/freq
-	$(INSTALL) config.defaults $(prefix)/share/freq
+	@$(MAKE) build
+	@echo -n "Copying files.. "
+	@rm -rf $(prefix)/share/freq/src/
+	@mkdir -p $(prefix)/share/freq
+	@mkdir -p $(prefix)/etc/rc.d
+	@$(INSTALL) README $(prefix)/share/freq
+	@$(INSTALL) CHANGES $(prefix)/share/freq
+	@$(INSTALL) COPYING $(prefix)/share/freq
+	@$(INSTALLX) start.py $(prefix)/share/freq
+	@$(INSTALL) config.defaults $(prefix)/share/freq
+	@mkdir -p $(prefix)/share/freq/doc
+	@cp -r doc/html $(prefix)/share/freq/doc/
+	@cp -r doc/help $(prefix)/share/freq/doc/
+	@cp -r doc/syntax $(prefix)/share/freq/doc/
+	@cp -r lang $(prefix)/share/freq/
+	@mkdir -p $(prefix)/share/freq/modules
+	@$(INSTALL) modules/*.py $(prefix)/share/freq/modules
+	@cp -r src $(prefix)/share/freq/
+	@cp -r static $(prefix)/share/freq/
+	@mkdir -p $(prefix)/share/freq/templates
+	@$(INSTALL) templates/*.html $(prefix)/share/freq/templates/
+	@cat src/kernel/freq.py | sed s/self.getRev\(\)/\'$(rev)\'/ >$(prefix)/share/freq/src/kernel/freq.py
+	@rm -rf `find $(prefix)/share/freq -name ".svn"`
+	@chown -R root:wheel $(prefix)/share/freq
+	@find $(prefix)/share/freq -name "*.pyc" -delete
+	@find $(prefix)/share/freq -name "*~" -delete
+	@echo done.
 	$(INSTALL) freq.conf.example $(prefix)/etc
-	mkdir -p $(prefix)/share/freq/doc
-	cp -r doc/html $(prefix)/share/freq/doc/
-	cp -r doc/help $(prefix)/share/freq/doc/
-	cp -r doc/syntax $(prefix)/share/freq/doc/
-	cp -r lang $(prefix)/share/freq/
-	mkdir -p $(prefix)/share/freq/modules
-	$(INSTALL) modules/*.py $(prefix)/share/freq/modules
-	cp -r src $(prefix)/share/freq/
-	cp -r static $(prefix)/share/freq/
-	mkdir -p $(prefix)/share/freq/templates
-	$(INSTALL) templates/*.html $(prefix)/share/freq/templates/
-	cp -r src $(prefix)/share/freq/
-	cat src/kernel/freq.py | sed s/self.getRev\(\)/\'$(rev)\'/ >$(prefix)/share/freq/src/kernel/freq.py
-	rm -rf `find $(prefix)/share/freq -name ".svn"`
-	chown -R root:wheel $(prefix)/share/freq
-	find $(prefix)/share/freq -name "*.pyc" -delete
-	find $(prefix)/share/freq -name "*~" -delete
-	
-	#rc script
 	$(INSTALLX) tools/freqbot $(prefix)/etc/rc.d/freq
-	#user, var..
-	if pw groupshow -n $(botgroup) 2>/dev/null; then echo group $(botgroup) already exists..; else pw groupadd -n $(botgroup); fi
-	if pw usershow -n $(botuser) 2>/dev/null; then echo user $(botuser) already exists..; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
-	mkdir -p $(logdir)
-	chown -R $(botuser):$(botgroup) $(logdir)
-	mkdir -p $(vardir)
-	chown -R $(botuser):$(botgroup) $(vardir)
-	su freq -c "./tools/mkdata $(vardir)"
-	@echo " === $(dist) installed into $(prefix) ==="
+	@echo "Creating user && group:"
+	@if pw groupshow -n $(botgroup) >/dev/null 2>&1; then echo " group $(botgroup) already exists: do nothing"; else pw groupadd -n $(botgroup); fi
+	@if pw usershow -n $(botuser) >/dev/null 2>&1; then echo " user $(botuser) already exists: do nothing"; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
+	@mkdir -p $(logdir)
+	@chown -R $(botuser):$(botgroup) $(logdir)
+	@mkdir -p $(vardir)
+	@chown -R $(botuser):$(botgroup) $(vardir)
+	@su freq -c "./tools/mkdata $(vardir)"
+	@echo
+	@echo "  $(dist) installed into $(prefix)"
+	@echo
+	@echo "  To start freQ-bot You need to:"
+	@echo "    1) add freq_enable=\"YES\" to /etc/rc.conf"
+	@echo "    2) copy $(prefix)/etc/freq.conf.example to $(prefix)/etc/freq.conf and EDIT IT"
+	@echo "    3) start bot: $(prefix)/etc/rc.d/freq start"
+	@echo
 
 deinstall:
 	rm -rf $(prefix)/share/freq

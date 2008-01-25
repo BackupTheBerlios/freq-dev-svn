@@ -49,5 +49,5 @@ class logger:
  def err_e(self, m):
   self.err(escape(m))
 
- def log_e(self, m):
-  self.log(escape(m))
+ def log_e(self, m, level=9):
+  self.log(escape(m), level)
