@@ -22,6 +22,7 @@ import os
 import time
 import config
 import lang
+from twisted.web.html import escape
 
 class logger:
 

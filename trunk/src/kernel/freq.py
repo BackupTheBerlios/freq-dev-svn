@@ -70,9 +70,6 @@ class freqbot:
   self.wrapper.onauthd = self.onauthd
   self.wrapper.c.addBootstrap('//event/client/basicauth/authfailed', self.failed)
   self.wrapper.c.addBootstrap('//event/client/basicauth/invaliduser', self.failed)
-  self.wrapper.register_handler(self.iq_handler, 'iq', 'get')
-  self.wrapper.register_msg_handler(self.call_cmd_handlers)
-  self.wrapper.register_msg_handler(self.call_msg_handlers)
   if config.ENABLE_SQLITE: self.db = db.db()
   self.plug = pluginloader(self, q)
   print 'Initialized'
@@ -245,6 +242,9 @@ class freqbot:
   #      3: rename
 
  def onauthd(self):
+  self.wrapper.x.addObserver('/iq', self.iq_handler)
+  self.wrapper.register_msg_handler(self.call_cmd_handlers)
+  self.wrapper.register_msg_handler(self.call_msg_handlers)
   self.wrapper.presence()
   self.log.log('onauthd: stage 1')
   self.authd += 1
@@ -267,8 +267,15 @@ class freqbot:
   return content
 
  def iq_handler(self, x):
-  for child in x.children:
-   if (child.__class__==domish.Element) and (child.name=='query') and (child.uri=='jabber:iq:version'):
+  self.wrapper.call(self._iq_handler, x)
+
+ def _iq_handler(self, x):
+  for query in x.elements(): xmlns = query.uri
+  fro = x.getAttribute('from', config.SERVER)
+  ID = x.getAttribute('id', None)
+  typ = x.getAttribute('type')
+  if typ == 'result': return
+  if (xmlns == 'jabber:iq:version') and (typ == 'get'):
     answer = domish.Element(('jabber:client', 'iq'))
     answer['type'] = 'result'
     answer['id'] = x.getAttribute('id')
@@ -277,6 +284,19 @@ class freqbot:
     query.addElement('name').addContent(self.version_name)
     query.addElement('version').addContent(self.version_version)
     query.addElement('os').addContent(self.version_os)
+    self.wrapper.send(answer)
+  else:
+   self.log.err_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s' % (xmlns, fro, ID, typ))
+   answer = domish.Element(('jabber:client', 'iq'))
+   answer['to'] = fro
+   if ID:
+    answer['id'] = ID
+    answer['type'] = 'error'
+    error = answer.addElement('error')
+    error['type'] = 'cancel'
+    error['code'] = '501'
+    cond = error.addElement('feature-not-implemented')
+    cond['xmlns']='urn:ietf:params:xml:ns:xmpp-stanzas'
     self.wrapper.send(answer)
 
  def getRev(self):

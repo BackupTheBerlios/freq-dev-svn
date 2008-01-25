@@ -37,7 +37,8 @@ class wrapper:
   self.version = version
   self.tc = 0
   self.th = {}
-  self.jid = jid.JID(u'%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE))
+  self.sjid = u'%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE)
+  self.jid = jid.JID(self.sjid)
   self.onauthd = None
   self.c = client.basicClientFactory(self.jid, config.PASSWD)
   self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd)
@@ -67,7 +68,7 @@ class wrapper:
  def authd(self, x):
   self.x = x
   print 'Authenticated'
-  self.x.addObserver('/*', self.cb)
+  #self.x.addObserver('/*', self.cb)
   self.x.addObserver('/message', self.cbmessage)
   self.onauthd()
 

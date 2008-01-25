@@ -81,15 +81,16 @@ except:
  bot.log.err(escape('FATAL ERROR: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
  raise
 
-def log(m):
+def log(m, e=False):
  bot.log.log(m)
+ if e: bot.log.err(m)
 
 if bot.smart_shutdown:
  log('freQ-bot normally stopped')
 elif not config.RESTART_INTERVAL:
- log('freQ-bot fault (restart disabled)')
+ log('freQ-bot fault (restart disabled)', True)
 else:
- log('freQ-bot fault (restarting...)')
+ log('freQ-bot fault (restarting...)', True)
  tm = tm - int(time.time())
  if tm > 0:
   log('wait %s seconds...' % (tm, ))

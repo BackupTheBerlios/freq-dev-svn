@@ -36,7 +36,7 @@ class muc:
   self.bot = bot
   self.join_handlers = []
   self.leave_handlers = []
-  self.bot.wrapper.register_handler(self.presence_handler, 'presence')
+  self.bot.wrapper.x.addObserver('/presence', self.presence_handler)
   self.bot.g = {}
 
  def msg(self, t, s, b):
