@@ -18,7 +18,6 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-from options import optstringlist
 
 CENSORLIST = optstringlist('censor')
 

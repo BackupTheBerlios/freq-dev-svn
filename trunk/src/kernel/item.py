@@ -39,7 +39,7 @@ class item:
 
  def msg(self, typ, body):
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
-   self.bot.muc.msg(typ, self.jid, lang.msg('see_private', l=lang.getLang(self.jid)))
+   self.bot.muc.msg(typ, self.jid, self.get_msg('see_private'))
    typ = 'chat'
   if typ in ['chat', 'groupchat']: self.bot.muc.msg(typ, self.jid, body)
   elif typ == 'null': pass
@@ -50,8 +50,14 @@ class item:
    else: raise ValueError('can\'t send redirect:* msg')
   else: raise ValueError('invalid typ: '+typ)
 
+ def get_lang(self):
+  return lang.getLang(self.jid)
+
+ def get_msg(self, template, params=()):
+  return lang.msg(template, params, self.get_lang())
+
  def lmsg(self, typ, template, *params):
-  self.msg(typ, lang.msg(template, params, lang.getLang(self.jid)))
+  self.msg(typ, self.get_msg(template, params))
 
  def syntax(self, typ, text):
   self.bot.muc.invalid_syntax(typ, self, text)
@@ -94,7 +100,8 @@ class item:
   if self.room: return self.room.jid
   else: return self.jid.split('/')[0] # bare jid
 
-def item_x(i, access): # IMHO this function is ugly, but i don't know how to do it better //kreved
+def item_x(i, access):
+ # IMHO this function is not pure, but i don't know how to do it better //kreved
  r = item(i.bot, i.room)
  #print 'item_x(i=..'
  #print i

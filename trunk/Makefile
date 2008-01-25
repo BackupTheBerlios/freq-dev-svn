@@ -100,3 +100,6 @@ tarball:
 	@echo done.
 version:
 	@echo $(dist)
+
+sort:
+	@tools/sort

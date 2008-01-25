@@ -19,28 +19,54 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-def join_handler(t, s, p):
- p = p.replace('\n', '')
- if p.count('/'): s.lmsg(t, 'join_slash')
- else:
-  if not p: s.syntax(t, 'join')
-  else:
-   if p.count(' '):
-    groupchat = p.split()[0]
-    nick = p[len(groupchat)+1:]
-   else:
-    groupchat = p
-    nick = config.NICK
-   if groupchat in bot.g.keys(): s.lmsg(t, 'join_already_there')
-   else:
-    q = blacklist_load()
-    if groupchat in q.keys():
-     reason = q[groupchat]
-     if reason: s.lmsg(t, 'join_not_permitted_reason', groupchat, reason)
-     else: s.lmsg(t, 'join_not_permitted', groupchat)
-    else:
-     g = bot.muc.join(groupchat, nick)
-     g.joiner = (s, t)
-     bot.log.log_e(u'joining %s (asked by %s)' % (p, s.jid), 5)
+BL = optstringlist('blacklist')
 
-bot.register_cmd_handler(join_handler, '.join', config.JOIN_ACCESS)
+def blacklist_parse(s):
+ if s.count(' '):
+  n = s.find(' ')
+  return (s[:n], s[n+1:])
+ else: return (s, '')
+
+def blacklist_load():
+ q = BL['global']
+ return dict([blacklist_parse(i) for i in q])
+
+def blacklist_dump(q):
+ BL['global'] = [u'%s %s' % (room, q[room]) for room in q.keys()]
+
+def blacklist_add(t, s, p):
+ p = p.strip().lower()
+ if not p:
+  s.syntax(t, 'blacklist_add')
+  return
+ q = blacklist_load()
+ room, reason = blacklist_parse(p)
+ q[room] = reason
+ blacklist_dump(q)
+ s.lmsg(t, 'ok')
+
+def blacklist_del(t, s, p):
+ room = p.strip().lower()
+ if not p:
+  s.syntax(t, 'blacklist_del')
+  return
+ q = blacklist_load()
+ if room in q.keys():
+  q.pop(room)
+  blacklist_dump(q)
+  s.lmsg(t, 'blacklist_deleted')
+ else: s.lmsg(t, 'blacklist_not_found')
+
+def blacklist_clear(t, s, p):
+ blacklist_dump({})
+ s.lmsg(t, 'list_cleared')
+
+def blacklist_show(t, s, p):
+ q = BL['global']
+ if q: s.msg(t, show_list(q, p, s.get_msg('not_found')))
+ else: s.lmsg(t, 'list_empty')
+
+bot.register_cmd_handler(blacklist_add, '.blacklist_add', 50)
+bot.register_cmd_handler(blacklist_del, '.blacklist_del', 50)
+bot.register_cmd_handler(blacklist_clear, '.blacklist_clear', 50)
+bot.register_cmd_handler(blacklist_show, '.blacklist_show', 50)

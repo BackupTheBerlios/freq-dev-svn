@@ -1,14 +1,32 @@
+ 
+ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
 alias_cleared cleared
 alias_deleted deleted
 alias_empty alias list is empty
+alias_no_access not allowed
+alias_not_allowed not allowed
 alias_not_found alias not found
 alias_saved saved
+alias_saved_with_access alias saved (required level: %s, alias grants: %s)
+censor censor from %s\nnick: %s(%s)\ncensor: %s\n%s 
+chatlog_banned %s was banned
+chatlog_banned_reason %s was banned: %s
+chatlog_change_subject %s has set the subject: %s
+chatlog_changed_nick changes nick to %s
+chatlog_joined joins the room
+chatlog_kicked %s was kicked
+chatlog_kicked_reason %s was kicked: %s
+chatlog_leaved leaves the room
+chatlog_leaved_reason leaves the room: %s
+chatlog_subject Subject: %s
 cleaned cleaned
 current_lang Current language is English (en)
+disco_empty disco list is empty
 disco_error can't query
 from_me me
 from_you you
 get_msglimit %s
+globmsg_sent sent to %s rooms
 google? google?
 google_history_notfound history not found for 'next'
 google_no_results no results
@@ -26,6 +44,10 @@ idle_result %s`s idle is %s
 info %s %s's uptime is %s\nload average: %s stanza/sec, stanza length %s
 invalid_syntax Syntax:\n%s
 invalid_syntax_default Invalid syntax
+join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"
+join_failed can't join to %s (with nick %s)\nerror:\n%s
+join_slash invalid room or nick: "/" is not allowed
+join_success joined to %s with nick %s
 joined Joined '%s'
 lang_changed Language successfully changed
 lang_list Available languages: %s
@@ -44,56 +66,34 @@ muc_only this command available only in conference
 muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %s
 nick_update ok
 nick_updated ok
+noisy_already_off "noisy" mode is not enabled
+noisy_already_on "noisy" mode already turned on
+noisy_ban %s banned... %s
+noisy_join %s: hello
+noisy_kick bustards! the killed %s?? %s?
+noisy_leave %s: you leave? :( (%s)
+noisy_rename %s: change nick??
 not_allowed Not allowed.
+ok O'key
 ping_error can`t ping
 pong pong from %s %s
 pyexec.ok Successful!
+rewrite_cycle ERROR: recursion level more than %s
+rewrite_too_many_commands Too many commands! need to be <%s
 see_private see private
 stats_error unknown
 stats_result Stats for %s\nTotal: %s users\nOnline: %s users
 status_update ok
 status_updated ok
+status_whom who?
 test.passed passed
 time_error unknown
 uptime_error can't query
 uptime_result %s's uptime is %s
+vcard_error failed to fetch vcard
 version_error failed
 version_result_jid on %s %s %s %s
 version_result_nick %s use %s %s %s
 version_result_self %s %s %s
 version_result_your you use %s %s %s
 whom? who?
-ok O'key
-noisy_already_on "noisy" mode already turned on
-noisy_already_off "noisy" mode is not enabled
-noisy_leave %s: you leave? :( (%s)
-noisy_kick bustards! the killed %s?? %s?
-noisy_ban %s banned... %s
-noisy_rename %s: change nick??
-noisy_join %s: hello
-join_failed can't join to %s (with nick %s)\nerror:\n%s
-join_success joined to %s with nick %s
-join_slash invalid room or nick: "/" is not allowed
-join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"
-globmsg_sent sent to %s rooms
-status_whom who?
-disco_empty disco list is empty
-censor censor from %s\nnick: %s(%s)\ncensor: %s\n%s 
-ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
-rewrite_cycle ERROR: recursion level more than %s
-rewrite_too_many_commands Too many commands! need to be <%s
-vcard_error failed to fetch vcard
-alias_saved_with_access alias saved (required level: %s, alias grants: %s)
-alias_no_access not allowed
-alias_not_allowed not allowed
-chatlog_joined joins the room
-chatlog_leaved leaves the room
-chatlog_subject Subject: %s
-chatlog_kicked %s was kicked
-chatlog_banned %s was banned
-chatlog_kicked_reason %s was kicked: %s
-chatlog_banned_reason %s was banned: %s
-chatlog_change_subject %s has set the subject: %s
-chatlog_leaved_reason leaves the room: %s
-chatlog_changed_nick changes nick to %s
- 
