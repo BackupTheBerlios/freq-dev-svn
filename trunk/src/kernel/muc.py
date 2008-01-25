@@ -208,7 +208,7 @@ class muc:
   p = domish.Element(('jabber:client', 'presence'))
   p['to'] = u'%s/%s' % (groupchat.jid, nick)
   p.addElement('status').addContent(options.get_option(groupchat.jid, 'status', \
-  config.STATUS.replace('%VERSION%', self.bot.version_version)))
+  config.STATUS).replace('%VERSION%', self.bot.version_version))
   p.addElement('x', 'http://jabber.org/protocol/muc').addElement('history').__setitem__('maxchars', '0')
   self.bot.wrapper.send(p)
   q = self.load_groupchats()

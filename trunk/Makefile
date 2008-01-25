@@ -78,7 +78,7 @@ deinstall:
 	rm -rf $(prefix)/share/freq
 	rm -f $(prefix)/etc/rc.d/freq
 	rm -f $(prefix)/etc/freq.conf.example
-	@echo you can also remove $(logdir) && $(vardir)
+	@echo you can also remove "$(logdir) && $(vardir)"
 
 userdel:
 	pw userdel -n $(botuser)
