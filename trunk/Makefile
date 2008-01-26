@@ -94,8 +94,8 @@ tarball:
 	@find $(tarballdir)/$(dist) -name "*.pyc" -delete
 	@find $(tarballdir)/$(dist) -name ".svn" | xargs rm -rf
 	@echo -n "Creating tarball: "
-	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tar.bz2 $(dist)
-	@echo $(tarballdir)/$(dist).tar.bz2
+	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tbz $(dist)
+	@echo $(tarballdir)/$(dist).tbz
 	@rm -rf $(tarballdir)/$(dist)
 	@echo done.
 version:
