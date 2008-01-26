@@ -158,7 +158,7 @@ class alist:
    self.clear(room)
    source.lmsg(typ, 'cleared')
   else:
-   try: self.append(room, cmd)
+   try: self.append(room, cmd[:80])
    except NickNotFound: source.lmsg(typ, 'nick_not_found')
    except NoJID: source.lmsg(typ, 'alist_add_nojid')
    except MyRegexpError: source.lmsg(typ, 'invalid_regexp')

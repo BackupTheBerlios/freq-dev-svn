@@ -5,7 +5,9 @@ muc admin
 
 Формальный синтаксис:
 
-  .akick [/N(d|h|m|s)] ((jid|nick) [exp] текст)|ник
+  .akick [/N(d|h|m|s)] jid [exp] jid
+  .akick [/N(d|h|m|s)] nick [exp] ник
+  .akick [/N(d|h|m|s)] ник
   .akick show
   .akick del N
   .akick clear

@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def alias_add_handler(t, s, p):
  if p.count('='):
   a = p[:p.find('=')].lower().strip()
