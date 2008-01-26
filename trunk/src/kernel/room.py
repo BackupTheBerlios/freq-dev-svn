@@ -58,7 +58,9 @@ class room:
   self.globalbot.muc.join(self.jid)
 
  def moderate(self, jn, jid_nick, ra, set_to, reason=None):
-  if not reason: reason = self.bot.nick
+  if not reason:
+   try: reason = self.bot.nick
+   except: reason = 'freQ'
   packet = IQ(self.globalbot.wrapper.x, 'set')
   query = packet.addElement('query', 'http://jabber.org/protocol/muc#admin')
   i = query.addElement('item')
@@ -78,6 +80,12 @@ class room:
 
  def msg(self, body):
   self.globalbot.muc.msg('groupchat', self.jid, body)
+
+ def get_lang(self):
+  return lang.getLang(self.jid)
+
+ def get_msg(self, template, params=()):
+  return lang.msg(template, params, self.get_lang())
 
  def lmsg(self, template, *params):
   self.msg(lang.msg(template, params, lang.getLang(self.jid)))

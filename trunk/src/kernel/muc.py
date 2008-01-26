@@ -41,6 +41,7 @@ class muc:
 
  def msg(self, t, s, b):
   if len(b) > msglimit: b = b[:msglimit]+'... (truncated)'
+  b = b.strip()
   self.bot.log.log(escape(u'attempt to send message to %s (type "%s", body: %s)' % (s, t, b)), 3)
   if (s in self.bot.g.keys()) or (t=='chat'):
    if b == '': b = '[empty message]'
@@ -164,14 +165,17 @@ class muc:
      #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
      #self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
      #if nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid, 'non-available presence')
-     self.bot.log.err(u'unavailable|error from %s\nstanza:\n%s' % (escape(x['from']), escape(x.toXml())))
+     self.bot.log.err(u'unavailable|error from %s\nstanza:\n%s' % \
+     (escape(x['from']), escape(x.toXml())))
      gj = groupchat.joiner
      if gj:
-      self.bot.log.log(u'reporting to %s about failed joining..' % (escape(gj[0].jid), ), 6)
+      self.bot.log.log(u'reporting to %s about failed joining..' % \
+      (escape(gj[0].jid), ), 6)
       gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick, x.toXml())
       groupchat.joiner = None
      if x['from'].endswith(self.get_nick(groupchat.jid)):
-      self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % (escape(x['from']), escape(x.toXml())), 7)
+      self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % \
+      (escape(x['from']), escape(x.toXml())), 7)
       self.leave(groupchat.jid, 'error|unavailable presence...')
   else:
    if typ in ('subscribe', 'subscribed', 'unsubscribe', 'unsubscribed'):
