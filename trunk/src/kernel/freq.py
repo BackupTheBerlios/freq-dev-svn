@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 import twisted
 import twisted.python.log
 from twisted.internet import reactor, task
@@ -80,6 +81,25 @@ class freqbot:
   self.k_a = task.LoopingCall(self.keep_alive)
   self.k_a.start(config.KEEP_ALIVE_INTERVAL)
 
+ def onauthd(self):
+  self.wrapper.x.addObserver('/iq', self.iq_handler)
+  self.wrapper.register_msg_handler(self.call_cmd_handlers)
+  self.wrapper.register_msg_handler(self.call_msg_handlers)
+  self.wrapper.presence()
+  self.log.log('onauthd: stage 1')
+  self.authd += 1
+  if self.authd > 1: #config.RECONNECT_COUNT:
+   self.log.err('Disconnected (reconnect disabled)')
+   reactor.stop()
+  self.muc = muc(self)
+  reactor.callLater(5, self.onauthd2)
+
+ def onauthd2(self):
+  self.log.log('onauthd: stage 2')
+  groupchats = self.muc.load_groupchats()
+  for i in groupchats: self.muc.join(i)
+  print 'Joined %s groupchats' % len(groupchats, )
+
  def keep_alive(self):
   #self.wrapper.presence()
   ping = domish.Element(('jabber:client', 'iq'))
@@ -102,23 +122,12 @@ class freqbot:
   self.cmd_cache[jid] = q + 1
   return q < config.CMD_LIMIT
 
- def register_access_modificator(self, func):
-  self.access_modificators.append(func)
-
  def clean_cmd_cache(self):
   self.cmd_cache = {}
 
  def shutdown(self, *args, **kwargs):
-  try:
-   self.stopped = True
-   self.log.log('<b>Shutting down (args=%s; kwargs=%s)</b>' % (escape(repr(args)), escape(repr(kwargs))))
-   x = domish.Element(('jabber:client', 'presence'))
-   x['type'] = 'unavailable'
-   x.addElement('status').addContent('Shutting down')
-   self.wrapper.send(x)
-  except:
-   m = ''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
-   self.log.err(escape(m))
+  self.stopped = True
+  self.log.log('<b>Shutting down (args=%s; kwargs=%s)</b>' % (escape(repr(args)), escape(repr(kwargs))))
 
  def check_text(self, source, text):
   #if source.room and (source.room.bot.nick == self.muc.get_nick(source.room.jid)):
@@ -144,6 +153,9 @@ class freqbot:
   print 'connect failed!'
   self.log.err('cannot login to jabber account (eg invalid username/password ) :(')
   reactor.stop()
+
+ def register_access_modificator(self, func):
+  self.access_modificators.append(func)
 
  def register_rewrite_engine(self, func):
   self.rewriteengines.append(func)
@@ -193,7 +205,7 @@ class freqbot:
    for engine in self.rewriteengines:
     r_commands = []
     for command in commands:
-     r_command = engine(command)
+     r_command = self.call(engine, command)
      if r_command:
       r_commands = r_commands + r_command
       changed = True
@@ -232,46 +244,27 @@ class freqbot:
     self.log.log('ignored subject from %s, stanza was %s' % (escape(s), escape(stanza.toXml())), 3)
    else:
     self.log.log('got subject from %s, stanza was %s, let\'s call topichandlers' % (escape(s), escape(stanza.toXml())), 1)
-    for i in self.topichandlers: i(s, subject)
+    for i in self.topichandlers: self.call(i, s, subject)
   else:
    for i in self.msghandlers:
-    if (t == 'groupchat') or not i[1]: i[0](s, b)
+    if (t == 'groupchat') or not i[1]: self.call(i[0], s, b)
 
  def call_bad_handlers(self, s, text, badword):
-  for i in self.badhandlers: i(s, text, badword)
+  for i in self.badhandlers: self.call(i, s, text, badword)
 
  def call_join_handlers(self, item):
   for i in self.joinhandlers:
    self.log.log('call_join_handler: %s' % (escape(repr(i)), ), 1)
-   i(item)
+   self.call(i, item)
 
  def call_leave_handlers(self, item, typ, reason):
   for i in self.leavehandlers:
-   i(item, typ, reason)
+   self.call(i, item, typ, reason)
    self.log.log('called_leave_handler(reason=%s,typ=%s): %s' % (reason, typ, escape(repr(i))), 1)
   # typ: 0: leave
   #      1: kick
   #      2: ban
   #      3: rename
-
- def onauthd(self):
-  self.wrapper.x.addObserver('/iq', self.iq_handler)
-  self.wrapper.register_msg_handler(self.call_cmd_handlers)
-  self.wrapper.register_msg_handler(self.call_msg_handlers)
-  self.wrapper.presence()
-  self.log.log('onauthd: stage 1')
-  self.authd += 1
-  if self.authd > 1: #config.RECONNECT_COUNT:
-   self.log.err('Disconnected (reconnect disabled)')
-   reactor.stop()
-  self.muc = muc(self)
-  reactor.callLater(5, self.onauthd2)
-
- def onauthd2(self):
-  self.log.log('onauthd: stage 2')
-  groupchats = self.muc.load_groupchats()
-  for i in groupchats: self.muc.join(i)
-  print 'Joined %s groupchats' % len(groupchats, )
 
  def read_file(self, fn):
   f = file(fn, 'r')
@@ -280,7 +273,7 @@ class freqbot:
   return content
 
  def iq_handler(self, x):
-  self.wrapper.call(self._iq_handler, x)
+  self.call(self._iq_handler, x)
 
  def _iq_handler(self, x):
   for query in x.elements(): xmlns = query.uri
@@ -301,8 +294,8 @@ class freqbot:
   elif (xmlns == 'jabber:iq:roster') and (typ == 'set'):
    pass
   else:
-   self.log.err_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s stanza: %s'
-   % (xmlns, fro, ID, typ, x.toXml()))
+   self.log.log_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s stanza: %s'
+   % (xmlns, fro, ID, typ, x.toXml()), 1)
    if typ == 'error': return
    answer = domish.Element(('jabber:client', 'iq'))
    answer['to'] = fro
@@ -322,3 +315,13 @@ class freqbot:
    time.sleep(1)
    return p.read()
   except: return 'dev' 
+
+ def call(self, f, *args, **kwargs):
+  try: return f(*args, **kwargs)
+  except:
+   m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+   m = m.decode('utf8', 'replace')
+   m = u'<font color=red><b>ERROR:</b></font> %s\n<br/>\n(f, *args, *kwargs) was <font color=grey>(%s)</font>' \
+         % (escape(m), escape(repr((f, args, kwargs))))
+   self.log.err(m)
+   return 0

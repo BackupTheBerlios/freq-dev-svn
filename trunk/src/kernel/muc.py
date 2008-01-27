@@ -71,7 +71,7 @@ class muc:
    if item.room and (item.room.server() in config.TRUSTED_SERVERS):
     access += 50
   if self.is_admin(item.jid): access += 100
-  for m in self.bot.access_modificators: access = m(item, access)
+  for m in self.bot.access_modificators: access = self.bot.call(m, item, access)
   return access
 
  def allowed(self, s, required_access):
@@ -175,7 +175,7 @@ class muc:
       (escape(gj[0].jid), ), 6)
       gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick, x.toXml())
       groupchat.joiner = None
-     if x['from'].endswith(self.get_nick(groupchat.jid)):
+     if x['from'].endswith(self.get_nick(groupchat.jid)) and config.ROOM_LIMIT:
       self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % \
       (escape(x['from']), escape(x.toXml())), 7)
       self.leave(groupchat.jid, 'error|unavailable presence...')

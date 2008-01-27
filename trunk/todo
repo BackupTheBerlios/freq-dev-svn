@@ -41,4 +41,4 @@
   http://chatlogs.kreved.org/freq/eth0@conference.jabber.ru/2008/01/25.html#19:02:24
   это не произойдёт, если установить ROOM_LIMIT=0 (естественно тогда лучше сделать и JOIN_ACCESS=50)
 - .none, .member, .ban, etc - определение jid или ник имелся в виду - переписать? (muc_admin/moderate.py)
-? отвечать на discovery, xep-(не помню какой)
+? отвечать на discovery, xep-не-помню-какой
