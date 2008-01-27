@@ -35,9 +35,10 @@ def cerberus_mode_handler(t, s, p):
 
 def get_cerberus_mode(item):
  mode = item.room.get_option('cerberus_mode', config.CERBERUS_MODE)
- if (mode == 'ban') and not(item.room.bot.can_ban(item)): mode = 'kick'
- if (mode == 'kick') and not(item.room.bot.can_kick(item)): mode = 'visitor'
- if (mode == 'visitor') and not(item.room.bot.can_visitor(item)): mode = 'warning'
+ if item.room and item.room.bot:
+  if (mode == 'ban') and not(item.room.bot.can_ban(item)): mode = 'kick'
+  if (mode == 'kick') and not(item.room.bot.can_kick(item)): mode = 'visitor'
+  if (mode == 'visitor') and not(item.room.bot.can_visitor(item)): mode = 'warning'
  return mode
 
 def set_cerberus_reason(t, s, p):
