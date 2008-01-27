@@ -27,8 +27,12 @@ CFG=/usr/local/etc/freq.conf
 freq_start()
 {
     if [ -e $PIDFILE ]; then
-        echo "$name is already running? $PIDFILE exists."
-        exit
+        if killall -0 -u freq 2>/dev/null;
+        then
+          echo "$name is already running? Check $PIDFILE"
+          exit
+        else echo "Hmm... $PIDFILE already exists, but $name is not running..."
+        fi
     fi
     echo -n "Starting $name: "
     su $SUSER -c "$PYTHON $START $CFG >$STDOUT 2>&1 &"
