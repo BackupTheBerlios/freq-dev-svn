@@ -6,5 +6,3 @@ Service Discovery (обзор сервисов)
  '.disco conference.jabber.ru bombus' - найдет все конференции на conference.jabber.ru, в описании которых есть слово bombus
  '.disco conference.jabber.ru botzone@' - покажет на каком месте находится конфа botzone@
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

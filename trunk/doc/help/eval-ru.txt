@@ -3,5 +3,3 @@ superadmin
 .eval 2+2
 .eval os.listdir('.')
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

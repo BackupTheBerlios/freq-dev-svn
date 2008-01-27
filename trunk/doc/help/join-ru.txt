@@ -3,5 +3,3 @@ muc
 1) .join foo@conference.jabber.org - заходит в foo@
 2) .join foo@conference.jabber.org bar - заходит в foo@ с ником bar
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

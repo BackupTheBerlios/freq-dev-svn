@@ -5,5 +5,3 @@ net
  3) .google 1-10 jabber - показать первые десять результатов
  4) .google next - повторить предыдущий поиск и показать новые результаты
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

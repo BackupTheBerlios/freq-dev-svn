@@ -3,5 +3,3 @@ alias
  1) .alias_show - показать все алиасы
  2) .alias_show foo - показать алиас foo (если таковой существует, конечно)
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

@@ -2,5 +2,3 @@ muc
 список конференций, где сидит бот
 Cинтаксис: .groupchats
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

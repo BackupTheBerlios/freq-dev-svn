@@ -5,5 +5,3 @@ query
  2) .version foo - просмотр версии участника текущей конференции с ником foo (например .version Вася) 
  3) .version foo.bar - просмотр версии сервера foo.bar, например .version jabber.org
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

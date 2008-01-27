@@ -4,5 +4,3 @@ superadmin
  1) .sh ls /home
  2) .sh uptime
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

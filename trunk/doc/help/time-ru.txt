@@ -4,5 +4,3 @@ query
  1) .time - просмотр своего времени 
  2) .time foo - просмотр времени пользователя с ником foo
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

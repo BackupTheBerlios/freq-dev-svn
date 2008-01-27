@@ -6,5 +6,3 @@ basic
  3) help bar - показать справку по команде bar
  4) help -ln bar - показать справку по команде bar на языке ln (например help -en test)
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

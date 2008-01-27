@@ -2,5 +2,3 @@ query
 показывает аптайм сервера. Например
  .uptime jabber.org
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

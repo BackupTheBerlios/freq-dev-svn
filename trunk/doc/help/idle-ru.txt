@@ -3,5 +3,3 @@ query
 Синтаксис:
  .idle foo - показывает время бездействия пользователя с ником foo
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

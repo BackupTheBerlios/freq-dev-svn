@@ -18,10 +18,11 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def load_help_content(k, l):
  fn = u'doc/help/%s-%s.txt' % (k, l)
  fp = file(fn.encode('utf8'), 'r')
- ctg = fp.readline().decode('utf8')
- content = fp.read().decode('utf8')
+ ctg = fp.readline().decode('utf8').strip()
+ content = fp.read().decode('utf8').strip()
  fp.close()
  return content

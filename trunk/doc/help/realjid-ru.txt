@@ -2,5 +2,3 @@ muc
 показывает jid участника конференции.
 Синтаксис: .realjid Вася
 
----written by---
-main@conference.burdakov.pp.ru/некий субъект

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+for i in `ls doc/help`;
+do
+ j=doc/help/$i
+ echo -n cleaning $j...
+ cat $j | sed /main@conference.burdakov.pp.ru/d | sed /written.by/d >./hti
+ mv ./hti $j
+ echo ok
+done
