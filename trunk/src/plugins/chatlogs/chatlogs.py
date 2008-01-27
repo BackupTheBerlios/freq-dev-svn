@@ -83,14 +83,6 @@ def close_log(fn):
   fp.write(log_footer.encode('utf8', 'replace'))
   fp.close()
 
-def enable_logging(t, s, p):
- s.room.set_option('chatlogs', 'on')
- s.lmsg(t, 'chatlogs_enabled')
-
-def disable_logging(t, s, p):
- s.room.set_option('chatlogs', 'off')
- s.lmsg(t, 'chatlogs_disabled')
-
 def log_regex_url(matchobj):
  # 06.03.05(Sun) slipstream@yandex.ru urls parser
  return '<a href="' + matchobj.group(0) + '">' + matchobj.group(0) + '</a>'
@@ -166,6 +158,18 @@ def chatlogs_leave_handler(item, typ, reason):
 
 if config.CHATLOGS_ALLOW_SWICH: log_access = 11
 else: log_access = 50
+
+def enable_logging(t, s, p):
+ if s.room.get_option('chatlogs') == 'on': s.lmsg(t, 'chatlogs_already_enabled')
+ else:
+  s.room.set_option('chatlogs', 'on')
+  s.lmsg(t, 'chatlogs_enabled')
+
+def disable_logging(t, s, p):
+ if s.room.get_option('chatlogs') == 'off': s.lmsg(t, 'chatlogs_already_disabled')
+ else:
+  s.room.set_option('chatlogs', 'off')
+  s.lmsg(t, 'chatlogs_disabled')
 
 bot.register_cmd_handler(enable_logging, '.enable_logging', log_access, g=1)
 bot.register_cmd_handler(disable_logging, '.disable_logging', log_access, g=1)

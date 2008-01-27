@@ -127,3 +127,6 @@ alist_add_nojid не вижу его jid..
 invalid_regexp ошибка в регулярном выражении
 added добавлено
 alist_left истекает через
+i_am_not_there меня нет там
+chatlogs_already_enabled чатлоги уже включены
+chatlogs_already_disabled чатлоги уже отключены

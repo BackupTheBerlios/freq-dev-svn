@@ -43,6 +43,7 @@ def blacklist_add(t, s, p):
  room, reason = blacklist_parse(p)
  q[room] = reason
  blacklist_dump(q)
+ if room in bot.g.keys(): bot.muc.leave(room, reason)
  s.lmsg(t, 'ok')
 
 def blacklist_del(t, s, p):

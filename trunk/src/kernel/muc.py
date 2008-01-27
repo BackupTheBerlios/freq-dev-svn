@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 from twisted.words.xish import domish
 from twisted.web.html import escape
 from item import item as new_item
@@ -157,10 +158,11 @@ class muc:
        item.nick = new_nick
        groupchat[new_nick] = item
       self.bot.call_leave_handlers(item, leave_type, reason)
-      if (item.nick == self.get_nick(groupchat.jid)) and (leave_type <> 3): self.leave(groupchat.jid)
+      if config.ROOM_LIMIT:
+       if (item.nick == self.get_nick(groupchat.jid)) and (leave_type <> 3): self.leave(groupchat.jid)
      else:
       #error
-      self.bot.log.err(u'unknown error presence: '+escape(x.toXml()))
+      self.bot.log.err(u'unknown error presence: ' + escape(x.toXml()))
     else:
      #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
      #self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
