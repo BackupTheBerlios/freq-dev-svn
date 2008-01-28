@@ -35,8 +35,6 @@ class muc:
  def __init__(self, bot):
   self.g_file = '%s/text/groupchats.txt' % (config.DATADIR, )
   self.bot = bot
-  self.join_handlers = []
-  self.leave_handlers = []
   self.bot.wrapper.x.addObserver('/presence', self.presence_handler)
   self.bot.g = {}
 
@@ -118,7 +116,6 @@ class muc:
        self.bot.log.log(u'reporting to %s about successful joining..' % (gj[0].jid, ), 6)
        groupchat.joiner = None
      item.handled = True
-     self.call_join_handlers(item)
      self.bot.call_join_handlers(item)
     if not(item.nick == self.get_nick(groupchat.jid)): #if item isn't bot...
      self.bot.check_text(item, item.nick)
@@ -126,7 +123,6 @@ class muc:
    else:
     item = groupchat.pop(nick, None)
     if item:
-     self.call_leave_handlers(item)
      # parse leave_type, reason
      # typ: 0: leave
      #      1: kick
@@ -186,19 +182,6 @@ class muc:
     p['to'] = x['from']
     self.bot.wrapper.send(p)
     self.bot.log.log('ROSTER: %s - %s' % (typ, p['to']), 5)
-
- def register_join_handler(self, func):
-  self.join_handlers.append(func)
-
- def register_leave_handler(self, func):
-  self.leave_handlers.append(func)
-
- def call_join_handlers(self, item):
-  if item.room.bot:
-   for i in self.join_handlers: i(item)
-
- def call_leave_handlers(self, item):
-  for i in self.leave_handlers: i(item)
 
  def get_nick(self, groupchat):
   return options.get_option(groupchat, 'nick', config.NICK)

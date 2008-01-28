@@ -56,10 +56,9 @@ try:
  fp.close()
  if p <> pid:
   os.kill(int(p), 3)
-  time.sleep(3)
+  time.sleep(1)
   try: os.kill(int(p), 9)
   except: pass
-  time.sleep(1)
   sys.stdout.write('pid %s killed.. ' % (p, ))
 except: pass
 

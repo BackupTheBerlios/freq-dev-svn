@@ -72,6 +72,7 @@ install:
 	@echo "    1) add freq_enable=\"YES\" to /etc/rc.conf"
 	@echo "    2) copy $(prefix)/etc/freq.conf.example to $(prefix)/etc/freq.conf and EDIT IT"
 	@echo "    3) start bot: $(prefix)/etc/rc.d/freq start"
+	@echo "    4) if you want use .google, you need to create $(prefix)/share/freq/.googlekey and place your googlekey there"
 	@echo
 
 deinstall:

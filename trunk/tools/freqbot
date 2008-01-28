@@ -33,6 +33,8 @@ freq_start()
           exit
         else echo "Hmm... $PIDFILE already exists, but $name is not running..."
         fi
+    touch $PIDFILE
+    chown $SUSER $PIDFILE
     fi
     echo -n "Starting $name: "
     su $SUSER -c "$PYTHON $START $CFG >$STDOUT 2>&1 &"

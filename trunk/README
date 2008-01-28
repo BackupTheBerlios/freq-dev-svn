@@ -12,17 +12,9 @@ You need have installed
 
 
 1) You can install FreQ on your system using command:
+   
    make install (or gmake install)
 
-   you need cp /usr/local/etc/freq.conf.example to /usr/local/etc/freq.conf and edit it...
-
-   add freq_enable="YES" to your /etc/rc.conf 
-
-   use
-
-     /usr/local/etc/rc.d/freq start
-
-   to start bot.
 
 2) or, if you can't (or don't want) install bot, you can run it directly...
 
