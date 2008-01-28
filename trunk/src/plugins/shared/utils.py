@@ -64,3 +64,33 @@ def get_param(text):
    text = text[n:].strip()
   else: p, text = text, ''
  return (p, text)
+
+bigtime = 2000000000
+
+def parse_time(s):
+ l = s[len(s)-1].lower()
+ c = int(s[:len(s)-1])
+ if l == 'd': return 86400 * c
+ elif l == 'h': return 3600 * c
+ elif l == 'm': return 60 * c
+ elif l == 's': return c
+ else: raise ValueError
+
+def fetch_time(s):
+ s = s.strip()
+ if s.startswith('/'):
+  n = s.find(' ')
+  end_time = int(parse_time(s[1:n]) + time.time())
+  s = s[n+1:]
+ elif s.startswith('@#/'):
+  n = s.find(' ')
+  end_time = int(s[3:n])
+  s = s[n+1:]
+ else: end_time = bigtime
+ return (end_time, s)
+
+def dump_time(tm, text, human=False, s=None):
+ if tm == bigtime: return text
+ else:
+  if human: return u'%s (%s %s)' % (text, s.get_msg('left'), time2str(tm - time.time(), True, s.get_lang()))
+  else: return u'@#/%d %s' % (tm, text)

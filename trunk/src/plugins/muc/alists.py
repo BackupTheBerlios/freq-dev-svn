@@ -20,7 +20,6 @@
 #~#######################################################################
 
 import re
-bigtime = 2000000000
 
 class NickNotFound(Exception):
  def __init__(self, value):
@@ -40,29 +39,12 @@ class MyRegexpError(Exception):
  def __str__(self):
   return repr(self.value)
 
-def parse_time(s):
- l = s[len(s)-1].lower()
- c = int(s[:len(s)-1])
- if l == 'd': return 86400 * c
- elif l == 'h': return 3600 * c
- elif l == 'm': return 60 * c
- elif l == 's': return c
- else: raise ValueError
-
 class aitem:
  def __init__(self, room, s):
   """парсит выражения типа 'jid blabla@server', 'nick exp regexp', etc.
   короче в стиле глюкса"""
   self.room = room
-  if s.startswith('/'):
-   n = s.find(' ')
-   self.end_time = int(parse_time(s[1:n]) + time.time())
-   s = s[n+1:]
-  elif s.startswith('@#/'):
-   n = s.find(' ')
-   self.end_time = int(s[3:n])
-   s = s[n+1:]
-  else: self.end_time = bigtime
+  self.end_time, s = fetch_time(s)
   s = s.strip().lower()
   if s.startswith('jid '):
    self.by_jid = True
@@ -93,10 +75,7 @@ class aitem:
   else: text = 'nick '
   if self.regexp: text = text + u'exp '
   text = text + self.value
-  if self.end_time < bigtime:
-   if human: return u'%s (%s %s)' % (text, self.room.get_msg('alist_left'), time2str(self.end_time - time.time(), True, self.room.get_lang()))
-   else: return u'@#/%d %s' % (self.end_time, text)
-  else: return text
+  return dump_time(self.end_time, text, human, self.room)
  def describe(self):
   return u'aitem: "%s", regexp: %s, by_jid: %s, value="%s"' % \
   (self.text(True), self.regexp, self.by_jid, self.value)

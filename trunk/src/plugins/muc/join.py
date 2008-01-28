@@ -35,9 +35,11 @@ def join_handler(t, s, p):
    else:
     q = blacklist_load()
     if groupchat in q.keys():
-     reason = q[groupchat]
-     if reason: s.lmsg(t, 'join_not_permitted_reason', groupchat, reason)
-     else: s.lmsg(t, 'join_not_permitted', groupchat)
+     tm, reason = q[groupchat]
+     if reason: m = s.get_msg('join_not_permitted_reason', (groupchat, reason))
+     else: m = s.get_msg('join_not_permitted', (groupchat, ))
+     m = dump_time(tm, m, True, s)
+     s.msg(t, m)
     else:
      g = bot.muc.join(groupchat, nick)
      g.joiner = (s, t)

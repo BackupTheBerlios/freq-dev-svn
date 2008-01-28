@@ -22,17 +22,23 @@
 BL = optstringlist('blacklist')
 
 def blacklist_parse(s):
+ tm, s = fetch_time(s)
  if s.count(' '):
   n = s.find(' ')
-  return (s[:n], s[n+1:])
- else: return (s, '')
+  return (s[:n], (tm, s[n+1:]))
+ else: return (s, (tm, ''))
 
 def blacklist_load():
  q = BL['global']
- return dict([blacklist_parse(i) for i in q])
+ p = [True for i in q if blacklist_parse(i)[1][0]<time.time()]
+ if p:
+  q = [i for i in q if blacklist_parse(i)[1][0]>time.time()]
+  BL['global'] = q
+ m = dict([blacklist_parse(i) for i in q])
+ return m
 
 def blacklist_dump(q):
- BL['global'] = [u'%s %s' % (room, q[room]) for room in q.keys()]
+ BL['global'] = [dump_time(q[room][0], u'%s %s' % (room, q[room][1])) for room in q.keys()]
 
 def blacklist_add(t, s, p):
  p = p.strip().lower()
@@ -40,8 +46,8 @@ def blacklist_add(t, s, p):
   s.syntax(t, 'blacklist_add')
   return
  q = blacklist_load()
- room, reason = blacklist_parse(p)
- q[room] = reason
+ room, tm_and_reason = blacklist_parse(p)
+ q[room] = tm_and_reason
  blacklist_dump(q)
  if room in bot.g.keys(): bot.muc.leave(room, reason)
  s.lmsg(t, 'ok')
@@ -63,7 +69,8 @@ def blacklist_clear(t, s, p):
  s.lmsg(t, 'list_cleared')
 
 def blacklist_show(t, s, p):
- q = BL['global']
+ q = blacklist_load()
+ q = [dump_time(q[room][0], '%s %s' % (room, q[room][1]), True, s) for room in q.keys()]
  if q: s.msg(t, show_list(q, p, s.get_msg('not_found')))
  else: s.lmsg(t, 'list_empty')
 

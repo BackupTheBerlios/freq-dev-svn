@@ -18,21 +18,32 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 import sys
 
 tw='You need have it installed to use freQ-bot\n=== Visit http://twistedmatrix.com/ to get info about Twisted...\n'
 
 try: import twisted
 except:
- sys.stdout.write('=== py-TwistedCore not found...\n=== '+tw+'\n')
+ sys.stdout.write('=== py-twistedCore not found...\n=== '+tw+'\n')
  sys.exit(1)
 
 try: import twisted.words.protocols.jabber
 except:
- sys.stdout.write('=== py-TwistedWords not found...\n=== '+tw+'\n')
+ sys.stdout.write('=== py-twistedWords not found...\n=== '+tw+'\n')
  sys.exit(1)
  
 try: import twisted.web
 except:
- sys.stdout.write('=== py-TwistedWeb not found...\n=== '+tw+'\n')
+ sys.stdout.write('=== py-twistedWeb not found...\n=== '+tw+'\n')
+ sys.exit(1)
+
+try: from twisted.names.srvconnect import SRVConnector
+except:
+ sys.stdout.write('=== py-twistedNames not found...\n=== '+tw+'\n')
+ sys.exit(1)
+
+try: from twisted.names.srvconnect import SRVConnector
+except:
+ sys.stdout.write('=== py-twistedNames not found...\n=== '+tw+'\n')
  sys.exit(1)

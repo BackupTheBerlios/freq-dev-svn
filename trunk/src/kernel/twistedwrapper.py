@@ -18,9 +18,14 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-from twisted.words.protocols.jabber import client, jid, xmlstream
+
+import twisted
+from twisted.names.srvconnect import SRVConnector
+from twisted.words.protocols.jabber import client, jid, xmlstream, sasl
+from twisted.words.protocols.jabber.client import CheckVersionInitializer,BindInitializer,SessionInitializer
+from twisted.words.protocols.jabber.sasl import SASLNoAcceptableMechanism,SASLAuthError,get_mechanisms,sasl_mechanisms
 from twisted.words.xish import domish
-from twisted.internet import reactor
+from twisted.internet import reactor, threads, defer
 from twisted.web.html import escape
 import traceback
 import re
@@ -28,6 +33,78 @@ import log
 import sys
 import config
 import time
+
+#here we use some code from J2J <http://jrudevels.org/>
+
+class XMPPAndGoogleAuthenticator(client.XMPPAuthenticator):
+    def __init__(self,jid,password,client):
+        self.client = client
+        twisted.words.protocols.jabber.client.XMPPAuthenticator.__init__(self,jid,password)
+
+    def associateWithStream(self, xs):
+        xmlstream.ConnectAuthenticator.associateWithStream(self, xs)
+
+        xs.initializers = [CheckVersionInitializer(xs)]
+        inits = [ (xmlstream.TLSInitiatingInitializer, False,False),
+                  (SASLAndXGoogleToken, True,True),
+                  (BindInitializer, False,False),
+                  (SessionInitializer, False,False),
+                ]
+
+        for initClass, required, isGoogleClass in inits:
+            if not isGoogleClass:
+                init = initClass(xs)
+            else:
+                init = initClass(xs,self.client)
+            init.required = required
+            xs.initializers.append(init)
+
+class SASLAndXGoogleToken(sasl.SASLInitiatingInitializer):
+    def __init__(self,xs,client):
+        self.client=client
+        sasl.SASLInitiatingInitializer.__init__(self,xs)
+
+    def start(self):
+        jid = self.xmlstream.authenticator.jid
+        password = self.xmlstream.authenticator.password
+
+        mechanisms = get_mechanisms(self.xmlstream)
+
+        if 'DIGEST-MD5' in mechanisms:
+            self.mechanism = sasl_mechanisms.DigestMD5('xmpp', jid.host, None,
+                                                       jid.user, password)
+        elif 'PLAIN' in mechanisms:
+            self.mechanism = sasl_mechanisms.Plain(None, jid.user, password)
+        else:
+            return defer.fail(SASLNoAcceptableMechanism)
+
+        self._deferred = defer.Deferred()
+        self.xmlstream.addObserver('/challenge', self.onChallenge)
+        self.xmlstream.addOnetimeObserver('/success', self.onSuccess)
+        self.xmlstream.addOnetimeObserver('/failure', self.onFailure)
+        self.sendAuth(self.mechanism.getInitialResponse())
+        return self._deferred
+
+class XMPPClientConnector(SRVConnector):
+    def __init__(self, reactor, domain, factory, port=5222):
+        self.port=port
+        SRVConnector.__init__(self, reactor, 'xmpp-client', domain, factory)
+
+class ClientFactory(xmlstream.XmlStreamFactory):
+    def __init__(self,a,host):
+        self.host = host
+        xmlstream.XmlStreamFactory.__init__(self,a)
+        self.maxRetries = 0
+
+    def clientConnectionFailed(self, connector, reason):
+        self.host.log.err('connection failed!')
+        self.host.log.log('connection failed!')
+        reactor.stop()
+
+    def clientConnectionLost(self, connector, reason):
+        self.host.log.err('connection lost!')
+        self.host.log.log('connection lost!')
+        reactor.stop()
 
 class wrapper:
 
@@ -40,9 +117,17 @@ class wrapper:
   self.sjid = u'%s@%s/%s' % (config.USER, config.SERVER, config.RESOURCE)
   self.jid = jid.JID(self.sjid)
   self.onauthd = None
-  self.c = client.basicClientFactory(self.jid, config.PASSWD)
+  self.tryingSRV = True
+  self.tryingNonSASL = False
+  self.tryingSASL = True
+  #self.c = client.basicClientFactory(self.jid, config.PASSWD)
+  a = XMPPAndGoogleAuthenticator(self.jid, config.PASSWD, self)
+  self.c = ClientFactory(a,self)
+  self.c.maxRetries = 0
   self.c.addBootstrap(xmlstream.STREAM_AUTHD_EVENT, self.authd)
-  #self.c.addBootstrap(xmlstream.INIT_FAILED_EVENT, self.failed)
+  self.c.addBootstrap(xmlstream.INIT_FAILED_EVENT, self.initfailed)
+  self.c.addBootstrap(xmlstream.STREAM_CONNECTED_EVENT, self.onConnected)
+  self.c.addBootstrap(xmlstream.STREAM_END_EVENT, self.onDisconnected)
   self.x = None
   self.log = log.logger()
   self.handlers = []
@@ -52,7 +137,13 @@ class wrapper:
   port = config.PORT
   server = config.CONNECT_SERVER
   if not server: server = config.SERVER
-  reactor.connectTCP(server, port, self.c)
+  self.connector = XMPPClientConnector(reactor, server, self.c, port)
+  self.connector.connect()
+  #reactor.connectTCP(server, port, self.c)
+
+ def onConnected(self, xs):
+  self.x = xs
+  self.log.log('connected!')
 
  def presence(self, status=None):
   if not self.x: return
@@ -66,14 +157,17 @@ class wrapper:
   return [i for i in x.children if (i.__class__==domish.Element) and (i.name==n)][0]
 
  def authd(self, x):
-  self.x = x
-  print 'Authenticated'
+  self.log.log('Authenticated')
   #self.x.addObserver('/*', self.cb)
   self.x.addObserver('/message', self.cbmessage)
   self.onauthd()
 
- def failed(self, x):
+ def initfailed(self, x):
   self.log.err('INIT_FAILED_EVENT')
+  reactor.stop()
+
+ def onDisconnected(self, x):
+  self.log.err('Disconnect!')
   reactor.stop()
 
  def cb(self, x):

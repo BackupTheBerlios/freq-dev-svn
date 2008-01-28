@@ -107,8 +107,9 @@ class freqbot:
   ping['id'] = 'keep-alive'
   ping['type'] = 'get'
   ping.addElement('query', 'jabber:iq:version')
-  self.log.log_e(u'keep-alive: ' + ping.toXml(), 1)
-  if self.wrapper.x: self.wrapper.send(ping)
+  if self.wrapper.x:
+   self.log.log_e(u'keep-alive: ' + ping.toXml(), 1)
+   self.wrapper.send(ping)
   # <iq
   # type='get'
   # from='romeo@montague.net/orchard'
