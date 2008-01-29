@@ -5,9 +5,9 @@ muc admin
 
 Формальный синтаксис:
 
-  .akick [/N(d|h|m|s)] jid [exp] jid
-  .akick [/N(d|h|m|s)] nick [exp] ник
-  .akick [/N(d|h|m|s)] ник
+  .akick [/N(d|h|m|s)] jid [exp] jid [||причина]
+  .akick [/N(d|h|m|s)] nick [exp] ник [||причина]
+  .akick [/N(d|h|m|s)] ник [||причина]
   .akick show
   .akick del N
   .akick clear
@@ -47,3 +47,7 @@ muc admin
 
 Очистка списка:
  ".akick clear" - очистить список
+
+Указание причины:
+ после || можно указать причину кика, например:
+ ".akick Вася||и больше здесь не появляйся!"

@@ -46,6 +46,8 @@ class aitem:
   self.room = room
   self.end_time, s = fetch_time(s)
   s = s.strip().lower()
+  if s.count('||'): s, self.reason = s[:s.find('||')].strip(), s[s.find('||')+2:].strip()
+  else: self.reason = ''
   if s.startswith('jid '):
    self.by_jid = True
    s = s[4:]
@@ -75,15 +77,20 @@ class aitem:
   else: text = 'nick '
   if self.regexp: text = text + u'exp '
   text = text + self.value
-  return dump_time(self.end_time, text, human, self.room)
+  text = dump_time(self.end_time, text, human, self.room)
+  if self.reason: return text + '||' + self.reason
+  else: return text
  def describe(self):
-  return u'aitem: "%s", regexp: %s, by_jid: %s, value="%s"' % \
-  (self.text(True), self.regexp, self.by_jid, self.value)
+  return u'aitem: "%s", regexp: %s, by_jid: %s, value="%s", reason="%s"' % \
+  (self.text(True), self.regexp, self.by_jid, self.value, self.reason)
  def check(self, item):
   if self.by_jid: s = item.realjid
   else: s = item.nick
   if self.regexp: return re.match(self.value, s)
   else: return (self.value == s)
+ def get_reason(self):
+  if self.reason: return self.reason
+  else: return 'akick'
 
 class alist:
  def __init__(self, bot, typ, action):
@@ -112,8 +119,9 @@ class alist:
  def clear(self, room):
   self.lists[room.jid] = []
  def check(self, room, item):
-  q = [True for i in self.items(room) if i.check(item)]
-  return (len(q) > 0)
+  q = [i.get_reason() for i in self.items(room) if i.check(item)]
+  if len(q) > 0: return q[0]
+  else: return False
  def cmd(self, typ, source, cmd):
   room = source.room
   if cmd.count(' '):
@@ -144,7 +152,8 @@ class alist:
    except ValueError: source.lmsg(typ, 'invalid_syntax_default')
    source.lmsg(typ, 'added')
  def apply_to_item(self, item):
-  if self.check(item.room, item): self.action(item)
+  reason = self.check(item.room, item)
+  if reason <> False: self.action(item, reason)
  def apply_to_room(self, room):
   for nick in room.keys(): self.apply_to_item(room[nick])
  def join_handler(self, item):
@@ -153,13 +162,13 @@ class alist:
   if typ == 3: #changed nick
    self.apply_to_item(item)
 
-def a_kick(item):
- item.room.moderate('nick', item.nick, 'role', 'none', 'akick')
+def a_kick(item, reason):
+ item.room.moderate('nick', item.nick, 'role', 'none', reason)
 
-def a_visitor(item):
+def a_visitor(item, reason):
  item.room.moderate('nick', item.nick, 'role', 'visitor', '')
 
-def a_moderator(item):
+def a_moderator(item, reason):
  item.room.moderate('nick', item.nick, 'role', 'moderator', '')
 
 AKICK = alist(bot, 'akick', a_kick)
