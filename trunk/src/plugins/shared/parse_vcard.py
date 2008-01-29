@@ -18,6 +18,24 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
+VCARD_FIELDS = { 
+'ru::FN'       : u'Полное имя', 
+'ru::URL'      : u'Сайт',
+'ru::BDAY'     : u'День рождения',
+'ru::DESC'     : u'О себе',
+'en::FN'       : u'Full Name',
+'en::URL'      : u'Homepage',
+'en::BDAY'     : u'Birthday',
+'en::DESC'     : u'About'
+}
+
+def vcard_describe(field, lang):
+ field = field[:len(field)-1]
+ m = lang + '::' + field
+ if m in VCARD_FIELDS.keys(): return VCARD_FIELDS[m]
+ else: return field
+
 def parse_vcard(x):
  r = {}
  if x.children:

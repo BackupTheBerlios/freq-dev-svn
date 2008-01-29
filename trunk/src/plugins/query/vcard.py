@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def vcard_handler(t, s, p):
  q = p.split()
  if q and q[0].startswith('-'):
@@ -38,7 +39,9 @@ def vcard_result_handler(t, s, p, r, x):
    q = i.split('/')
    q = [j for j in q if j in r]
    if (not q and not('*' in r)) or i.count('BINVAL'): vcard.pop(i)
-  s.msg(t, ' -- '.join(vcard.values()))
+  #s.msg(t, ' -- '.join(vcard.values()))
+  res = [u'%s: %s' % (vcard_describe(i, s.get_lang()), vcard[i]) for i in vcard.keys()]
+  s.msg(t, 'vCard:\n' + '\n'.join(res))
  except:
   s.lmsg(t, 'vcard_error')
   #raise
