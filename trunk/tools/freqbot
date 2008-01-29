@@ -47,7 +47,7 @@ freq_stop()
         echo "$name is not running? $PIDFILE not found."
     fi
     echo -n "Stopping $name: "
-    killall -u $SUSER >/dev/null 2>&1
+    killall -u $SUSER -term >/dev/null 2>&1
     if [ -e $PIDFILE ]; then sleep 1; fi
     killall -u $SUSER -kill >/dev/null 2>&1
     sleep 1
