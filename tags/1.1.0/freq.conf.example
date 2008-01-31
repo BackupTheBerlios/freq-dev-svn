@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+
+# You can see config.defaults to learn more options...
+
+### ACCOUNT ###
+SERVER = u'kreved.org'
+USER = u'freq'
+PASSWD = u'secret'
+RESOURCE = u'Python'
+
+### ACCESS ###
+ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
+
+### MUC ###
+NICK = u'freQ-bot'
+STATUS = u'freQ %VERSION% is online'
+
+### BOT ###
+DATADIR = '/var/freq'
+
+### MISC ###
+SVNVERSION = '/usr/local/bin/svnversion -n'
+PIDFILE = '/var/freq/freq.pid'
+
+### DEBUG LOGGING ###
+LOGLEVEL = 5
+LOGFILE = '/var/log/freq/log.html'
+LOGF = '/var/log/freq/twisted.log'
+# loglevel: 0 - log anything; 9 - log nothing... 
+ERRLOGFILE = '/var/log/freq/err.html'
+#RAWXML = '/var/log/freq/raw.xml'
+
+### PLUGINS ###
+CHATLOGS_DIR = '/var/freq/chatlogs'
+CHATLOGS_ENABLE = 'off'
+CHATLOGS_ALLOW_SWICH = True
+#if CHATLOGS_ALLOW_SWICH, then room owner can enable/disable logging

@@ -63,7 +63,7 @@ class freqbot:
   self.access_modificators = []
   self.cmd_cache = {}
   self.version_name = u'freQ'
-  self.version_version = u'1.0.99.' + self.getRev()
+  self.version_version = u'1.1.99.' + self.getRev()
   self.log.version = self.version_version
   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
   self.authd = 0
