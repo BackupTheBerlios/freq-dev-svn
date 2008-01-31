@@ -95,7 +95,7 @@ else:
  if tm > 0:
   log('wait %s seconds...' % (tm, ))
   try: time.sleep(tm)
-  except: sys_exit(1)
+  except: sys.exit(1)
  cmd = config.RESTART_CMD
  log(escape('restart now: %s' % (cmd, )))
  os.execv(cmd.split()[0], tuple(cmd.split()))
