@@ -210,7 +210,7 @@ class wrapper:
  def send(self, x):
   #ujid = jid.JID(x['to'])
   self.log.log(u'try to send stanza to %s..' % (x['to'], ), 0)
-  reactor.callFromThread(self.x.send, x)
+  reactor.callFromThread(self._send, x)
   #if {???}: #time.time()-self.lastsent.get(ujid.userhost(), 0)<config.QUEUE_SEND_INTERVAL:
    ##don't send, add it to queue
    #q = self.queues.setdefault(ujid.userhost(), [])
@@ -241,6 +241,15 @@ class wrapper:
    #if len(self.queues[sjid]) == 0: self.queues.pop(sjid)
   #self.log.log('twistedwrapper.clean_queue executed...', 2)
   #reactor.callLater(60, self.clean_queue)
+
+ def _send(self, x):
+  try: self.x.send(x)
+  except:
+   try: xml = x.toXml()
+   except: xml = '[can\'t x.toXml()]'
+   m = '; '.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+   m = m.decode('utf8', 'replace')
+   self.log.err_e('Can\'t send stanza! (xml: %s). Error: %s' % (xml, m))
 
  def msg(self, typ, j, body, subject=None):
   m = domish.Element(('jabber:client', 'message'))
@@ -273,4 +282,4 @@ class wrapper:
    m = ''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
    print 'STOP: ', m
    self.log.err(escape(m))
-   self.log.err('=^= failed thread #%s' % (self.tc, ))
+   self.log.err('=== failed thread #%s' % (self.tc, ))
