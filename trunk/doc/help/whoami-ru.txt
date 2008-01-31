@@ -7,7 +7,7 @@ muc
  member/moderator: 7
  member/participant: 4
  member/visitor: 3
- none/moderator: 4
- none/participant: 1
- none/visitor: 0
+ none/moderator: 5
+ none/participant: 2
+ none/visitor: 1
 

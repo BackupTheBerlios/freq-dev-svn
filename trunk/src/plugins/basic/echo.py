@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def echo_handler(t, s, p):
  if p: s.msg(t, context_replace(p, t, s))
  else: s.syntax(t, 'echo')
@@ -28,8 +29,9 @@ def say_handler(t, s, p):
 
 def globmsg_handler(t, s, p):
  if p:
-  for i in bot.g.items():
-   if i[1]: i[1].msg(p)
+  for i in bot.g.values():
+   if i.bot: i.msg(context_replace(p, 'groupchat', i.bot))
+   else: i.msg(p)
   s.lmsg(t, 'globmsg_sent', len([i for i in bot.g.keys() if i]))
  else: s.msg(t, '?')
 

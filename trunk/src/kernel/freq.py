@@ -107,7 +107,7 @@ class freqbot:
   ping['id'] = 'keep-alive'
   ping['type'] = 'get'
   ping.addElement('query', 'jabber:iq:version')
-  if self.wrapper.x:
+  if self.authd > 0:
    self.log.log_e(u'keep-alive: ' + ping.toXml(), 1)
    self.wrapper.send(ping)
   # <iq

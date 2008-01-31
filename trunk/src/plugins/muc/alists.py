@@ -40,14 +40,14 @@ class MyRegexpError(Exception):
   return repr(self.value)
 
 class aitem:
- def __init__(self, room, s):
+ def __init__(self, room, s, negative=True):
   """парсит выражения типа 'jid blabla@server', 'nick exp regexp', etc.
   короче в стиле глюкса"""
   self.room = room
+  self.negative = negative
   self.end_time, s = fetch_time(s)
-  s = s.strip().lower()
-  if s.count('||'): s, self.reason = s[:s.find('||')].strip(), s[s.find('||')+2:].strip()
-  else: self.reason = ''
+  if s.count('||'): s, self.reason = s[:s.find('||')].strip().lower(), s[s.find('||')+2:].strip()
+  else: s, self.reason = s.strip().lower(), ''
   if s.startswith('jid '):
    self.by_jid = True
    s = s[4:]
@@ -80,20 +80,23 @@ class aitem:
   text = dump_time(self.end_time, text, human, self.room)
   if self.reason: return text + '||' + self.reason
   else: return text
- def describe(self):
+ def __str__(self):
   return u'aitem: "%s", regexp: %s, by_jid: %s, value="%s", reason="%s"' % \
   (self.text(True), self.regexp, self.by_jid, self.value, self.reason)
  def check(self, item):
   if self.by_jid: s = item.realjid
   else: s = item.nick
-  if self.regexp: return re.match(self.value, s)
+  if self.regexp:
+   return not(self.negative and (item.affiliation <> 'none')) and re.match(self.value, s)
+  #do not apply negative alists to level >= 3
   else: return (self.value == s)
  def get_reason(self):
   if self.reason: return self.reason
   else: return 'akick'
 
 class alist:
- def __init__(self, bot, typ, action):
+ def __init__(self, bot, typ, action, negative=True):
+  self.negative = negative
   self.action = action
   self.lists = optstringlist(typ)
   bot.register_join_handler(self.join_handler)
@@ -110,7 +113,7 @@ class alist:
   p.pop(n-1)
   self.lists[room.jid] = p
  def items(self, room):
-  q = [aitem(room, i) for i in self.lists[room.jid]]
+  q = [aitem(room, i, self.negative) for i in self.lists[room.jid]]
   t = time.time()
   if [True for i in q if i.end_time<t]:
    q = [i for i in q if i.end_time>t]
@@ -126,8 +129,8 @@ class alist:
   room = source.room
   if cmd.count(' '):
    n = cmd.find(' ')
-   c, p = cmd[:n], cmd[n+1:]
-  else: c, p = cmd, ''
+   c, p = cmd[:n].lower(), cmd[n+1:]
+  else: c, p = cmd.lower(), ''
   if c == 'del':
    try: n = int(p)
    except:
@@ -153,7 +156,7 @@ class alist:
    source.lmsg(typ, 'added')
  def apply_to_item(self, item):
   reason = self.check(item.room, item)
-  if reason <> False: self.action(item, reason)
+  if (reason <> False): self.action(item, reason)
  def apply_to_room(self, room):
   for nick in room.keys(): self.apply_to_item(room[nick])
  def join_handler(self, item):
@@ -172,21 +175,21 @@ def a_moderator(item, reason):
  item.room.moderate('nick', item.nick, 'role', 'moderator', '')
 
 AKICK = alist(bot, 'akick', a_kick)
-AMODERATOR = alist(bot, 'amoderator', a_moderator)
+AMODERATOR = alist(bot, 'amoderator', a_moderator, False)
 AVISITOR = alist(bot, 'avisitor', a_visitor)
 
 def akick_handler(t, s, p):
- p = p.strip().lower()
+ p = p.strip()
  if not p: s.syntax(t, 'akick')
  else: AKICK.cmd(t, s, p)
 
 def avisitor_handler(t, s, p):
- p = p.strip().lower()
+ p = p.strip()
  if not p: s.syntax(t, 'avisitor')
  else: AVISITOR.cmd(t, s, p)
 
 def amoderator_handler(t, s, p):
- p = p.strip().lower()
+ p = p.strip()
  if not p: s.syntax(t, 'amoderator')
  else: AMODERATOR.cmd(t, s, p)
 
