@@ -139,7 +139,7 @@ class freqbot:
   self.leavehandlers = []
   self.badhandlers = []
   self.muc.leave_groupchats(reason)
-  reactor.callLater(2, reactor.stop)
+  reactor.callLater(3, reactor.stop)
 
  def check_text(self, source, text):
   #if source.room and (source.room.bot.nick == self.muc.get_nick(source.room.jid)):
