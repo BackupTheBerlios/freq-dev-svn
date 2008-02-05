@@ -23,7 +23,7 @@
 
 class nickstorage:
  """
- Database storage, should be thread-safety
+ Database storage, should be thread-safe
  Fields: room, jid, nick, ftime, ltime, ltype, lreason
  ltype: [0: leave, 1: kick, 2: ban, 3: changes nick]
  """

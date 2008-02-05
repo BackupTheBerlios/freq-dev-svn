@@ -21,7 +21,10 @@
 
 from twisted.web.client import getPage
 from twisted.internet.error import DNSLookupError, TimeoutError
+from twisted.internet.defer import TimeoutError as DeferTimeout
 from twisted.web.error import Error as WebError
+
+www_regexp = re.compile(u'^(https?\:\/\/)?(((\w|\-)+\.)*\w+)(:\d+)?(\/(\w|[\-\._])+)*\/?$')
 
 def www_handler(typ, source, params):
  if params.count(' '): url, enc = params.split()[:2]
@@ -31,21 +34,26 @@ def www_handler(typ, source, params):
   return
  url = url.strip().encode(enc)
  if not url.startswith('http'): url = 'http://' + url
- if not url: source.syntax('www')
+ if not url or not www_regexp.match(url): source.syntax(typ, 'www')
  else:
-  d = getPage(url, timeout=10)
+  d = getPage(url, timeout=20)
   d.addCallback(www_result, typ, source, enc)
   d.addErrback(www_error, typ, source)
 
 def www_result(page, typ, source, enc):
- page = clear_text(page.decode(enc, 'replace'))
+ bot.html = page
+ if len(page) > 100000: page = page[:100000]
+ page = page.decode(enc, 'replace')
+ try: page = get_body(page)
+ except: pass
  page = html_decode(page)
  page = '\n'.join([line.strip() for line in page.splitlines() if line.strip()])
+ page = clear_text(page)
  source.msg(typ, page)
 
 def www_error(reason, typ, source):
  if reason.check(DNSLookupError): source.lmsg(typ, 'www_dns_error')
- elif reason.check(TimeoutError): source.lmsg(typ, 'www_timeout_error')
+ elif reason.check(TimeoutError, DeferTimeout): source.lmsg(typ, 'www_timeout_error')
  elif reason.check(WebError): source.lmsg(typ, 'www_error')
  else: source.lmsg(typ, 'www_error_reason', repr(reason))
 

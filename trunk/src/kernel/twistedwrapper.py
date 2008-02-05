@@ -38,14 +38,14 @@ class ClientFactory(xmlstream.XmlStreamFactory):
         xmlstream.XmlStreamFactory.__init__(self, a)
 
     def clientConnectionFailed(self, connector, reason):
-        m = 'Connection failed! (reason=%s)' % (repr(reason.getTraceback()), )
+        m = 'Connection failed! ' + repr(reason.getTraceback())
         self.host.log.err_e(m)
         self.host.log.log_e(m)
         reactor.stop()
 
     def clientConnectionLost(self, connector, reason):
         if self.host.stopped: return
-        m = 'Connection lost! (reason=%s)' % (repr(reason.getTraceback()), )
+        m = 'Connection lost! ' + repr(reason.getTraceback())
         self.host.log.err_e(m)
         self.host.log.log_e(m)
         reactor.stop()

@@ -5,6 +5,8 @@ botuser=freq
 botgroup=freq
 vardir=/var/freq
 logdir=/var/log/freq
+chatlogsdir=/var/freq/chatlogs
+imgdir=$(chatlogsdir)/images
 distname=freqbot
 distver=1.1.99
 rev=`tools/getrev 2>/dev/null`
@@ -63,6 +65,9 @@ install:
 	@if pw groupshow -n $(botgroup) >/dev/null 2>&1; then echo " group $(botgroup) already exists: do nothing"; else pw groupadd -n $(botgroup); fi
 	@if pw usershow -n $(botuser) >/dev/null 2>&1; then echo " user $(botuser) already exists: do nothing"; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
 	@mkdir -p $(logdir)
+	@mkdir -p $(imgdir)
+	@cp static/*.png $(imgdir)/
+	@cp static/*.gif $(imgdir)/
 	@chown -R $(botuser):$(botgroup) $(logdir)
 	@mkdir -p $(vardir)
 	@chown -R $(botuser):$(botgroup) $(vardir)

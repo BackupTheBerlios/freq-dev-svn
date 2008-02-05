@@ -110,8 +110,13 @@ def clear_text(s):
  return ''.join(res)
 
 strip_tags = re.compile(u'<[^<>]+>')
+body_regexp = re.compile(u'^.*<(body|BODY)[^>]*>(.*)<\/(body|BODY).*$', re.DOTALL)
 
 def html_decode(text):
  text = text.replace(u'\n', u'')
+ text = text.replace('<p>', '\n').replace('<li>', '\n')
  return strip_tags.sub(u'', text.replace(u'<br>',u'\n')).replace(u'&nbsp;', u' ').replace(u'&lt;',\
  u'<').replace(u'&gt;', u'>').replace(u'&quot;', u'"').replace(u'\t', u'')
+
+def get_body(text):
+ return body_regexp.match(text).groups()[1]
