@@ -18,9 +18,20 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def stop_handler(t, s, p):
- s.msg(t, 'ok')
- bot.smart_shutdown = True
- reactor.callLater(1, reactor.stop)
+ p = p.strip()
+ s.lmsg(t, 'stopping')
+ if p: bot.stop('.stop command from bot owner (%s)' % (p, ))
+ else: bot.stop('.stop command from bot owner')
 
 bot.register_cmd_handler(stop_handler, '.stop', 50)
+
+
+def restart_handler(t, s, p):
+ p = p.strip()
+ s.lmsg(t, 'restarting')
+ if p: bot.stop('.restart command from bot owner (%s)' % (p, ), True)
+ else: bot.stop('.restart command from bot owner', True)
+
+bot.register_cmd_handler(restart_handler, '.restart', 50)

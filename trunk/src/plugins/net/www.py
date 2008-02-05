@@ -19,37 +19,34 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-import os
-import sys
-import config
+from twisted.web.client import getPage
+from twisted.internet.error import DNSLookupError, TimeoutError
+from twisted.web.error import Error as WebError
 
-PLUGINS_DIR = config.PLUGINS_DIR
+def www_handler(typ, source, params):
+ if params.count(' '): url, enc = params.split()[:2]
+ else: url, enc = params, 'utf8'
+ if not enc in ['utf8', 'cp1251', 'koi8-r', 'utf-8']: # to be continued
+  source.lmsg(typ, 'invalid_encoding')
+  return
+ url = url.strip().encode(enc)
+ if not url.startswith('http'): url = 'http://' + url
+ if not url: source.syntax('www')
+ else:
+  d = getPage(url, timeout=10)
+  d.addCallback(www_result, typ, source, enc)
+  d.addErrback(www_error, typ, source)
 
-class pluginloader:
- def __init__(self, bot):
-  self.bot = bot
-  self.env = bot.env
-  self.pluginlist = os.listdir(PLUGINS_DIR);
- def load_all(self):
-  sys.stdout.write('Loading plugins: ')
-  for i in self.pluginlist:
-   self.load(i)
-  print ' done.'
- def load(self, p):
-  tl = os.listdir(PLUGINS_DIR+'/'+p)
-  tl = [i for i in tl if i.endswith('.py')]
-  for i in tl:
-   fn = '%s/%s/%s' % (PLUGINS_DIR, p, i);
-   fp = file(fn, 'r')
-   pc = fp.read()
-   fp.close()
-   if config.ENABLE_SQLITE or not pc.count('__NEED_DB__'):
-    try:
-     exec pc in self.env
-    except:
-     sys.stderr.write('\nCan\'t load plugin %s:\n' % (fn, ))
-     raise
-    sys.stdout.write('+')
-   else:
-    #this plugin needs database, but it is disabled
-    sys.stdout.write('s')
+def www_result(page, typ, source, enc):
+ page = clear_text(page.decode(enc, 'replace'))
+ page = html_decode(page)
+ page = '\n'.join([line.strip() for line in page.splitlines() if line.strip()])
+ source.msg(typ, page)
+
+def www_error(reason, typ, source):
+ if reason.check(DNSLookupError): source.lmsg(typ, 'www_dns_error')
+ elif reason.check(TimeoutError): source.lmsg(typ, 'www_timeout_error')
+ elif reason.check(WebError): source.lmsg(typ, 'www_error')
+ else: source.lmsg(typ, 'www_error_reason', repr(reason))
+
+bot.register_cmd_handler(www_handler, '.www')

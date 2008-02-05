@@ -14,19 +14,20 @@ ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
 ### MUC ###
 NICK = u'freQ-bot'
 STATUS = u'freQ %VERSION% is online'
+ROOM_LIMIT = 99
+# maximum number of rooms where bot sits.. set 0 here to disable leaving non-active rooms
 
 ### BOT ###
 DATADIR = '/var/freq'
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
-PIDFILE = '/var/freq/freq.pid'
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5
+# loglevel: 0 - log anything; 9 - log nothing... 
 LOGFILE = '/var/log/freq/log.html'
 LOGF = '/var/log/freq/twisted.log'
-# loglevel: 0 - log anything; 9 - log nothing... 
 ERRLOGFILE = '/var/log/freq/err.html'
 #RAWXML = '/var/log/freq/raw.xml'
 

@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # PROVIDE: freq
+# REQUIRE: DAEMON
+# BEFORE: LOGIN
+# KEYWORD: shutdown
 
 freq_enable="${freq_enable-NO}"
 

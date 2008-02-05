@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 import sys
 import os
 import re
@@ -35,7 +36,7 @@ def use_tpl(fn, lng, *params):
 def load_help_content(k, l):
  fn = u'%s/%s-%s.txt' % (help, k, l)
  try:
-  fp = file(fn.encode('utf8'), 'r')
+  fp = file(fn.encode('utf8', 'replace'), 'r')
   ctg = fp.readline()
   content = escape(fp.read())
   fp.close()
@@ -65,10 +66,14 @@ def process(lng):
  print 'creating "%s" docs' % (lng, )
  os.mkdir('%s/%s' % (html, lng))
  idx = use_tpl('doc.idx.head', lng, vvv)
- for cat in HELP_CATEGORIES.keys():
+ CTG = HELP_CATEGORIES.keys()
+ CTG.sort()
+ for cat in CTG:
   q = use_tpl('doc.ctg.head', lng, cat)
   idx = idx + use_tpl('doc.idx.ctg', lng, cat, cat)
-  for cmd in HELP_CATEGORIES[cat]:
+  CMDS = HELP_CATEGORIES[cat]
+  CMDS.sort()
+  for cmd in CMDS:
    q = q + use_tpl('doc.ctg.cmd', lng, cmd, load_help_content(cmd, lng))
   q = q + use_tpl('doc.ctg.foot', lng)
   fp = open('%s/%s/%s.html' % (html, lng, cat), 'w')

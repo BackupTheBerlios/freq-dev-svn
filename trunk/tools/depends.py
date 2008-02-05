@@ -38,12 +38,6 @@ except:
  sys.stdout.write('=== py-twistedWeb not found...\n=== '+tw+'\n')
  sys.exit(1)
 
-try: from twisted.names.srvconnect import SRVConnector
+try: from sqlite3 import connect
 except:
- sys.stdout.write('=== py-twistedNames not found...\n=== '+tw+'\n')
- sys.exit(1)
-
-try: from twisted.names.srvconnect import SRVConnector
-except:
- sys.stdout.write('=== py-twistedNames not found...\n=== '+tw+'\n')
- sys.exit(1)
+ sys.stdout.write('=== Warning: cannot "from sqlite3 import connect"\nSome features will not work.')

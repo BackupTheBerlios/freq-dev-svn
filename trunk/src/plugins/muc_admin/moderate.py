@@ -18,6 +18,9 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
+jid_regexp = re.compile(u'^([^@\/]+@([a-z0-9-]+\.)+[a-z]{2,4})(\/.*)?$')
+
 def m_parse(text):
  text = text.strip()
  if text.count('|'):
@@ -95,12 +98,24 @@ def admin_handler(t, s, p):
   #print m_parse(p)
   p, reason = m_parse(p)
   item = s.room.get(p)
-  if item: nj = 'nick'
-  else: nj = 'jid'
+  if item:
+   nj = 'nick'
+   if (item.nick <> s.nick) and not s.allowed(11):
+    #deny
+    s.lmsg(t, 'not_allowed')
+    return
+  else:
+   j = jid_regexp.match(p)
+   if j:
+    nj = 'jid'
+    p = j.groups()[0]
+   else:
+    s.lmsg(t, 'invalid_nick_or_jid')
+    return
   moderate(t, s, p, nj, p, 'affiliation', 'admin', reason)
  else: s.syntax(t, 'admin')
 
-bot.register_cmd_handler(admin_handler, '.admin', 11, 1)
+bot.register_cmd_handler(admin_handler, '.admin', 9, 1)
 
 
 def owner_handler(t, s, p):
@@ -109,7 +124,14 @@ def owner_handler(t, s, p):
   p, reason = m_parse(p)
   item = s.room.get(p)
   if item: nj = 'nick'
-  else: nj = 'jid'
+  else:
+   j = jid_regexp.match(p)
+   if j:
+    nj = 'jid'
+    p = j.groups()[0]
+   else:
+    s.lmsg(t, 'invalid_nick_or_jid')
+    return
   moderate(t, s, p, nj, p, 'affiliation', 'owner', reason)
  else: s.syntax(t, 'owner')
 
@@ -122,7 +144,14 @@ def ban_handler(t, s, p):
   p, reason = m_parse(p)
   item = s.room.get(p)
   if item: nj = 'nick'
-  else: nj = 'jid'
+  else:
+   j = jid_regexp.match(p)
+   if j:
+    nj = 'jid'
+    p = j.groups()[0]
+   else:
+    s.lmsg(t, 'invalid_nick_or_jid')
+    return
   moderate(t, s, p, nj, p, 'affiliation', 'outcast', reason)
  else: s.syntax(t, 'ban')
 
@@ -135,7 +164,14 @@ def none_handler(t, s, p):
   p, reason = m_parse(p)
   item = s.room.get(p)
   if item: nj = 'nick'
-  else: nj = 'jid'
+  else:
+   j = jid_regexp.match(p)
+   if j:
+    nj = 'jid'
+    p = j.groups()[0]
+   else:
+    s.lmsg(t, 'invalid_nick_or_jid')
+    return
   moderate(t, s, p, nj, p, 'affiliation', 'none', reason)
  else: s.syntax(t, 'none')
 
@@ -148,7 +184,14 @@ def member_handler(t, s, p):
   p, reason = m_parse(p)
   item = s.room.get(p)
   if item: nj = 'nick'
-  else: nj = 'jid'
+  else:
+   j = jid_regexp.match(p)
+   if j:
+    nj = 'jid'
+    p = j.groups()[0]
+   else:
+    s.lmsg(t, 'invalid_nick_or_jid')
+    return
   moderate(t, s, p, nj, p, 'affiliation', 'member', reason)
  else: s.syntax(t, 'member')
 

@@ -19,6 +19,9 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
+# todo: def fetch_error_code(presence): int
+# use it to handle different error codes differently in presence_handler
+
 from twisted.words.xish import domish
 from twisted.web.html import escape
 from item import item as new_item
@@ -139,11 +142,9 @@ class muc:
        try: new_nick = _item['nick']
        except: new_nick = '[unknown nick]'
        if '303' in _status: leave_type = 3
-       else:
-        if '301' in _status: leave_type = 2
-        else:
-         if '307' in _status: leave_type = 1
-         else: leave_type = 0
+       elif '301' in _status: leave_type = 2
+       elif '307' in _status: leave_type = 1
+       else: leave_type = 0
       except:
        self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
        leave_type = 0
@@ -160,9 +161,10 @@ class muc:
       #error
       self.bot.log.err(u'unknown error presence: ' + escape(x.toXml()))
     else:
-     #if (nick == self.get_nick(groupchat.jid)): self.leave(groupchat.jid, 'error')
-     #self.bot.log.err("'unavailable|error' presence from %s, but %s not in groupchatmap" % (x['from'], x['from']))
-     #if nick == self.get_nick(groupchat.jid): self.leave(groupchat.jid, 'non-available presence')
+     # unavailable or error presence from groupchat (but cannot find item..)
+     # possible fail to join..
+     # todo: fetch error code from presence here,
+     # if 409, then change nickname (it implemented in Yasm1ne)
      self.bot.log.err(u'unavailable|error from %s\nstanza:\n%s' % \
      (escape(x['from']), escape(x.toXml())))
      gj = groupchat.joiner
@@ -215,6 +217,14 @@ class muc:
    q.remove(groupchat)
    self.dump_groupchats(q)
   self.bot.g.pop(groupchat, None)
+
+ def leave_groupchats(self, reason):
+  for groupchat in self.bot.g.keys():
+   p = domish.Element(('jabber:client', 'presence'))
+   p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
+   p['type'] = 'unavailable'
+   p.addElement('status').addContent(reason)
+   self.bot.wrapper.send(p)
 
  def load_groupchats(self):
   try:

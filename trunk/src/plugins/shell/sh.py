@@ -18,10 +18,12 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def sh_handler(t, s, p):
  pipe = os.popen('sh -c "%s" 2>&1' % (p.encode('utf8', 'replace'), ))
  time.sleep(1)
- s.msg(t, pipe.read().decode('utf8', 'replace'))
+ m = clear_text(pipe.read().decode('utf8', 'replace'))
+ s.msg(t, m)
 
 bot.register_cmd_handler(sh_handler, '.sh', 100)
 

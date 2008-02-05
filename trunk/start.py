@@ -19,11 +19,10 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-print 'Initializing...'
-
 import sys
 from twisted.words.protocols.jabber import xmlstream
 from twisted.words.protocols.jabber.client import IQ
+from twisted.internet.defer import Deferred as D
 from twisted.web.html import escape
 import traceback
 import re
@@ -44,6 +43,8 @@ if len(sys.argv) > 1: cfg = sys.argv[1]
 else: cfg = './freq.conf'
 print 'Using %s as config file' % (cfg, )
 config.init(cfg)
+
+if config.ENABLE_SQLITE: import db
 
 tm = int(time.time()) + config.RESTART_INTERVAL
 # we should not restart until time.time() == tm
@@ -75,18 +76,22 @@ bot = freqbot(globals())
 
 try:
  bot.plug.load_all()
- print 'reactor.run()'
  reactor.run()
 except:
  bot.log.err(escape('FATAL ERROR: %s' % (traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback), )))
- raise
 
 def log(m, e=False):
  bot.log.log(m)
  if e: bot.log.err(m)
 
+def restart():
+ cmd = config.RESTART_CMD
+ log(escape('restart now: %s' % (cmd, )))
+ os.execv(cmd.split()[0], tuple(cmd.split()))
+
 if bot.smart_shutdown:
  log('freQ-bot normally stopped')
+ if bot.want_restart: restart()
 elif not config.RESTART_INTERVAL:
  log('freQ-bot fault (restart disabled)', True)
 else:
@@ -95,6 +100,4 @@ else:
  if tm > 0:
   log('wait %s seconds...' % (tm, ))
   time.sleep(tm)
- cmd = config.RESTART_CMD
- log(escape('restart now: %s' % (cmd, )))
- os.execv(cmd.split()[0], tuple(cmd.split()))
+ restart()

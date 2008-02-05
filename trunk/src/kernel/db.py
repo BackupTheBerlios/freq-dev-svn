@@ -18,38 +18,27 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-import log
-from pysqlite2 import dbapi2 as sqlite
-import time
-import random
+
+import os
+from sqlite3 import connect
 from config import DATADIR
+DBDIR = DATADIR + '/db'
+if not os.access(DBDIR, os.F_OK): os.mkdir(DBDIR)
 
-class db:
- def __init__(self):
-  self.cache={}
-  self.dbdir='%s/db' % (DATADIR, )
- def set(self, n, r, p, now=None):
-  self.cache[n]=self.cache.get(n, [])
-  self.cache[n].append((r, p))
-  if now:
-   c=sqlite.connect('%s/%s.db' % (self.dbdir, n))
-   cur=c.cursor()
-   while self.cache[n]:
-    q=self.cache[n].pop(0)
-    cur.execute(q[0], q[1])
-   c.commit()
-   c.close()
- def get(self, n, r, p):
-  c=sqlite.connect('%s/%s.db' % (self.dbdir, n))
-  cur=c.cursor()
-  self.cache[n]=self.cache.get(n, [])
-  while self.cache[n]:
-   q=self.cache[n].pop(0)
-   cur.execute(q[0], q[1])
-  c.commit()
-  cur.execute(r, p)
-  p=cur.fetchall()
-  c.commit()
-  c.close()
-  return p
-
+class database:
+ def __init__(self, filename):
+  self.db = connect('%s/%s.db' % (DBDIR, filename.encode('utf8', 'replace')))
+  self.cursor = self.db.cursor()
+ 
+ def __del__(self):
+  if self.cursor: self.cursor.close()
+  if self.db:
+   self.db.commit()
+   self.db.close()
+ 
+ def query(self, *args, **kwargs):
+  self.cursor.execute(*args, **kwargs)
+  return self.cursor
+ 
+ def commit(self):
+  self.db.commit()

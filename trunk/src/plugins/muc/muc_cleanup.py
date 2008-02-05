@@ -32,9 +32,10 @@ def passive():
 from twisted.internet import task
 
 def cleanup_handler():
+ if bot.authd == 0: return
  bot.log.log('muc cleanup...', 2)
  q = len(bot.g) - config.ROOM_LIMIT
- while q>0:
+ while q > 0:
   bot.muc.leave(passive(), 'MUC cleanup plugin')
   q -= 1
 
@@ -47,4 +48,3 @@ def passive_handler(t, s, p):
  s.msg(t, '%s (%s)' % (p, len(bot.g.get(p, {}).items)))
 
 bot.register_cmd_handler(passive_handler, '.passive')
-

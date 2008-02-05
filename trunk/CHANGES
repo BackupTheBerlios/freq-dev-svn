@@ -52,3 +52,9 @@ some bugfixes
 cerberus
 chatlogs
 
+
+ === Mon Feb 4 17:45:58 UTC 2008 :: kreved@kreved ===
+new commands: .restart, .regionru, .tld, .www
+some bugfixes
+started work around database: Sqlite3
+(new features which need database will not work until config variable ENABLE_SQLITE=True)

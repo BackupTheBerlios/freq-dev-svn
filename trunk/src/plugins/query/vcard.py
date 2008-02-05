@@ -25,7 +25,7 @@ def vcard_handler(t, s, p):
   r = q[0][1:].upper().split(',')
   p = p[len(q[0])+1:]
  else:
-  r = config.VCARD.split(',')
+  r = config.VCARD_FIELDS.split(',')
  jid = get_jid(s, p)
  packet = IQ(bot.wrapper.x, 'get')
  packet.addElement('vCard', 'vcard-temp')
@@ -41,7 +41,8 @@ def vcard_result_handler(t, s, p, r, x):
    if (not q and not('*' in r)) or i.count('BINVAL'): vcard.pop(i)
   #s.msg(t, ' -- '.join(vcard.values()))
   res = [u'%s: %s' % (vcard_describe(i, s.get_lang()), vcard[i]) for i in vcard.keys()]
-  s.msg(t, 'vCard:\n' + '\n'.join(res))
+  if res: s.msg(t, 'vCard:\n' + '\n'.join(res))
+  else: s.lmsg('vcard_empty')
  except:
   s.lmsg(t, 'vcard_error')
   #raise

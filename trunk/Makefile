@@ -10,6 +10,7 @@ distver=1.1.99
 rev=`tools/getrev 2>/dev/null`
 dist=$(distname)-$(distver).$(rev)
 tarballdir=..
+googlefile=$(prefix)/share/freq/.googlekey
 
 build: doc lang templates tools
 	@echo Building $(dist)...
@@ -32,6 +33,7 @@ install:
 	@echo -n "Copying files to $(prefix)/share/freq/: "
 	@rm -rf $(prefix)/share/freq/src/
 	@mkdir -p $(prefix)/share/freq
+	@touch $(googlefile)
 	@mkdir -p $(prefix)/etc/rc.d
 	@$(INSTALL) README $(prefix)/share/freq
 	@$(INSTALL) CHANGES $(prefix)/share/freq
@@ -57,7 +59,7 @@ install:
 	@echo done.
 	$(INSTALL) freq.conf.example $(prefix)/etc
 	$(INSTALLX) tools/freqbot $(prefix)/etc/rc.d/freq
-	@echo "Creating user && group:"
+	@echo Creating user and group
 	@if pw groupshow -n $(botgroup) >/dev/null 2>&1; then echo " group $(botgroup) already exists: do nothing"; else pw groupadd -n $(botgroup); fi
 	@if pw usershow -n $(botuser) >/dev/null 2>&1; then echo " user $(botuser) already exists: do nothing"; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
 	@mkdir -p $(logdir)
@@ -72,14 +74,14 @@ install:
 	@echo "    1) add freq_enable=\"YES\" to /etc/rc.conf"
 	@echo "    2) copy $(prefix)/etc/freq.conf.example to $(prefix)/etc/freq.conf and EDIT IT"
 	@echo "    3) start bot: $(prefix)/etc/rc.d/freq start"
-	@echo "    4) if you want use .google, you need to create $(prefix)/share/freq/.googlekey and put your googlekey there"
+	@echo "    4) if you want use .google, you need to place yor Google API key into $(googlefile)"
 	@echo
 
 deinstall:
 	rm -rf $(prefix)/share/freq
 	rm -f $(prefix)/etc/rc.d/freq
 	rm -f $(prefix)/etc/freq.conf.example
-	@echo you can also remove "$(logdir) && $(vardir)"
+	@echo You can also remove $(logdir), $(vardir), user \"freq\" and group \"freq\"
 
 userdel:
 	pw userdel -n $(botuser)

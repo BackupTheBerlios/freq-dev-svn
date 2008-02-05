@@ -18,8 +18,11 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def eval_handler(t, s, p):
  try: m=unicode(eval(p))
  except: m = "%s: %s" % (sys.exc_info()[0], sys.exc_info()[1])
+ m = clear_text(m)
  s.msg(t, m)
+
 bot.register_cmd_handler(eval_handler, ".eval", 99)

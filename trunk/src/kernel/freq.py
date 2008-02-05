@@ -29,7 +29,6 @@ from twistedwrapper import wrapper
 from pluginloader import pluginloader
 from muc import muc
 import config
-if config.ENABLE_SQLITE: import db
 import time
 import os
 import sys
@@ -41,7 +40,8 @@ from twisted.words.protocols.jabber.jid import JID
 
 class freqbot:
 
- def __init__(self, q):
+ def __init__(self, env):
+  self.env = env
   self.log = log.logger()
   if not os.access(config.LOGF, 0):
    fp = file(config.LOGF, 'w')
@@ -62,6 +62,7 @@ class freqbot:
   self.rewriteengines = []
   self.access_modificators = []
   self.cmd_cache = {}
+  self.want_restart = False
   self.version_name = u'freQ'
   self.version_version = u'1.1.99.' + self.getRev()
   self.log.version = self.version_version
@@ -71,9 +72,7 @@ class freqbot:
   self.wrapper.onauthd = self.onauthd
   self.wrapper.c.addBootstrap('//event/client/basicauth/authfailed', self.failed)
   self.wrapper.c.addBootstrap('//event/client/basicauth/invaliduser', self.failed)
-  if config.ENABLE_SQLITE: self.db = db.db()
-  self.plug = pluginloader(self, q)
-  print 'Initialized'
+  self.plug = pluginloader(self)
   self.log.log('<b>freQ %s (PID: %s) Initialized</b>' % (self.version_version, os.getpid()))
   #reactor.addSystemEventTrigger('before', 'shutdown', self.shutdown)
   self.cc = task.LoopingCall(self.clean_cmd_cache)
@@ -86,7 +85,7 @@ class freqbot:
   self.wrapper.register_msg_handler(self.call_cmd_handlers)
   self.wrapper.register_msg_handler(self.call_msg_handlers)
   self.wrapper.presence()
-  self.log.log('onauthd: stage 1')
+  self.log.log('onAuthd: stage 1')
   self.authd += 1
   if self.authd > 1: #config.RECONNECT_COUNT:
    self.log.err('Disconnected (reconnect disabled)')
@@ -95,10 +94,10 @@ class freqbot:
   reactor.callLater(5, self.onauthd2)
 
  def onauthd2(self):
-  self.log.log('onauthd: stage 2')
+  self.log.log('onAuthd: stage 2')
   groupchats = self.muc.load_groupchats()
   for i in groupchats: self.muc.join(i)
-  print 'Joined %s groupchats' % len(groupchats, )
+  self.log.log('Joined %s groupchats' % len(groupchats, ))
 
  def keep_alive(self):
   #self.wrapper.presence()
@@ -126,9 +125,21 @@ class freqbot:
  def clean_cmd_cache(self):
   self.cmd_cache = {}
 
- def shutdown(self, *args, **kwargs):
+ def stop(self, reason='[unknown reason]', restart=False):
   self.stopped = True
-  self.log.log('<b>Shutting down (args=%s; kwargs=%s)</b>' % (escape(repr(args)), escape(repr(kwargs))))
+  self.smart_shutdown = True
+  self.wrapper.stopped = True
+  self.want_restart = restart
+  reason = 'Shutting down: ' + reason
+  self.log.log('<b>' + escape(reason) + '</b>')
+  self.cmdhandlers = []
+  self.msghandlers = []
+  self.topichandlers = []
+  self.joinhandlers = []
+  self.leavehandlers = []
+  self.badhandlers = []
+  self.muc.leave_groupchats(reason)
+  reactor.callLater(2, reactor.stop)
 
  def check_text(self, source, text):
   #if source.room and (source.room.bot.nick == self.muc.get_nick(source.room.jid)):
@@ -145,9 +156,9 @@ class freqbot:
   try:
    if m['isError'] == 1:
     self.log.err(escape(repr(m)))
-    reactor.stop()
+    #reactor.stop()
    else:
-    self.log.log(escape(repr(m)))
+    self.log.log(escape(repr(m)), 4)
   except: print m 
 
  def failed(self, x):
@@ -281,8 +292,8 @@ class freqbot:
   fro = x.getAttribute('from', config.SERVER)
   ID = x.getAttribute('id', None)
   typ = x.getAttribute('type')
-  if typ == 'result': return
-  if (xmlns == 'jabber:iq:version') and (typ == 'get'):
+  if typ == 'result': pass
+  elif (xmlns == 'jabber:iq:version') and (typ == 'get'):
     answer = domish.Element(('jabber:client', 'iq'))
     answer['type'] = 'result'
     answer['id'] = x.getAttribute('id')
@@ -292,12 +303,9 @@ class freqbot:
     query.addElement('version').addContent(self.version_version)
     query.addElement('os').addContent(self.version_os)
     self.wrapper.send(answer)
-  elif (xmlns == 'jabber:iq:roster') and (typ == 'set'):
-   pass
+  elif (xmlns == 'jabber:iq:roster') and (typ == 'set'): pass
+  elif typ == 'error': pass
   else:
-   self.log.log_e('<feature-not-implemented/> xmlns=%s, from=%s, ID=%s, typ=%s stanza: %s'
-   % (xmlns, fro, ID, typ, x.toXml()), 1)
-   if typ == 'error': return
    answer = domish.Element(('jabber:client', 'iq'))
    answer['to'] = fro
    if ID:
@@ -325,4 +333,4 @@ class freqbot:
    m = u'<font color=red><b>ERROR:</b></font> %s\n<br/>\n(f, *args, *kwargs) was <font color=grey>(%s)</font>' \
          % (escape(m), escape(repr((f, args, kwargs))))
    self.log.err(m)
-   return 0
+   return -1

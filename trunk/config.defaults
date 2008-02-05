@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 # Don't edit this file!
-# You can override these default settings in your freq.cfg file
+# You can override these default settings in your freq.conf file
 
 ### ACCOUNT ###
+SERVER = u'kreved.org'
+USER = u'freq'
+PASSWD = u'secret'
 RESOURCE = u'Python'
 PORT = 5222
+USE_SSL = False
 CONNECT_SERVER = None
 #CONNECT_SERVER = u'localhost'
 
@@ -43,8 +47,7 @@ KEEP_ALIVE_INTERVAL = 60
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = '/var/freq/freq.pid'
-# sqlite support doesn't implemented yet; 0=disabled
-ENABLE_SQLITE = 0
+ENABLE_SQLITE = False
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5
@@ -55,7 +58,8 @@ ERRLOGFILE = '/var/log/freq/err.html'
 RAWXML = None
 
 ### PLUGINS ###
-VCARD = u'FN,BDAY,DESC,URL'
+PLUGINS_DIR = 'src/plugins'
+VCARD_FIELDS = u'FN,BDAY,DESC,URL'
 CERBERUS_MODE = 'ignore'
 CERBERUS_REASON = u'эээ... здесь не ругаются..'
 CERBERUS_WARNING = u'не дебоширь!'

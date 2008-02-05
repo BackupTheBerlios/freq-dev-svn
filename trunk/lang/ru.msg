@@ -130,3 +130,12 @@ left истекает через
 i_am_not_there меня нет там
 chatlogs_already_enabled чатлоги уже включены
 chatlogs_already_disabled чатлоги уже отключены
+invalid_jid_or_nick неправильный jid или ник
+www_error ошибка при загрузке страницы
+www_error_reason ошибка при загрузке страницы: %s
+invalid_encoding неправильная кодировка!
+www_dns_error не резолвится
+www_timeout_error сервер не отвечает (таймаут)
+stopping выключаюсь... подожди пару секунд..
+restarting скоро вернусь...
+failed не получилось

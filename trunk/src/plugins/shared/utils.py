@@ -94,3 +94,24 @@ def dump_time(tm, text, human=False, s=None):
  else:
   if human: return u'%s (%s %s)' % (text, s.get_msg('left'), time2str(tm - time.time(), True, s.get_lang()))
   else: return u'@#/%d %s' % (tm, text)
+
+safe_characters =  u'abcdefghijklmnopqrstuvwxyz'
+safe_characters += u'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+safe_characters += safe_characters.upper()
+safe_characters += u'`1234567890-=~!@#$%^&*()_+,./\\|	:;\'"[]{}\n\r<>? '
+#to be continued...
+
+def clear_char(c):
+ if c in safe_characters: return c
+ else: return '?'
+
+def clear_text(s):
+ res = map(clear_char, s)
+ return ''.join(res)
+
+strip_tags = re.compile(u'<[^<>]+>')
+
+def html_decode(text):
+ text = text.replace(u'\n', u'')
+ return strip_tags.sub(u'', text.replace(u'<br>',u'\n')).replace(u'&nbsp;', u' ').replace(u'&lt;',\
+ u'<').replace(u'&gt;', u'>').replace(u'&quot;', u'"').replace(u'\t', u'')

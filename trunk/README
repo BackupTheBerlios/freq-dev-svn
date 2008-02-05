@@ -1,14 +1,14 @@
 freQ is a Jabber bot, written by Burdakov Daniel <kreved@kreved.org>
 
-You need have installed
+To run bot, you need have installed
 
-        * Python2.5          - http://python.org/
-        * py25-twistedCore   - http://twistedmatrix.com/
-        * py25-twistedWords  - http://twistedmatrix.com/
-        * py25-twistedWeb    - http://twistedmatrix.com/
-        * py25-twistedNames  - http://twistedmatrix.com/
+       * python25-2.5.1           - http://python.org/
+       * py25-twistedCore-2.5.0   - http://twistedmatrix.com/
+       * py25-twistedWords-0.5.0  - http://twistedmatrix.com/
+       * py25-twistedWeb-0.7.0    - http://twistedmatrix.com/
+       * sqlite3-3.4.1            - http://sqlite.org/
 
-   to start bot. (run "python ./tools/depends.py" to check if you have installed all dependencies)
+   (run "python ./tools/depends.py" to check if you have installed all dependencies)
 
 
 1) You can install FreQ on your system using command:
