@@ -101,10 +101,14 @@ def admin_handler(t, s, p):
   if item:
    nj = 'nick'
    if (item.nick <> s.nick) and not s.allowed(11):
-    #deny
+    #deny: делать админом кого-то кроме себя может только овнер
     s.lmsg(t, 'not_allowed')
     return
   else:
+   if not s.allowed(11):
+    #добавлять jid в список админов может только овнер
+    s.lmsg(t, 'not_allowed')
+    return
    j = jid_regexp.match(p)
    if j:
     nj = 'jid'
