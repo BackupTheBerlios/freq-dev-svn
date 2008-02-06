@@ -92,6 +92,7 @@ def replace_links(text):
 
 def chatlogs_msg_handler(source, body):
  if not body: return
+ else: body = body.strip()
  j = jid.JID(source)
  room = j.userhost()
  nick = j.resource
