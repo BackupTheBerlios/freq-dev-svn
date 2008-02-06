@@ -199,7 +199,7 @@ class freqbot:
   except:
    item = new_item(self)
    item.jid = s
-   item.realjid = s
+   item.realjid = JID(s).userhost()
   if item.room and (item.nick == self.muc.get_nick(item.room.jid)):
    self.log.log(u'own message from %s ignored' % (escape(item.jid), ), 2)
    return

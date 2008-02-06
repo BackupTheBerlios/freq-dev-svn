@@ -26,6 +26,7 @@ def leave_handler(t, s, p):
   room, reason = p[:n], p[n+1:]
  else: room, reason = p, ''
  if room:
+  room = room.lower()
   if s.allowed(50):
    if room in bot.g.keys():
     if not reason: reason = '".leave" command from bot owner'

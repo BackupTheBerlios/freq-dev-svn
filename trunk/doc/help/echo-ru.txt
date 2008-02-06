@@ -6,5 +6,7 @@ basic
   ".echo мы находимся в конфе %ROOM%, я %BOT%, ты %NICK%, %AFFILIATION%/%ROLE%"
 
 доступные контексты:
-%NICK%, %JID%, %ROLE%, %AFFILIATION%, %ROOM%, %BOT%
-%SUBJECT%, %DAY%, %MONTH%, %YEAR%, %ACCESS%, %ITEMS%, %QNICK%
+%NICK%, %QNICK%, %JID%, %ROLE%, %AFFILIATION%, %ACCESS%
+%ROOM%, %SUBJECT%, %ITEMS%, %BOT%
+%DAY%, %MONTH%, %YEAR%, %HOURS%, %MINUTES%, %SECONDS%
+%VERSION%, %SYSTEM%

@@ -20,6 +20,7 @@
 #~#######################################################################
 
 def join_handler(t, s, p):
+ p = p.strip()
  p = p.replace('\n', '')
  if p.count('/'): s.lmsg(t, 'join_slash')
  else:
@@ -27,10 +28,11 @@ def join_handler(t, s, p):
   else:
    if p.count(' '):
     groupchat = p.split()[0]
-    nick = p[len(groupchat)+1:]
+    nick = p[len(groupchat)+1:].strip()
    else:
     groupchat = p
     nick = config.NICK
+   groupchat = groupchat.lower()
    if groupchat in bot.g.keys(): s.lmsg(t, 'join_already_there')
    else:
     q = blacklist_load()

@@ -79,7 +79,6 @@ def access_add_global(t, s, p):
  except:
   s.lmsg(t, 'access_add_invalid_syntax')
   return
- k = get_access('global', j['jid'])
  l = [item for item in ACCESS_LISTS['global'] if access_parse(item)['jid'] <> j['jid']]
  l.append(p)
  ACCESS_LISTS['global'] = l
@@ -121,8 +120,8 @@ bot.register_cmd_handler(access_add, '.access_add', 11, True)
 bot.register_cmd_handler(access_del, '.access_del', 11, True)
 bot.register_cmd_handler(access_clear, '.access_clear', 11, True)
 bot.register_cmd_handler(access_show, '.access_show', 9, True)
-bot.register_cmd_handler(access_add_global, '.access_add_global', 50, True)
-bot.register_cmd_handler(access_del_global, '.access_del_global', 50, True)
-bot.register_cmd_handler(access_clear_global, '.access_clear_global', 50, True)
-bot.register_cmd_handler(access_show_global, '.access_show_global', 50, True)
+bot.register_cmd_handler(access_add_global, '.access_add_global', 50)
+bot.register_cmd_handler(access_del_global, '.access_del_global', 50)
+bot.register_cmd_handler(access_clear_global, '.access_clear_global', 50)
+bot.register_cmd_handler(access_show_global, '.access_show_global', 50)
 bot.register_access_modificator(rewrite_access)

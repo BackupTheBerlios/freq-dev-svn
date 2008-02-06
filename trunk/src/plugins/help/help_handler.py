@@ -18,7 +18,9 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def help_handler(t, s, p):
+ p = p.strip()
  q = re.search('^(\-..\ )?\.?(.+)$', p)
  if q:
   rlang = q.groups()[0]

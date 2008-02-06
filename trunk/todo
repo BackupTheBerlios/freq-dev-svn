@@ -22,6 +22,8 @@
 ? caps (xep-0115)
 - .dfn, .wtf, .wtfall, .wtfpriv, .wtfcount, .wtfsearch, .wtfrand, ппц..
 ? отвечать на discovery, xep-не-помню-какой
+- возможность по .realjid посмотреть jid тех, кто только что вышел
+- чото не хочет показывать свою vCard (freq1@xmpp.ru)
 
 [16:14:37] <Dominges> кстати очень хотелось бы в будущем контекст %TIME% и функцию .msg (например), типа .msg ы@jabber.ru бу! или .msg eth0@conference.jabber.ru бугога
 [16:15:12] <Dominges> для построения сценариев с использованием .commands пригодиццо
@@ -31,5 +33,3 @@
 [16:15:41] <Dominges> выжимаем из фрека все гг
 [16:16:00] <Dominges> уже алиасов и .commands хватает для многого
 [16:16:03] <некий субъект> только наверно не %TIME% а %HOURS% %MINUTES% %SECONDS%
-
-чото не хочет показывать свою vCard (freq1@xmpp.ru)
