@@ -66,7 +66,7 @@ class aitem:
     if item.jid == item.realjid: raise NoJID(item.jid)
     else: self.value = item.realjid
    else: raise NickNotFound(s)
-   return self
+   return
   if s.startswith('exp '):
    self.regexp = True
    s = s[4:]
@@ -74,7 +74,6 @@ class aitem:
    except: raise MyRegexpError(s)
   else: self.regexp = False
   self.value = s
-  return self
  def text(self, human = False, with_time = True):
   if self.by_jid: text = 'jid '
   else: text = 'nick '
