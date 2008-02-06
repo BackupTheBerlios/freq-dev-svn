@@ -41,8 +41,10 @@ class MyRegexpError(Exception):
 
 class aitem:
  def __init__(self, room, s, negative=True):
-  """парсит выражения типа 'jid blabla@server', 'nick exp regexp', etc.
-  короче в стиле глюкса"""
+  """
+  парсит выражения типа '/5m jid blabla@server', 'nick exp regexp', etc.
+  короче в стиле глюкса
+  """
   self.room = room
   self.negative = negative
   self.end_time, s = fetch_time(s)
@@ -64,7 +66,7 @@ class aitem:
     if item.jid == item.realjid: raise NoJID(item.jid)
     else: self.value = item.realjid
    else: raise NickNotFound(s)
-   return
+   return self
   if s.startswith('exp '):
    self.regexp = True
    s = s[4:]
@@ -72,12 +74,13 @@ class aitem:
    except: raise MyRegexpError(s)
   else: self.regexp = False
   self.value = s
- def text(self, human = False):
+  return self
+ def text(self, human = False, with_time = True):
   if self.by_jid: text = 'jid '
   else: text = 'nick '
   if self.regexp: text = text + u'exp '
   text = text + self.value
-  text = dump_time(self.end_time, text, human, self.room)
+  if with_time: text = dump_time(self.end_time, text, human, self.room)
   if self.reason: return text + '||' + self.reason
   else: return text
  def __str__(self):
@@ -94,6 +97,9 @@ class aitem:
   if self.reason: return self.reason
   else: return 'akick'
 
+def del_from_alists(room, s):
+ for alist in ALISTS: alist.safe_remove(room, s)
+
 class alist:
  def __init__(self, bot, typ, action, negative=True):
   self.negative = negative
@@ -102,9 +108,11 @@ class alist:
   bot.register_join_handler(self.join_handler)
   bot.register_leave_handler(self.leave_handler)
  def append(self, room, s):
-  q = aitem(room, s).text()
+  q = aitem(room, s)
+  s = q.text(False, False)
+  del_from_alists(room, s)
   p = self.lists[room.jid]
-  p.append(q)
+  p.append(q.text())
   p.sort()
   self.lists[room.jid] = p
   self.apply_to_room(room)
@@ -112,6 +120,12 @@ class alist:
   p = self.lists[room.jid]
   p.pop(n-1)
   self.lists[room.jid] = p
+ def safe_remove(self, room, s):
+  tm, s = fetch_time(s)
+  items = self.items(room)
+  new_items = [i for i in items if i.text(False, False) <> s]
+  if len(new_items) < len(items):
+   self.lists[room.jid] = [i.text() for i in new_items]
  def items(self, room):
   q = [aitem(room, i, self.negative) for i in self.lists[room.jid]]
   t = time.time()
@@ -148,12 +162,13 @@ class alist:
    self.clear(room)
    source.lmsg(typ, 'cleared')
   else:
-   try: self.append(room, cmd[:80])
+   try:
+    self.append(room, cmd[:80])
+    source.lmsg(typ, 'added')
    except NickNotFound: source.lmsg(typ, 'nick_not_found')
    except NoJID: source.lmsg(typ, 'alist_add_nojid')
    except MyRegexpError: source.lmsg(typ, 'invalid_regexp')
    except ValueError: source.lmsg(typ, 'invalid_syntax_default')
-   source.lmsg(typ, 'added')
  def apply_to_item(self, item):
   reason = self.check(item.room, item)
   if (reason <> False): self.action(item, reason)
@@ -174,9 +189,10 @@ def a_visitor(item, reason):
 def a_moderator(item, reason):
  item.room.moderate('nick', item.nick, 'role', 'moderator', '')
 
-AKICK = alist(bot, 'akick', a_kick)
+AKICK = alist(bot, 'akick', a_kick, True)
+AVISITOR = alist(bot, 'avisitor', a_visitor, True)
 AMODERATOR = alist(bot, 'amoderator', a_moderator, False)
-AVISITOR = alist(bot, 'avisitor', a_visitor)
+ALISTS = [AKICK, AVISITOR, AMODERATOR]
 
 def akick_handler(t, s, p):
  p = p.strip()
