@@ -138,7 +138,7 @@ class freqbot:
   self.joinhandlers = []
   self.leavehandlers = []
   self.badhandlers = []
-  self.muc.leave_groupchats(reason)
+  self.muc.offline(reason)
   reactor.callLater(3, reactor.stop)
 
  def check_text(self, source, text):

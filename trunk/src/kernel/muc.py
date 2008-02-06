@@ -218,13 +218,11 @@ class muc:
    self.dump_groupchats(q)
   self.bot.g.pop(groupchat, None)
 
- def leave_groupchats(self, reason):
-  for groupchat in self.bot.g.keys():
-   p = domish.Element(('jabber:client', 'presence'))
-   p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
-   p['type'] = 'unavailable'
-   p.addElement('status').addContent(reason)
-   self.bot.wrapper.send(p)
+ def offline(self, reason):
+  p = domish.Element(('jabber:client', 'presence'))
+  p['type'] = 'unavailable'
+  p.addElement('status').addContent(reason)
+  self.bot.wrapper.send(p)
 
  def load_groupchats(self):
   try:

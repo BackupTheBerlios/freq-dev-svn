@@ -125,7 +125,9 @@ class wrapper:
     self.call(i, typ, f, body, subject, x)
 
  def send(self, x):
-  self.log.log(u'try to send stanza to %s..' % (x['to'], ), 0)
+  try: target = x['to']
+  except: target = '(server)'
+  self.log.log(u'try to send stanza to %s..' % (target, ), 0)
   reactor.callFromThread(self._send, x)
 
  def _send(self, x):
