@@ -35,6 +35,17 @@ def globmsg_handler(t, s, p):
   s.lmsg(t, 'globmsg_sent', len([i for i in bot.g.keys() if i]))
  else: s.msg(t, '?')
 
+def msg_handler(t, s, p):
+ p = p.strip()
+ if p.count(' '):
+  jid, p, text = p.partition(' ')
+  if jid in bot.g.keys(): typ = 'groupchat'
+  else: typ = 'chat'
+  bot.wrapper.msg(typ, jid, text)
+  s.lmsg(t, 'sent')
+ else: s.syntax(t, 'msg')
+
 bot.register_cmd_handler(echo_handler, '.echo')
-bot.register_cmd_handler(say_handler, '.say', 5, g=1)
+bot.register_cmd_handler(say_handler, '.say', 5, True)
 bot.register_cmd_handler(globmsg_handler, '.globmsg', 99)
+bot.register_cmd_handler(msg_handler, '.msg', 50)
