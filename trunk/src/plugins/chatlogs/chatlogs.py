@@ -161,13 +161,15 @@ if config.CHATLOGS_ALLOW_SWICH: log_access = 11
 else: log_access = 50
 
 def enable_logging(t, s, p):
- if s.room.get_option('chatlogs') == 'on': s.lmsg(t, 'chatlogs_already_enabled')
+ if s.room.get_option('chatlogs', config.CHATLOGS_ENABLE) == 'on':
+  s.lmsg(t, 'chatlogs_already_enabled')
  else:
   s.room.set_option('chatlogs', 'on')
   s.lmsg(t, 'chatlogs_enabled')
 
 def disable_logging(t, s, p):
- if s.room.get_option('chatlogs') == 'off': s.lmsg(t, 'chatlogs_already_disabled')
+ if s.room.get_option('chatlogs', config.CHATLOGS_ENABLE) == 'off':
+  s.lmsg(t, 'chatlogs_already_disabled')
  else:
   s.room.set_option('chatlogs', 'off')
   s.lmsg(t, 'chatlogs_disabled')

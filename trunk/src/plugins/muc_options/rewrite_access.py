@@ -117,8 +117,8 @@ def rewrite_access(item, old_access):
   else: return q
  else: return old_access
 
-bot.register_cmd_handler(access_add, '.access_add', 9, True)
-bot.register_cmd_handler(access_del, '.access_del', 9, True)
+bot.register_cmd_handler(access_add, '.access_add', 11, True)
+bot.register_cmd_handler(access_del, '.access_del', 11, True)
 bot.register_cmd_handler(access_clear, '.access_clear', 11, True)
 bot.register_cmd_handler(access_show, '.access_show', 9, True)
 bot.register_cmd_handler(access_add_global, '.access_add_global', 50, True)
