@@ -22,6 +22,10 @@
 BL = optstringlist('blacklist')
 
 def blacklist_parse(s):
+ """
+ input: '/3m room@server reason'
+ output: ('room@server', (1202281728, 'reason'))
+ """
  tm, s = fetch_time(s)
  if s.count(' '):
   n = s.find(' ')
@@ -46,8 +50,9 @@ def blacklist_add(t, s, p):
   s.syntax(t, 'blacklist_add')
   return
  q = blacklist_load()
- room, tm_and_reason = blacklist_parse(p)
- q[room] = tm_and_reason
+ room, tmp = blacklist_parse(p)
+ tm, reason = tmp
+ q[room] = (tm, reason)
  blacklist_dump(q)
  if room in bot.g.keys(): bot.muc.leave(room, reason)
  s.lmsg(t, 'ok')
