@@ -62,9 +62,9 @@ class muc:
   self.bot.log.log(u'checking access for %s (%s)...' % (item.jid, item.realjid), 1)
   access = 0
   if item.role == 'participant': access += 1
-  if item.role == 'moderator': access +=4
+  if item.role == 'moderator': access += 4
   if item.affiliation == 'none': access += 1
-  if item.affiliation == 'member': access +=3
+  if item.affiliation == 'member': access += 3
   if item.affiliation == 'admin': access += 5
   if item.affiliation == 'owner': access += 7
   if self.is_admin(item.realjid):

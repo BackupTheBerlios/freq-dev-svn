@@ -27,6 +27,7 @@ from twisted.web.error import Error as WebError
 www_regexp = re.compile(u'^(https?\:\/\/)?(((\w|\-)+\.)*\w+)(:\d+)?(\/(\w|[\-\._])+)*\/?$')
 
 def www_handler(typ, source, params):
+ params = params.strip()
  if params.count(' '): url, enc = params.split()[:2]
  else: url, enc = params, 'utf8'
  if not enc in ['utf8', 'cp1251', 'koi8-r', 'utf-8']: # to be continued

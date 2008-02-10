@@ -191,6 +191,7 @@ class freqbot:
   self.leavehandlers.append(func)
 
  def call_cmd_handlers(self, t, s, body, subject, stanza):
+  if t == 'error': return
   if subject: return
   #found or create item
   groupchat = s.split('/')[0]
@@ -250,6 +251,7 @@ class freqbot:
        else: s.lmsg(t, 'not_allowed')
 
  def call_msg_handlers(self, t, s, b, subject, stanza):
+  if t == 'error': return
   if subject:
    j = JID(s)
    if not j.userhost() in self.g.keys():
