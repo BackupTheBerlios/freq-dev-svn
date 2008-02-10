@@ -48,13 +48,13 @@ class aitem:
   self.room = room
   self.negative = negative
   self.end_time, s = fetch_time(s)
-  if s.count('||'): s, self.reason = s[:s.find('||')].strip().lower(), s[s.find('||')+2:].strip()
-  else: s, self.reason = s.strip().lower(), ''
-  if s.startswith('jid '):
+  if s.count('||'): s, self.reason = s[:s.find('||')].strip(), s[s.find('||')+2:].strip()
+  else: s, self.reason = s.strip(), ''
+  if s.lower().startswith('jid '):
    self.by_jid = True
-   s = s[4:]
+   s = s[4:].lower()
    if not s: raise ValueError
-  elif s.startswith('nick '):
+  elif s.lower().startswith('nick '):
    self.by_jid = False
    s = s[5:]
    if not s: raise ValueError
@@ -64,10 +64,10 @@ class aitem:
    item = room.get(s, None)
    if item:
     if item.jid == item.realjid: raise NoJID(item.jid)
-    else: self.value = item.realjid
+    else: self.value = item.realjid.lower()
    else: raise NickNotFound(s)
    return
-  if s.startswith('exp '):
+  if s.lower().startswith('exp '):
    self.regexp = True
    s = s[4:]
    try: re.match(s, 'test@jabber.org')
@@ -86,7 +86,7 @@ class aitem:
   return u'aitem: "%s", regexp: %s, by_jid: %s, value="%s", reason="%s"' % \
   (self.text(True), self.regexp, self.by_jid, self.value, self.reason)
  def check(self, item):
-  if self.by_jid: s = item.realjid
+  if self.by_jid: s = item.realjid.lower()
   else: s = item.nick
   if self.regexp:
    return not(self.negative and (item.affiliation <> 'none')) and re.match(self.value, s)

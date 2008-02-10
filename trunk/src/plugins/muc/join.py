@@ -36,8 +36,10 @@ def join_handler(t, s, p):
    if groupchat in bot.g.keys(): s.lmsg(t, 'join_already_there')
    else:
     q = blacklist_load()
-    if groupchat in q.keys():
-     tm, reason = q[groupchat]
+    gserver = groupchat.split('@')[-1]
+    if q.has_key(groupchat) or q.has_key(gserver):
+     if q.has_key(groupchat): tm, reason = q[groupchat]
+     else: tm, reason = q[gserver]
      if reason: m = s.get_msg('join_not_permitted_reason', (groupchat, reason))
      else: m = s.get_msg('join_not_permitted', (groupchat, ))
      m = dump_time(tm, m, True, s)
