@@ -94,3 +94,25 @@ version_result_nick %s використовує %s %s %s
 version_result_self я %s %s, запущений під %s
 version_result_your в тебе %s %s %s
 whom? кого??
+join_not_permitted адмін заборонив запрошувати бота в %s
+join_not_permitted_reason адмін заборонив запрошувати бота в %s\nпричина: %s
+number_not_found немає такого номера
+deleted видалене
+cleared очищене
+nick_not_found немає такого ника
+alist_add_nojid не бачу його jid..
+invalid_regexp помилка в регулярному виразі
+added додане
+left закінчується через
+i_am_not_there мене немає там
+chatlogs_already_enabled чатлоги вже включені
+chatlogs_already_disabled чатлоги вже відключені
+invalid_jid_or_nick неправильний jid або ник
+www_error помилка при завантаженні сторінки
+www_error_reason помилка при завантаженні сторінки: %s
+invalid_encoding неправильне кодування!
+www_dns_error не резолвітся
+www_timeout_error сервер не відповідає (таймаут)
+stopping вимикаюся... почекай пару секунд..
+restarting скоро повернуся... failed не вийшло
+sent відправлене
