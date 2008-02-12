@@ -18,11 +18,13 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def whois_handler(t, item, params):
  try:
   q = item.room[params]
-  item.lmsg(t, "muc_whois", q.affiliation, q.role, q.show, q.status, time.strftime("%d.%m.%y %H:%M:%S", time.localtime(q.joined)), q.access())
- except: item.syntax(t, 'whois')
+  item.lmsg(t, 'muc_whois', q.affiliation, q.role, q.show, q.status, \
+  time.strftime("%d.%m.%y %H:%M:%S", time.localtime(q.joined)), q.access())
+ except: item.lmsg(t, 'nick_not_found')
 
-bot.register_cmd_handler(whois_handler, ".whois", g=1)
+bot.register_cmd_handler(whois_handler, '.whois', g=1)
 

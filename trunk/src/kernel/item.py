@@ -41,7 +41,7 @@ class item:
   if (typ=='groupchat') and self.room and (len(body)>self.room.get_msglimit()):
    self.bot.muc.msg(typ, self.jid, self.get_msg('see_private'))
    typ = 'chat'
-  if typ in ['chat', 'groupchat']: self.bot.muc.msg(typ, self.jid, body)
+  if typ in ['chat', 'groupchat', 'normal']: self.bot.muc.msg(typ, self.jid, body)
   elif typ == 'null': pass
   elif typ.startswith('redirect:'):
    nick = typ[9:]
