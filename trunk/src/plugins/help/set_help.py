@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def set_help_handler(t, s, p):
  if p.count('='):
   n = p.find('=')
@@ -32,4 +33,4 @@ def set_help_handler(t, s, p):
   s.lmsg(t, 'help_saved')
  else: s.syntax(t, 'set_help')
 
-bot.register_cmd_handler(set_help_handler, '.set_help', 8)
+bot.register_cmd_handler(set_help_handler, '.set_help', 50)

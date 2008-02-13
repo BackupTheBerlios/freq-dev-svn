@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def idle_handler(t, s, p):
  jid = get_jid(s, p)
  packet = IQ(bot.wrapper.x, 'get')
