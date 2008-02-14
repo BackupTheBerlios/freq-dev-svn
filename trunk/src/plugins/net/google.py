@@ -48,9 +48,12 @@ def google_handler(t, s, p):
   return
  G_CACHE[s.jid] = (int(start), int(finish), q)
  #s.msg(t, u'%s: %s-%s' % (q, start, finish))
- x = google.doGoogleSearch(q, start=int(start)-1, maxResults=min(int(finish)-int(start)+1, 10), filter=1)
- if x.results:
-  s.lmsg(t, 'google_results', show_list([lang.msg('google_result', (htmldecode(i.snippet), i.URL, i.cachedSize), lang.getLang(s.jid)) for i in x.results]), x.meta.estimatedTotalResultsCount)
- else: s.lmsg(t, 'google_no_results')
+ try:
+  x = google.doGoogleSearch(q, start=int(start)-1, maxResults=min(int(finish)-int(start)+1, 10), filter=1)
+  if x.results:
+   s.lmsg(t, 'google_results', show_list([lang.msg('google_result', (htmldecode(i.snippet), i.URL, i.cachedSize), lang.getLang(s.jid)) for i in x.results]), x.meta.estimatedTotalResultsCount)
+  else: s.lmsg(t, 'google_no_results')
+ except:
+  s.lmsg(t, 'google_error')
 
 bot.register_cmd_handler(google_handler, '.google')
