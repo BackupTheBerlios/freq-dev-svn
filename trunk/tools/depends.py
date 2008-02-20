@@ -40,4 +40,4 @@ except:
 
 try: from sqlite3 import connect
 except:
- sys.stdout.write('=== Warning: cannot "from sqlite3 import connect"\nSome features will not work.')
+ sys.stdout.write('=== Warning: cannot "from sqlite3 import connect"\nSome features will not work.\n')

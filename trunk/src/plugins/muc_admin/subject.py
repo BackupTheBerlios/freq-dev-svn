@@ -21,6 +21,6 @@
 
 def set_subject_handler(t, s, p):
  if p: s.room.set_subject(p)
- else: s.lmsg('what_subject')
+ else: s.lmsg(typ, 'what_subject')
 
 bot.register_cmd_handler(set_subject_handler, '.set_subject', 7, 1)
