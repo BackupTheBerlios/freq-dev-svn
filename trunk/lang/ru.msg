@@ -37,6 +37,7 @@ chatlogs_disabled логирование отключено
 chatlogs_enabled логирование включено
 cleaned зачистка выполнена
 current_lang текущий язык русский (ru)
+deleted удалено
 disco_empty список пуст
 disco_error не получилось
 from_me меня
@@ -93,6 +94,7 @@ noisy_leave %s: ты ушёл? :( (%s)
 noisy_rename %s: шифруешся??
 not_allowed фиг
 not_found не найдено
+nothing_to_delete нечего удалять
 ok O'key
 ping_error не получается
 pong понг от %s %s
@@ -100,6 +102,7 @@ pyexec.ok выполнено
 redirect_nowhere нет такого ника
 rewrite_cycle превышен предел глубины рекурсии (%s уровней) при обработке вашего сообщения. Похоже на зацикливание. Такие проблемы могут возникать при неправильно настроенных алиасах.
 rewrite_too_many_commands ошибка: слишком много команд, их должно быть не более %s
+saved сохранено
 see_private глянь приват
 stats_error хз
 stats_result Статистика %s\nВсего: %s\nОнлайн: %s
@@ -108,6 +111,7 @@ status_updated ok
 status_whom кого?
 test.passed норма
 time_error хз
+updated обновил
 uptime_error хз
 uptime_result %s работает без остановок %s
 vcard_error не получилось
