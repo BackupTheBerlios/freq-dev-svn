@@ -53,7 +53,7 @@ install:
 	@cp -r static $(prefix)/share/freq/
 	@mkdir -p $(prefix)/share/freq/templates
 	@$(INSTALL) templates/*.html $(prefix)/share/freq/templates/
-	@cat src/kernel/freq.py | sed s/self.getRev\(\)/\'$(rev)\'/ >$(prefix)/share/freq/src/kernel/freq.py
+	@cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(prefix)/share/freq/src/kernel/freq.py
 	@rm -rf `find $(prefix)/share/freq -name ".svn"`
 	@chown -R root:wheel $(prefix)/share/freq
 	@find $(prefix)/share/freq -name "*.pyc" -delete

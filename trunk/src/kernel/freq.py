@@ -39,6 +39,7 @@ from cerberus import censor
 from twisted.words.protocols.jabber.jid import JID
 
 __id__ = "$Id$"
+__version__ = 'grodeverk'
 
 class freqbot:
 
@@ -68,7 +69,9 @@ class freqbot:
   self.cmd_cache = {}
   self.want_restart = False
   self.version_name = u'freQ'
-  self.version_version = u'1.1.99.' + self.getRev()
+  if __version__ == 'grodever' + 'k': # !!!
+   self.version_version = u'1.1.99.' + self.getRev()
+  else: self.version_version = __version__
   self.log.version = self.version_version
   if config.SHARE_OS: 
    self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
