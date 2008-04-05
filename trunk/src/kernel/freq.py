@@ -38,10 +38,14 @@ import traceback
 from cerberus import censor
 from twisted.words.protocols.jabber.jid import JID
 
+__id__ = "$Id$"
+
 class freqbot:
 
  def __init__(self, env):
   self.env = env
+  try: self.svnrev = 'r' + __id__.split(" ")[2] + ', freq.py: '+__id__.split(" ")[3].replace("-","")
+  except: self.svnrev = '?'
   self.log = log.logger()
   if not os.access(config.LOGF, 0):
    fp = file(config.LOGF, 'w')
@@ -66,7 +70,9 @@ class freqbot:
   self.version_name = u'freQ'
   self.version_version = u'1.1.99.' + self.getRev()
   self.log.version = self.version_version
-  self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
+  if config.SHARE_OS: 
+   self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
+  else: self.version_os = 'SomeOS'
   self.authd = 0
   self.wrapper = wrapper(self.version_version)
   self.wrapper.onauthd = self.onauthd
@@ -324,8 +330,10 @@ class freqbot:
   try:
    p = os.popen(config.SVNVERSION)
    time.sleep(1)
-   return p.read()
-  except: return 'dev' 
+   q = p.read().strip()
+   if q: return q
+   else: return self.svnrev
+  except: return self.svnrev
 
  def call(self, f, *args, **kwargs):
   try: return f(*args, **kwargs)

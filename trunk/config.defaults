@@ -30,6 +30,7 @@ TRUSTED_SERVERS = []
 #TRUSTED_SERVERS = [u'conference.jabber.ru', u'conference.jabber.org']
 
 ### BOT ###
+SHARE_OS = True
 LANG = 'ru'
 DATADIR = '/var/freq'
 USE_THREADS = True
