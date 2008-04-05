@@ -9,8 +9,8 @@ chatlogsdir=/var/freq/chatlogs
 imgdir=$(chatlogsdir)/images
 distname=freqbot
 distver=1.1.99
-rev=`tools/getrev 2>/dev/null`
-dist=$(distname)-$(distver).$(rev)
+rev=`tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
+dist=$(distname)-$(rev)
 tarballdir=..
 googlefile=$(prefix)/share/freq/.googlekey
 
