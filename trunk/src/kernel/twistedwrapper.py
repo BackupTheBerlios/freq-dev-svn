@@ -32,7 +32,37 @@ import sys
 import config
 import time
 
+def nothing(*a, **b):
+ pass
+
+class MyXmlStream(xmlstream.XmlStream):
+ 
+ def __init__(self, *args, **kwargs):
+  xmlstream.XmlStream.__init__(self, *args, **kwargs)
+  self.logger = log.logger()
+
+ def dataReceived(self, data):
+        """ Called whenever data is received.
+
+        Passes the data to the XML parser. This can result in calls to the
+        DOM handlers. If a parse error occurs, the L{STREAM_ERROR_EVENT} event
+        is called to allow for cleanup actions, followed by dropping the
+        connection.
+        """
+        try:
+         if self.rawDataInFn:
+          self.rawDataInFn(data)
+         self.stream.parse(data)
+        except domish.ParserError:
+         if type(data) == type(''): data = data.decode('utf8')
+         self.logger.err_e('*** CRASH BECAUSE OF BAD STANZA: ' + data)
+         self.dispatch(self, twisted.words.xish.xmlstream.STREAM_ERROR_EVENT)
+         self.transport.loseConnection()
+
 class ClientFactory(xmlstream.XmlStreamFactory):
+    
+    protocol = MyXmlStream
+    
     def __init__(self, a, host):
         self.host = host
         xmlstream.XmlStreamFactory.__init__(self, a)
@@ -41,14 +71,16 @@ class ClientFactory(xmlstream.XmlStreamFactory):
         m = 'Connection failed! ' + repr(reason.getTraceback())
         self.host.log.err_e(m)
         self.host.log.log_e(m)
-        reactor.stop()
+        try: reactor.stop()
+        except twisted.internet.error.ReactorNotRunning: pass
 
     def clientConnectionLost(self, connector, reason):
         if self.host.stopped: return
         m = 'Connection lost! ' + repr(reason.getTraceback())
         self.host.log.err_e(m)
         self.host.log.log_e(m)
-        reactor.stop()
+        try: reactor.stop()
+        except twisted.internet.error.ReactorNotRunning: pass
 
 class wrapper:
 
