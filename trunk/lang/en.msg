@@ -44,7 +44,7 @@ info %s %s's uptime is %s\nload average: %s stanza/sec, stanza length %s
 invalid_syntax Syntax:\n%s
 invalid_syntax_default Invalid syntax
 join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"
-join_failed can't join to %s (with nick %s)\nerror:\n%s
+join_failed can't join to %s (with nick %s)
 join_slash invalid room or nick: "/" is not allowed
 join_success joined to %s with nick %s
 joined Joined '%s'

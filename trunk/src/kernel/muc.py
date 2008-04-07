@@ -161,22 +161,28 @@ class muc:
       #error
       self.bot.log.err(u'unknown error presence: ' + escape(x.toXml()))
     else:
-     # unavailable or error presence from groupchat (but cannot find item..)
-     # possible fail to join..
-     # todo: fetch error code from presence here,
-     # if 409, then change nickname (it implemented in Yasm1ne)
-     self.bot.log.err(u'unavailable|error from %s\nstanza:\n%s' % \
-     (escape(x['from']), escape(x.toXml())))
-     gj = groupchat.joiner
-     if gj:
-      self.bot.log.log(u'reporting to %s about failed joining..' % \
-      (escape(gj[0].jid), ), 6)
-      gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick, x.toXml())
-      groupchat.joiner = None
-     if x['from'].endswith(self.get_nick(groupchat.jid)) and config.ROOM_LIMIT:
-      self.bot.log.log(u'leave (unavailable|error) from %s\nstanza:\n%s' % \
-      (escape(x['from']), escape(x.toXml())), 7)
-      self.leave(groupchat.jid, 'error|unavailable presence...')
+     if typ == 'error':
+      # check error code
+      error = [q for q in x.elements() if q.name=='error']
+      if error: code = error[0]['code']
+      else: code = None
+      if not code is None:
+       if code == '': pass
+       else: pass
+       gj = groupchat.joiner
+       if gj:
+        self.bot.log.log(u'reporting to %s about failed joining..' % \
+        (escape(gj[0].jid), ), 6)
+        gj[0].lmsg(gj[1], 'join_failed', groupchat.jid, nick)
+        groupchat.joiner = None
+       if x['from'].endswith(self.get_nick(groupchat.jid)) and config.ROOM_LIMIT:
+        self.bot.log.log_e(u'leave because of error presence from %s\nstanza:\n%s' % \
+        (x['from'], x.toXml()), 7)
+        self.leave(groupchat.jid, 'error presence...', True)
+      else: self.bot.log.err(u'unexpected error presence from %s\nstanza:\n%s' % \
+            (escape(x['from']), escape(x.toXml())))
+     else: self.bot.log.err(u'unexpected unavailable presence from %s\nstanza:\n%s' % \
+           (escape(x['from']), escape(x.toXml())))
   else:
    if typ in ('subscribe', 'subscribed', 'unsubscribe', 'unsubscribed'):
     p = domish.Element(('jabber:client', 'presence'))
@@ -206,12 +212,13 @@ class muc:
   if not (groupchat.jid in q): self.dump_groupchats(q+[groupchat.jid])
   return groupchat
 
- def leave(self, groupchat, reason = 'leave'):
-  p = domish.Element(('jabber:client', 'presence'))
-  p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
-  p['type'] = 'unavailable'
-  p.addElement('status').addContent(reason)
-  self.bot.wrapper.send(p)
+ def leave(self, groupchat, reason = 'leave', config_only = False):
+  if not config_only:
+   p = domish.Element(('jabber:client', 'presence'))
+   p['to'] = u'%s/%s' % (groupchat, self.get_nick(groupchat))
+   p['type'] = 'unavailable'
+   p.addElement('status').addContent(reason)
+   self.bot.wrapper.send(p)
   q = self.load_groupchats()
   if groupchat in q:
    q.remove(groupchat)
