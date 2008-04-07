@@ -24,6 +24,7 @@ from twisted.words.protocols.jabber import client, jid, xmlstream
 from twisted.words.protocols.jabber.client import XMPPAuthenticator
 from twisted.internet import reactor, threads, defer
 from twisted.words.xish import domish
+from twisted.words.xish.domish import Element, ParserError
 from twisted.web.html import escape
 import traceback
 import re
@@ -32,14 +33,124 @@ import sys
 import config
 import time
 
-def nothing(*a, **b):
- pass
+class NonStrictExpatElementStream:
+    """
+    Based on twisted.words.xish.domish.ExpatElementStream, but parses
+    namespaces manually, without help of pyexpat, so it doesn't crash
+    because of unbound prefixes.
+    """
+    def __init__(self):
+        import pyexpat
+        self.strict = False
+        self.DocumentStartEvent = None
+        self.ElementEvent = None
+        self.DocumentEndEvent = None
+        self.error = pyexpat.error
+        self.parser = pyexpat.ParserCreate("UTF-8")
+        self.parser.StartElementHandler = self._onStartElement
+        self.parser.EndElementHandler = self._onEndElement
+        self.parser.CharacterDataHandler = self._onCdata
+        self.currElem = None
+        self.defaultNsStack = ['']
+        self.documentStarted = 0
+        self.reserverPrefixes = {'xml': 'http://www.w3.org/XML/1998/namespace',\
+        'xmlns': 'http://www.w3.org/2000/xmlns/'}
+        self.localPrefixesStack = [{}]
+
+    def parse(self, buffer):
+        try:
+            self.parser.Parse(buffer)
+        except self.error, e:
+            raise ParserError, str(e)
+    
+    def getUriByPrefix(self, q):
+      prefix = q[0]
+      nname = q[1]
+      uri = self.localPrefixesStack[-1].get(prefix, None)
+      if uri is None:
+        if prefix.lower().startswith('xml'):
+          uri = self.reserverPrefixes.get(prefix, self.defaultNsStack[-1])
+        elif self.strict: raise ParserError, 'Unbound prefix: ' + prefix
+        else: uri = self.defaultNsStack[-1]
+      return (uri, nname)
+
+    def _onStartElement(self, name, attrs):
+        # Push default uri into stack
+        defaultNs = attrs.pop('xmlns', None)
+        if defaultNs is None: self.defaultNsStack.append(self.defaultNsStack[-1])
+        else: self.defaultNsStack.append(defaultNs)
+        
+        self.localPrefixesStack.append(dict(self.localPrefixesStack[-1].items()))
+        
+        # Check for local prefixes
+        for k, v in attrs.items():
+            if k.startswith('xmlns:'):
+                 prefix = k[6:]
+                 self.localPrefixesStack[-1][prefix] = v
+                 del attrs[k]
+        
+        # Generate a qname tuple from the provided name
+        qname = name.split(":")
+        if len(qname) == 1: qname = (self.defaultNsStack[-1], name)
+        else: qname = self.getUriByPrefix(qname)
+
+        # Process attributes
+        for k, v in attrs.items():
+            if k.find(":") != -1:
+                aqname = k.split(":")
+                attrs[self.getUriByPrefix(aqname)] = v
+                del attrs[k]
+
+        # Construct the new element
+        e = Element(qname, self.defaultNsStack[-1], attrs, self.localPrefixesStack[-1])
+
+        # Document already started
+        if self.documentStarted == 1:
+            if self.currElem != None:
+                self.currElem.children.append(e)
+                e.parent = self.currElem
+            self.currElem = e
+
+        # New document
+        else:
+            self.documentStarted = 1
+            self.DocumentStartEvent(e)
+
+    def _onEndElement(self, _):
+        # Check for null current elem; end of doc
+        if self.currElem is None:
+            self.DocumentEndEvent()
+
+        # Check for parent that is None; that's
+        # the top of the stack
+        elif self.currElem.parent is None:
+            self.ElementEvent(self.currElem)
+            self.currElem = None
+
+        # Anything else is just some element in the current
+        # packet wrapping up
+        else:
+            self.currElem = self.currElem.parent
+        
+        self.defaultNsStack.pop()
+        self.localPrefixesStack.pop()
+
+    def _onCdata(self, data):
+        if self.currElem != None:
+            self.currElem.addContent(data)
 
 class MyXmlStream(xmlstream.XmlStream):
  
  def __init__(self, *args, **kwargs):
-  xmlstream.XmlStream.__init__(self, *args, **kwargs)
-  self.logger = log.logger()
+        xmlstream.XmlStream.__init__(self, *args, **kwargs)
+        self.logger = log.logger()
+ 
+ def _initializeStream(self):
+        """ Sets up XML Parser. """
+        self.stream = NonStrictExpatElementStream()
+        self.stream.DocumentStartEvent = self.onDocumentStart
+        self.stream.ElementEvent = self.onElement
+        self.stream.DocumentEndEvent = self.onDocumentEnd
 
  def dataReceived(self, data):
         """ Called whenever data is received.

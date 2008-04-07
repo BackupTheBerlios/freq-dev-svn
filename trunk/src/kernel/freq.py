@@ -181,7 +181,7 @@ class freqbot:
  def register_rewrite_engine(self, func):
   self.rewriteengines.append(func)
 
- def register_cmd_handler(self, func, cmd, required_access = 0, g = None):
+ def register_cmd_handler(self, func, cmd, required_access = 0, g = False):
   self.cmdhandlers.append((func, cmd, required_access, g))
 
  def register_msg_handler(self, func, g = None):
@@ -250,7 +250,7 @@ class freqbot:
       if cmd.lower() == i[1]:
        if s.allowed(i[2]):
         if (s.room and s.room.bot) or not i[3]:
-         self.log.log(u'Calling command handler <b>%s</b> for command <font color=red>%s</font> from <font  color=blue>%s (%s)</font><br/>stanza: <font color=grey>%s</font>' % (escape(repr(i[0])), escape(b), escape(s.jid), escape(repr(s)), escape(stanza.toXml())), 4)
+         self.log.log(u'Calling command handler %s for command <font color=red>%s</font> from <font color=blue>%s </font><br/><font color=grey>%s</font>' % (escape(repr(i[0])), escape(b), escape(s.jid), escape(stanza.toXml())), 4)
          try: i[0](t, s, params)
          except: 
           m = ''.join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
