@@ -66,7 +66,11 @@ class NonStrictExpatElementStream:
     def getUriByPrefix(self, q):
       prefix = q[0]
       nname = q[1]
-      uri = self.localPrefixesStack[-1].get(prefix, None)
+      uri = None
+      i = len(self.localPrefixesStack) - 1
+      while ((i>=0) and (uri is None)):
+        uri = self.localPrefixesStack[i].get(prefix, None)
+        i -= 1
       if uri is None:
         if prefix.lower().startswith('xml'):
           uri = self.reserverPrefixes.get(prefix, self.defaultNsStack[-1])
@@ -80,7 +84,7 @@ class NonStrictExpatElementStream:
         if defaultNs is None: self.defaultNsStack.append(self.defaultNsStack[-1])
         else: self.defaultNsStack.append(defaultNs)
         
-        self.localPrefixesStack.append(dict(self.localPrefixesStack[-1].items()))
+        self.localPrefixesStack.append({})
         
         # Check for local prefixes
         for k, v in attrs.items():
