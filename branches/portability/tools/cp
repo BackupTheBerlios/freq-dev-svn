@@ -1,0 +1,5 @@
+#!/bin/sh
+
+find src -name \*.py | xargs tools/copying
+tools/copying start.py
+tools/copying tools/*.py

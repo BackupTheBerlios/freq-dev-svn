@@ -1,0 +1,4 @@
+net
+.svn url - посмотреть информацию о репозитарии
+пример:
+ .svn svn://svn.berlios.de/freq-dev/trunk
