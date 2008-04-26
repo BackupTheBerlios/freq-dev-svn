@@ -79,8 +79,10 @@ install:
 	#su freq -c "./tools/mkdata $(vardir)"
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
-	@echo "  You should add user 'freq' and group 'freq'"
-	@echo "  "
+	@echo "  You should add user 'freq' and group 'freq'."
+	@echo "  Also you should be convinced that DATADIR (see freq.conf), and directory where "
+	@echo "  logfiles stored are both writable for user 'freq'."
+	@echo ""
 
 deinstall:
 	rm -rf $(sharedir)/freq
