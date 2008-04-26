@@ -1,5 +1,5 @@
 version="unknown version"
-python=/usr/bin/python2.5
+python=@PYTHON@
 
 clean:
 	@rm -rf html

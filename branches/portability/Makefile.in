@@ -1,17 +1,17 @@
 botuser=freq
 botgroup=freq
-python=/usr/bin/python2.5
-INSTALL=/usr/bin/install -c -m 644
+python=@PYTHON@
+INSTALL=@INSTALL@ -m 644
 vardir=/var/freq
 logdir=/var/log/freq
 chatlogsdir=/var/freq/chatlogs
 imgdir=$(chatlogsdir)/images
-confdir=${prefix}/etc
+confdir=@sysconfdir@
 # rcddir=@rcddir@ ???
-prefix=/home/kreved/soft-svn/freq/branches/portability/tmproot
-exec_prefix=${prefix}
-sbindir=${exec_prefix}/sbin
-sharedir=${prefix}/share
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+sbindir=@sbindir@
+sharedir=@datarootdir@
 googlefile=$(sharedir)/freq/.googlekey
 distname=freqbot
 distver=1.1.99
@@ -79,7 +79,8 @@ install:
 	#su freq -c "./tools/mkdata $(vardir)"
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
-	@echo
+	@echo "  You should add user 'freq' and group 'freq'"
+	@echo "  "
 
 deinstall:
 	rm -rf $(sharedir)/freq

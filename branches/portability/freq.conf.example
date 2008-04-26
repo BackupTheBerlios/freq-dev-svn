@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# You can see config.defaults to learn more options...
+# You can see config.defaults to learn more options
+# and put some of them here
 
 ### ACCOUNT ###
 SERVER = u'kreved.org'
@@ -25,7 +26,7 @@ SVNVERSION = '/usr/local/bin/svnversion -n'
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5
-# loglevel: 0 - log anything; 9 - log nothing... 
+# loglevel: 0 - log anything; 9 - log nothing...
 LOGFILE = '/var/log/freq/log.html'
 LOGF = '/var/log/freq/twisted.log'
 ERRLOGFILE = '/var/log/freq/err.html'
