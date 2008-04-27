@@ -2,13 +2,13 @@ botuser=freq
 botgroup=freq
 python=@PYTHON@
 INSTALL=@INSTALL@ -m 644
+INSTALLX=@INSTALL@ -m 755
 vardir=/var/freq
 logdir=/var/log/freq
 chatlogsdir=/var/freq/chatlogs
 imgdir=$(chatlogsdir)/images
-confdir=@sysconfdir@
-# rcddir=@rcddir@ ???
 prefix=@prefix@
+confdir=@sysconfdir@
 exec_prefix=@exec_prefix@
 sbindir=@sbindir@
 sharedir=@datarootdir@
@@ -24,9 +24,9 @@ build: doc lang templates tools
 	@echo Building $(dist) using $(python)
 	@$(MAKE) depends
 	$(MAKE) -C doc build version=$(rev)
+	chmod +x tools/freqtool
 
 clean:
-	@ echo Cleaning.
 	@$(MAKE) -C doc clean
 	@find . -name "*~" -delete
 	@find . -name "*.pyc" -delete
@@ -39,16 +39,20 @@ depends: tools/depends.py
 install:
 	$(MAKE) build
 	@echo "Copying files to $(sharedir): "
-	#rm -rf $(sharedir)/freq/src/
 	mkdir -p $(sharedir)/freq
 	mkdir -p $(confdir)
 	touch $(googlefile)
-	# mkdir -p $(rcddir)
 	$(INSTALL) README $(sharedir)/freq
 	$(INSTALL) CHANGES $(sharedir)/freq
 	$(INSTALL) COPYING $(sharedir)/freq
 	$(INSTALL) start.py $(sharedir)/freq
+	$(INSTALL) getpid.py $(sharedir)/freq
 	$(INSTALL) config.defaults $(sharedir)/freq
+	mkdir -p $(sbindir)
+	$(INSTALLX) tools/freqtool $(sbindir)
+	echo "" >> $(sharedir)/freq/config.defaults
+	echo "# automatic addition by Makefile" >> $(sharedir)/freq/config.defaults
+	echo "RESTART_CMD = '$(python) $(sharedir)/freq/start.py $(confdir)/freq.conf'" >> $(sharedir)/freq/config.defaults
 	mkdir -p $(sharedir)/freq/doc
 	cp -rf doc/html $(sharedir)/freq/doc/
 	cp -rf doc/help $(sharedir)/freq/doc/
@@ -62,32 +66,17 @@ install:
 	$(INSTALL) templates/*.html $(sharedir)/freq/templates/
 	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/freq/src/kernel/freq.py
 	rm -rf `find $(sharedir)/freq -name ".svn"`
-	# chown -R root:wheel $(sharedir)/freq
 	@find $(sharedir)/freq -name "*~" -delete
 	[ -e $(confdir)/freq.conf ] || $(INSTALL) freq.conf.example $(confdir)/freq.conf
-	#$(INSTALL) tools/freqbot $(prefix)/etc/rc.d/freq
-	#@echo Creating user and group
-	#if pw groupshow -n $(botgroup) >/dev/null 2>&1; then echo " group $(botgroup) already exists: do nothing"; else pw groupadd -n $(botgroup); fi
-	#if pw usershow -n $(botuser) >/dev/null 2>&1; then echo " user $(botuser) already exists: do nothing"; else pw useradd -n $(botuser) -g $(botgroup) -d /var/freq; fi
-	#mkdir -p $(logdir)
-	#mkdir -p $(imgdir)
-	#cp static/*.png $(imgdir)/
-	#cp static/*.gif $(imgdir)/
-	#chown -R $(botuser):$(botgroup) $(logdir)
-	#mkdir -p $(vardir)
-	#chown -R $(botuser):$(botgroup) $(vardir)
-	#su freq -c "./tools/mkdata $(vardir)"
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
 	@echo "  You should add user 'freq' and group 'freq'."
-	@echo "  Also you should be convinced that DATADIR (see freq.conf), and directory where "
+	@echo "  Also you should be convinced that DATADIR (see $(confdir)/freq.conf), and directory where "
 	@echo "  logfiles stored are both writable for user 'freq'."
 	@echo ""
 
 deinstall:
 	rm -rf $(sharedir)/freq
-	#rm -f $(prefix)/etc/rc.d/freq
-	#rm -f $(confdir)/freq.conf
 	@echo You can also remove $(logdir), $(vardir), user \"freq\" and group \"freq\"
 
 userdel:

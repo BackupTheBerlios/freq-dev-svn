@@ -13,4 +13,4 @@ if test "x$PYTHON" = "x:"; then
         AC_MSG_ERROR([Python not found])
 fi
 
-AC_OUTPUT([Makefile] [doc/Makefile])
+AC_OUTPUT([Makefile] [doc/Makefile] [tools/freqtool])

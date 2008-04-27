@@ -1935,7 +1935,7 @@ echo "$as_me: error: Python not found" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
-ac_config_files="$ac_config_files Makefile doc/Makefile"
+ac_config_files="$ac_config_files Makefile doc/Makefile tools/freqtool"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -2507,6 +2507,7 @@ do
   case $ac_config_target in
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
+    "tools/freqtool") CONFIG_FILES="$CONFIG_FILES tools/freqtool" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
