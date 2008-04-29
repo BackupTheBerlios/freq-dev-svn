@@ -73,9 +73,6 @@ deinstall:
 	rm -rf $(sharedir)/$(fname)
 	@echo You can also remove $(logdir), $(vardir), user \"$(fname)\" and group \"$(fname)\"
 
-userdel:
-	pw userdel -n $(botuser)
-
 tarball:
 	@echo Cleaning
 	@rm -rf $(tarballdir)/$(dist)
