@@ -8,6 +8,7 @@ getpid=@datarootdir@/freqbot/getpid.py
 freqconf=@sysconfdir@/freqbot.conf
 python=@PYTHON@
 pid=`$python $getpid $freqconf`
+rm -f @datarootdir@/freqbot/src/kernel/config.pyc
 LANG="ru_RU.UTF-8"
 # it is for .sh/.svn commands
 # but what we need to do if default language isn't Russian?
