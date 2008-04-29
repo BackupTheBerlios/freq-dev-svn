@@ -1935,7 +1935,25 @@ echo "$as_me: error: Python not found" >&2;}
    { (exit 1); exit 1; }; }
 fi
 
-ac_config_files="$ac_config_files Makefile doc/Makefile tools/freqtool"
+if !($PYTHON -c "import twisted" >/dev/null 2>&1); then
+	{ { echo "$as_me:$LINENO: error: Twisted not found" >&5
+echo "$as_me: error: Twisted not found" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+if !($PYTHON -c "import twisted.words" >/dev/null 2>&1); then
+	{ { echo "$as_me:$LINENO: error: TwistedWords not found" >&5
+echo "$as_me: error: TwistedWords not found" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+if !($PYTHON -c "import twisted.web" >/dev/null 2>&1); then
+	{ { echo "$as_me:$LINENO: error: TwistedWeb not found" >&5
+echo "$as_me: error: TwistedWeb not found" >&2;}
+   { (exit 1); exit 1; }; }
+fi
+
+ac_config_files="$ac_config_files Makefile doc/Makefile tools/freqtool tools/getrev"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -2508,6 +2526,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
     "tools/freqtool") CONFIG_FILES="$CONFIG_FILES tools/freqtool" ;;
+    "tools/getrev") CONFIG_FILES="$CONFIG_FILES tools/getrev" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

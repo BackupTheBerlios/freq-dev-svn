@@ -13,4 +13,16 @@ if test "x$PYTHON" = "x:"; then
         AC_MSG_ERROR([Python not found])
 fi
 
-AC_OUTPUT([Makefile] [doc/Makefile] [tools/freqtool])
+if !($PYTHON -c "import twisted" >/dev/null 2>&1); then
+	AC_MSG_ERROR([Twisted not found])
+fi
+
+if !($PYTHON -c "import twisted.words" >/dev/null 2>&1); then
+	AC_MSG_ERROR([TwistedWords not found])
+fi
+
+if !($PYTHON -c "import twisted.web" >/dev/null 2>&1); then
+	AC_MSG_ERROR([TwistedWeb not found])
+fi
+
+AC_OUTPUT([Makefile] [doc/Makefile] [tools/freqtool] [tools/getrev])

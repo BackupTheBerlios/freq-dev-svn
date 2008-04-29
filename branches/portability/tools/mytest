@@ -1,5 +1,5 @@
 #!/bin/sh
 
-svn up .. && make install clean && /usr/local/etc/rc.d/freq restart
+svn up .. && make install clean && /usr/local/etc/rc.d/freqbot restart
 chown -R kreved ..
 

@@ -1,0 +1,50 @@
+#!/bin/sh
+
+# PROVIDE: freqbot
+# REQUIRE: DAEMON
+# BEFORE: LOGIN
+# KEYWORD: shutdown
+
+freqbot_enable="${freqbot_enable-NO}"
+
+. /etc/rc.subr
+
+name=freqbot
+rcvar=`set_rcvar`
+
+restart_cmd="freqbot_restart"
+start_cmd="freqbot_start"
+status_cmd="freqbot_status"
+stop_cmd="freqbot_stop"
+
+cd /usr/local/etc/
+
+SUSER=freqbot
+PYTHON=/usr/local/bin/python2.5
+START=/usr/local/share/freqbot/start.py
+CFG=/usr/local/etc/freqbot.conf
+
+freqbot_start()
+{
+    su $SUSER -c "/usr/local/sbin/freqtool start"
+}
+
+freqbot_stop()
+{
+    su $SUSER -c "/usr/local/sbin/freqtool stop"
+    killall -KILL -u $SUSER 2>/dev/null
+}
+
+freq_restart()
+{
+    freqbot_stop
+    freqbot_start
+}
+
+freq_status()
+{
+    su $SUSER -c "/usr/local/sbin/freqtool status"
+}
+
+load_rc_config $name
+run_rc_command "$1"

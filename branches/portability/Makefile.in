@@ -1,30 +1,32 @@
-botuser=freq
-botgroup=freq
+botuser=freqbot
+botgroup=freqbot
 python=@PYTHON@
 INSTALL=@INSTALL@ -m 644
 INSTALLX=@INSTALL@ -m 755
-vardir=/var/freq
-logdir=/var/log/freq
-chatlogsdir=/var/freq/chatlogs
+vardir=/var/freqbot
+logdir=/var/log/freqbot
+chatlogsdir=/var/freqbot/chatlogs
 imgdir=$(chatlogsdir)/images
 prefix=@prefix@
 confdir=@sysconfdir@
 exec_prefix=@exec_prefix@
 sbindir=@sbindir@
 sharedir=@datarootdir@
-googlefile=$(sharedir)/freq/.googlekey
+googlefile=$(sharedir)/freqbot/.googlekey
 distname=freqbot
 distver=1.1.99
-rev=`tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
+fname=freqbot
+rev=`sh tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
 dist=$(distname)-$(rev)
 tarballdir=..
-googlefile=$(sharedir)/freq/.googlekey
+googlefile=$(sharedir)/$(fname)/.googlekey
+.PHONY: clean version sort userdel install build deinstall
 
 build: doc lang templates tools
-	@echo Building $(dist) using $(python)
-	@$(MAKE) depends
-	$(MAKE) -C doc build version=$(rev)
 	chmod +x tools/freqtool
+	chmod +x tools/getrev
+	@echo Building $(dist) using $(python)
+	$(MAKE) -C doc build version=$(rev)
 
 clean:
 	@$(MAKE) -C doc clean
@@ -32,52 +34,48 @@ clean:
 	@find . -name "*.pyc" -delete
 	@find . -name "*.pyo" -delete
 
-depends: tools/depends.py
-	@echo Checking if all dependencies installed
-	$(python) tools/depends.py
-
 install:
 	$(MAKE) build
 	@echo "Copying files to $(sharedir): "
-	mkdir -p $(sharedir)/freq
+	mkdir -p $(sharedir)/$(fname)
 	mkdir -p $(confdir)
 	touch $(googlefile)
-	$(INSTALL) README $(sharedir)/freq
-	$(INSTALL) CHANGES $(sharedir)/freq
-	$(INSTALL) COPYING $(sharedir)/freq
-	$(INSTALL) start.py $(sharedir)/freq
-	$(INSTALL) getpid.py $(sharedir)/freq
-	$(INSTALL) config.defaults $(sharedir)/freq
+	$(INSTALL) README $(sharedir)/$(fname)
+	$(INSTALL) CHANGES $(sharedir)/$(fname)
+	$(INSTALL) COPYING $(sharedir)/$(fname)
+	$(INSTALL) start.py $(sharedir)/$(fname)
+	$(INSTALL) getpid.py $(sharedir)/$(fname)
+	$(INSTALL) config.defaults $(sharedir)/$(fname)
 	mkdir -p $(sbindir)
 	$(INSTALLX) tools/freqtool $(sbindir)
-	echo "" >> $(sharedir)/freq/config.defaults
-	echo "# automatic addition by Makefile" >> $(sharedir)/freq/config.defaults
-	echo "RESTART_CMD = '$(python) $(sharedir)/freq/start.py $(confdir)/freq.conf'" >> $(sharedir)/freq/config.defaults
-	mkdir -p $(sharedir)/freq/doc
-	cp -rf doc/html $(sharedir)/freq/doc/
-	cp -rf doc/help $(sharedir)/freq/doc/
-	cp -rf doc/syntax $(sharedir)/freq/doc/
-	cp -rf lang $(sharedir)/freq/
-	mkdir -p $(sharedir)/freq/modules
-	$(INSTALL) modules/*.py $(sharedir)/freq/modules
-	cp -rf src $(sharedir)/freq/
-	cp -rf static $(sharedir)/freq/
-	mkdir -p $(sharedir)/freq/templates
-	$(INSTALL) templates/*.html $(sharedir)/freq/templates/
-	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/freq/src/kernel/freq.py
-	rm -rf `find $(sharedir)/freq -name ".svn"`
-	@find $(sharedir)/freq -name "*~" -delete
-	[ -e $(confdir)/freq.conf ] || $(INSTALL) freq.conf.example $(confdir)/freq.conf
+	echo "" >> $(sharedir)/$(fname)/config.defaults
+	echo "# automatic addition by Makefile" >> $(sharedir)/$(fname)/config.defaults
+	echo "RESTART_CMD = '$(python) $(sharedir)/$(fname)/start.py $(confdir)/$(fname).conf'" >> $(sharedir)/$(fname)/config.defaults
+	mkdir -p $(sharedir)/$(fname)/doc
+	cp -rf doc/html $(sharedir)/$(fname)/doc/
+	cp -rf doc/help $(sharedir)/$(fname)/doc/
+	cp -rf doc/syntax $(sharedir)/$(fname)/doc/
+	cp -rf lang $(sharedir)/$(fname)/
+	mkdir -p $(sharedir)/$(fname)/modules
+	$(INSTALL) modules/*.py $(sharedir)/$(fname)/modules
+	cp -rf src $(sharedir)/$(fname)/
+	cp -rf static $(sharedir)/$(fname)/
+	mkdir -p $(sharedir)/$(fname)/templates
+	$(INSTALL) templates/*.html $(sharedir)/$(fname)/templates/
+	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/$(fname)/src/kernel/freq.py
+	rm -rf `find $(sharedir)/$(fname) -name ".svn"`
+	@find $(sharedir)/$(fname) -name "*~" -delete
+	[ -e $(confdir)/$(fname).conf ] || $(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
-	@echo "  You should add user 'freq' and group 'freq'."
-	@echo "  Also you should be convinced that DATADIR (see $(confdir)/freq.conf), and directory where "
-	@echo "  logfiles stored are both writable for user 'freq'."
+	@echo "  You should add user '$(fname)' and group '$(fname)'."
+	@echo "  Also you should be convinced that DATADIR (see $(confdir)/$(fname).conf), and directory where "
+	@echo "  logfiles stored are both writable for user '$(fname)'."
 	@echo ""
 
 deinstall:
-	rm -rf $(sharedir)/freq
-	@echo You can also remove $(logdir), $(vardir), user \"freq\" and group \"freq\"
+	rm -rf $(sharedir)/$(fname)
+	@echo You can also remove $(logdir), $(vardir), user \"$(fname)\" and group \"$(fname)\"
 
 userdel:
 	pw userdel -n $(botuser)
@@ -88,15 +86,16 @@ tarball:
 	@rm -f $(tarballdir)/$(dist).tar.bz2
 	@cp -r . $(tarballdir)/$(dist)
 	@find $(tarballdir)/$(dist) -name "*~" -delete
-	@find $(tarballdir)/$(dist) -name "freq.conf" -delete
-	@find $(tarballdir)/$(dist) -name "config.py" -delete
+	@find $(tarballdir)/$(dist) -name "$(fname).conf" -delete
 	@find $(tarballdir)/$(dist) -name "*.pyc" -delete
 	@find $(tarballdir)/$(dist) -name ".svn" | xargs rm -rf
+	@rm -rf $(tarballdir)/$(dist)/Makefile $(tarballdir)/$(dist)/config.status $(tarballdir)/$(dist)/autom4te.cache $(tarballdir)/$(dist)/*.log
+	@echo "print '$(rev)'" > $(tarballdir)/$(dist)/VERSION
 	@echo -n "Creating tarball: "
 	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tbz $(dist)
-	@echo $(tarballdir)/$(dist).tbz
+	@echo -n $(tarballdir)/$(dist).tbz
 	@rm -rf $(tarballdir)/$(dist)
-	@echo done.
+	@echo .
 version:
 	@echo $(dist)
 
