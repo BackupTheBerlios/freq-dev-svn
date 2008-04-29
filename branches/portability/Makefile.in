@@ -66,10 +66,7 @@ install:
 	$(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf.sample
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
-	@echo "  You should add user '$(fname)' and group '$(fname)'."
-	@echo "  Copy $(confdir)/$(fname).conf.sample to $(confdir)/$(fname).conf and edit it "
-	@echo "  Also you should be convinced that DATADIR (see $(confdir)/$(fname).conf), and directory where "
-	@echo "  logfiles stored are both writable for user '$(fname)'."
+	@echo "  You should copy $(confdir)/$(fname).conf.sample to $(confdir)/$(fname).conf and edit it."
 	@echo ""
 
 deinstall:

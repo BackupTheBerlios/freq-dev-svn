@@ -18,7 +18,7 @@ if ! pw groupshow "${GROUP}" 2>/dev/null 1>&2; then
 fi
 
 if ! pw usershow "${USER}" 2>/dev/null 1>&2; then
-	if pw useradd ${USER} -u ${UID} -h - \
+	if pw useradd ${USER} -g ${GROUP} -h - \
 		-s "/bin/sh" -d ${USERS_HOME} -c "freQ Jabber bot"; \
 	then
 		echo "Added user \"${USER}\"."
