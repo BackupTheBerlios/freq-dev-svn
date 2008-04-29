@@ -29,5 +29,8 @@ LOCAL_PYTHON=	${PYTHON_CMD}
 USE_RC_SUBR=	${PORTNAME}
 ALL_TARGET=	build
 
+post-install:
+	@PKG_PREFIX=${PREFIX} ${SH} ${PKGINSTALL} ${PKGNAME} POST-INSTALL
+
 .include <bsd.port.pre.mk>
 .include <bsd.port.post.mk>
