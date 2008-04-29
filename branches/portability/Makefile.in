@@ -39,7 +39,6 @@ install:
 	@echo "Copying files to $(sharedir): "
 	mkdir -p $(sharedir)/$(fname)
 	mkdir -p $(confdir)
-	touch $(googlefile)
 	$(INSTALL) README $(sharedir)/$(fname)
 	$(INSTALL) CHANGES $(sharedir)/$(fname)
 	$(INSTALL) COPYING $(sharedir)/$(fname)
