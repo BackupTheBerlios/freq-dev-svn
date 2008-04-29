@@ -100,3 +100,6 @@ version:
 
 sort:
 	@tools/sort
+
+cleanconf:
+	rm -f Makefile doc/Makefile tools/freqtool
