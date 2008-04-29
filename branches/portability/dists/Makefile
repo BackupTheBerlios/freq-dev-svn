@@ -14,7 +14,6 @@ DISTNAME=	${PORTNAME}-${PORTVERSION}
 MAINTAINER=	kreved@kreved.org
 COMMENT=	Python Jabber bot
 
-LIB_DEPENDS=
 RUN_DEPENDS=	${PYTHON_SITELIBDIR}/twisted/__init__.py:${PORTSDIR}/devel/py-twistedCore \
 		${PYTHON_SITELIBDIR}/twisted/web/__init__.py:${PORTSDIR}/www/py-twistedWeb \
 		${PYTHON_SITELIBDIR}/twisted/words/__init__.py:${PORTSDIR}/net-im/py-twistedWords
