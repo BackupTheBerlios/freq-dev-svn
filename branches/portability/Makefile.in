@@ -65,10 +65,11 @@ install:
 	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/$(fname)/src/kernel/freq.py
 	rm -rf `find $(sharedir)/$(fname) -name ".svn"`
 	@find $(sharedir)/$(fname) -name "*~" -delete
-	[ -e $(confdir)/$(fname).conf ] || $(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf
+	$(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf.sample
 	@echo
 	@echo "  $(dist) installed into $(prefix)"
 	@echo "  You should add user '$(fname)' and group '$(fname)'."
+	@echo "  Copy $(confdir)/$(fname).sample to $(confdir)/$(fname) and edit it "
 	@echo "  Also you should be convinced that DATADIR (see $(confdir)/$(fname).conf), and directory where "
 	@echo "  logfiles stored are both writable for user '$(fname)'."
 	@echo ""
