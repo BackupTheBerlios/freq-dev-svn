@@ -21,6 +21,7 @@ cd /usr/local/etc/
 
 PIDFILE=/var/freq/freq.pid
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/local/sbin
+LANG="ru_RU.UTF-8"
 SUSER=freq
 STDOUT=/var/log/freq/stdout.txt
 PYTHON=/usr/local/bin/python
