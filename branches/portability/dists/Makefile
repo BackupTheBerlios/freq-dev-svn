@@ -26,9 +26,7 @@ RUN_DEPENDS=	${PYTHON_SITELIBDIR}/twisted/__init__.py:${PORTSDIR}/devel/py-twist
 GNU_CONFIGURE=  yes
 USE_BZIP2=	yes
 USE_PYTHON=	yes
-USE_GMAKE=	yes
 LOCAL_PYTHON=	${PYTHON_CMD}
-#USE_RC_SUBR=	freq
 
 ALL_TARGET=	build
 
