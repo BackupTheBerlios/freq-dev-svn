@@ -26,7 +26,7 @@ CONFIGURE_TARGET=--build=${MACHINE_ARCH}-portbld-freebsd${OSREL}
 USE_BZIP2=	yes
 USE_PYTHON=	yes
 LOCAL_PYTHON=	${PYTHON_CMD}
-
+USE_RC_SUBR=	${PORTNAME}
 ALL_TARGET=	build
 
 .include <bsd.port.pre.mk>
