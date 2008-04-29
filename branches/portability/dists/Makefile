@@ -22,6 +22,7 @@ RUN_DEPENDS=	${PYTHON_SITELIBDIR}/twisted/__init__.py:${PORTSDIR}/devel/py-twist
 		${PYTHON_SITELIBDIR}/twisted/web/__init__.py:${PORTSDIR}/www/py-twistedWeb \
 		${PYTHON_SITELIBDIR}/twisted/words/__init__.py:${PORTSDIR}/net-im/py-twistedWords
 
+GNU_CONFIGURE=  yes
 USE_BZIP2=	yes
 USE_PYTHON=	yes
 USE_GMAKE=	yes
