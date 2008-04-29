@@ -92,8 +92,8 @@ tarball:
 	@rm -rf $(tarballdir)/$(dist)/Makefile $(tarballdir)/$(dist)/config.status $(tarballdir)/$(dist)/autom4te.cache $(tarballdir)/$(dist)/*.log
 	@echo "print '$(rev)'" > $(tarballdir)/$(dist)/VERSION
 	@echo -n "Creating tarball: "
-	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tbz $(dist)
-	@echo -n $(tarballdir)/$(dist).tbz
+	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tar.bz2 $(dist)
+	@echo -n $(tarballdir)/$(dist).tar.bz2
 	@rm -rf $(tarballdir)/$(dist)
 	@echo .
 version:
