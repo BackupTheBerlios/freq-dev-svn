@@ -37,3 +37,4 @@ CHATLOGS_DIR = '/var/freq/chatlogs'
 CHATLOGS_ENABLE = 'off'
 CHATLOGS_ALLOW_SWICH = True
 #if CHATLOGS_ALLOW_SWICH, then room owner can enable/disable logging
+GOOGLE_KEY = 'Place your google API key here'
