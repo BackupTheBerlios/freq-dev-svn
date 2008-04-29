@@ -12,7 +12,6 @@ confdir=@sysconfdir@
 exec_prefix=@exec_prefix@
 sbindir=@sbindir@
 sharedir=@datarootdir@
-googlefile=$(sharedir)/freqbot/.googlekey
 distname=freqbot
 distver=1.1.99
 fname=freqbot
