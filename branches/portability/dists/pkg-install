@@ -6,7 +6,7 @@ fi
 
 USER=freqbot
 GROUP=${USER}
-USERS_HOME="/var/freq"
+USERS_HOME="/var/freqbot"
 
 if ! pw groupshow "${GROUP}" 2>/dev/null 1>&2; then
 	if pw groupadd ${GROUP}; then
@@ -28,6 +28,6 @@ if ! pw usershow "${USER}" 2>/dev/null 1>&2; then
 	fi
 fi
 
-install -d -m 750 -o ${USER} -g ${GROUP} ${USERS_HOME} /var/log/ejabberd
+install -d -m 750 -o ${USER} -g ${GROUP} ${USERS_HOME} /var/log/freqbot
 
 exit 0
