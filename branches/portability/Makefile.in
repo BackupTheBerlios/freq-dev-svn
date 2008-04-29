@@ -1,5 +1,3 @@
-botuser=freqbot
-botgroup=freqbot
 python=@PYTHON@
 INSTALL=@INSTALL@ -m 644
 INSTALLX=@INSTALL@ -m 755
@@ -75,20 +73,20 @@ deinstall:
 
 tarball:
 	@echo Cleaning
-	@rm -rf $(tarballdir)/$(dist)
-	@rm -f $(tarballdir)/$(dist).tar.bz2
-	@cp -r . $(tarballdir)/$(dist)
-	@find $(tarballdir)/$(dist) -name "*~" -delete
-	@find $(tarballdir)/$(dist) -name "$(fname).conf" -delete
-	@find $(tarballdir)/$(dist) -name "*.pyc" -delete
-	@find $(tarballdir)/$(dist) -name ".svn" | xargs rm -rf
-	@rm -rf $(tarballdir)/$(dist)/config.status $(tarballdir)/$(dist)/autom4te.cache $(tarballdir)/$(dist)/*.log
-	@echo "print '$(rev)'" > $(tarballdir)/$(dist)/VERSION
+	@rm -rf $(destdir)/$(dist)
+	@rm -f $(destdir)/$(dist).tar.bz2
+	@cp -r . $(destdir)/$(dist)
+	@find $(destdir)/$(dist) -name "*~" -delete
+	@find $(destdir)/$(dist) -name "$(fname).conf" -delete
+	@find $(destdir)/$(dist) -name "*.pyc" -delete
+	@find $(destdir)/$(dist) -name ".svn" | xargs rm -rf
+	@rm -rf $(destdir)/$(dist)/config.status $(destdir)/$(dist)/autom4te.cache $(destdir)/$(dist)/*.log
+	@echo "print '$(rev)'" > $(destdir)/$(dist)/VERSION
 	@echo "Creating tarball"
-	@make -C $(tarballdir)/$(dist) cleanconf
-	@tar -C $(tarballdir) -cjf $(tarballdir)/$(dist).tar.bz2 $(dist)
-	@ls -lh $(tarballdir)/$(dist).tar.bz2
-	@rm -rf $(tarballdir)/$(dist)
+	@make -C $(destdir)/$(dist) cleanconf
+	@tar -C $(destdir) -cjf $(destdir)/$(dist).tar.bz2 $(dist)
+	@ls -lh $(destdir)/$(dist).tar.bz2
+	@rm -rf $(destdir)/$(dist)
 	@echo "done."
 version:
 	@echo $(dist)

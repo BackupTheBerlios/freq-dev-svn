@@ -5,7 +5,7 @@
 
 ### ACCOUNT ###
 SERVER = u'kreved.org'
-USER = u'freq'
+USER = u'freqbot'
 PASSWD = u'secret'
 RESOURCE = u'Python'
 
@@ -14,12 +14,12 @@ ADMINS = [u'kreved@kreved.org', u'pg@jabbus.org']
 
 ### MUC ###
 NICK = u'freQ-bot'
-STATUS = u'freQ %VERSION% is online'
+STATUS = u'freQ-bot %VERSION% is online'
 ROOM_LIMIT = 99
 # maximum number of rooms where bot sits.. set 0 here to disable leaving non-active rooms
 
 ### BOT ###
-DATADIR = '/var/freq'
+DATADIR = '/var/freqbot'
 
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
@@ -27,13 +27,13 @@ SVNVERSION = '/usr/local/bin/svnversion -n'
 ### DEBUG LOGGING ###
 LOGLEVEL = 5
 # loglevel: 0 - log anything; 9 - log nothing...
-LOGFILE = '/var/log/freq/log.html'
-LOGF = '/var/log/freq/twisted.log'
-ERRLOGFILE = '/var/log/freq/err.html'
-#RAWXML = '/var/log/freq/raw.xml'
+LOGFILE = '/var/log/freqbot/log.html'
+LOGF = '/var/log/freqbot/twisted.log'
+ERRLOGFILE = '/var/log/freqbot/err.html'
+#RAWXML = '/var/log/freqbot/raw.xml'
 
 ### PLUGINS ###
-CHATLOGS_DIR = '/var/freq/chatlogs'
+CHATLOGS_DIR = '/var/freqbot/chatlogs'
 CHATLOGS_ENABLE = 'off'
 CHATLOGS_ALLOW_SWICH = True
 #if CHATLOGS_ALLOW_SWICH, then room owner can enable/disable logging

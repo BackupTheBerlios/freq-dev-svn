@@ -18,8 +18,8 @@ if pw groupshow "${USER}" 2>/dev/null 1>&2; then
 fi
 
 
-echo 'If you wish to delete ejabberd data and log files, remove'
-echo '"/var/spool/ejabberd" and "/var/log/ejabberd" directories.'
+echo 'If you wish to delete freqbot data and log files, remove'
+echo '"/var/freqbot" and "/var/log/freqbot" directories.'
 echo ''
 
 exit 0
