@@ -97,7 +97,7 @@ freebsd:
 	@cp dists/pkg-deinstall $(destdir)/$(fname)
 	@cat dists/Makefile | sed "s/#version#/$(rev)/" >$(destdir)/$(fname)/Makefile
 	@mkdir -p $(destdir)/$(fname)/files
-	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot
+	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
 	@make -C $(destdir)/$(fname) fetch makesum
 	@tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
 	@mkdir -p $tmpdest
