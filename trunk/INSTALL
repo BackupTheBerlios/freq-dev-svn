@@ -1,0 +1,31 @@
+To run bot, you need have installed:
+ * python25-2.5.1           - http://python.org/
+ * py25-twistedCore-2.5.0   - http://twistedmatrix.com/
+ * py25-twistedWords-0.5.0  - http://twistedmatrix.com/
+ * py25-twistedWeb-0.7.0    - http://twistedmatrix.com/
+Optionally:
+ * sqlite3-3.4.1            - http://sqlite.org/
+ * py25-sqlite3-2.5.1_1     - http://python.org/
+(run "python ./tools/depends.py" to be sure that all dependencies are installed)
+
+
+ ==== INSTALLATION ====
+ 
+ 1) FreeBSD
+      use ports: http://kreved.org/files/freqbot/freebsd-ports/
+      or packages: http://kreved.org/files/freqbot/freebsd-packages/
+      or you can create port from sources with "./configure && make freebsd-port destdir=./"
+
+ 2) Other UNIX
+      ./configure
+      make
+      make install
+
+      use "freqtool {start|stop|status}" to manage freQ-bot
+
+ 3)  Windows
+      Hm...
+      install all dependencies, rename freqbot.conf.example to freqbot.conf and EDIT IT.
+      then something like this:
+        cd c:\path\to\bot
+        c:\path\to\python.exe start.py ferqbot.conf
