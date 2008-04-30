@@ -105,8 +105,8 @@ freebsd:
 	@echo temporary install to $(tmpdest)
 	@make install clean prefix=$(tmpdest)
 	@echo etc >OLD-DIRS
-	@echo share >>OLD-DIRS
 	@echo sbin >>OLD-DIRS
+	@echo share >>OLD-DIRS
 	@( (cd $(tmpdest); find -d * \! -type d) | sort; ((cd $(tmpdest); find -d * -type d) | sort | \
 	sed -e 's#^#@dirrm #' | comm -13 OLD-DIRS -))>$(destdir)/$(fname)/pkg-plist
 	rm -rf $(tmpdest)
