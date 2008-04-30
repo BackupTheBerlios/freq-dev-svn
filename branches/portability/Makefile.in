@@ -63,10 +63,6 @@ install:
 	rm -rf `find $(sharedir)/$(fname) -name ".svn"`
 	@find $(sharedir)/$(fname) -name "*~" -delete
 	$(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf.sample
-	@echo
-	@echo "  $(dist) installed into $(prefix)"
-	@echo "  You should copy $(confdir)/$(fname).conf.sample to $(confdir)/$(fname).conf and edit it."
-	@echo ""
 
 deinstall:
 	rm -rf $(sharedir)/$(fname)
