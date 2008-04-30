@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Don't edit this file!
-# You can override these default settings in your freq.conf file
+# You can override these default settings in your freqbot.conf file
 
 ### ACCOUNT ###
 SERVER = u'kreved.org'

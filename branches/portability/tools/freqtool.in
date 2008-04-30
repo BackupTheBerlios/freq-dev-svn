@@ -23,6 +23,7 @@ case "$1" in
         fi
         echo -n "Starting $name: "
         $python $freqstart $freqconf >/dev/null 2>&1 &
+        sleep 2
         echo "done."
     ;;
   stop)
