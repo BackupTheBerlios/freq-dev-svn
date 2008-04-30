@@ -86,7 +86,7 @@ tarball:
 	@rm -rf $(destdir)/$(dist)
 	@echo "done."
 
-freebsd:
+freebsd-port:
 	@echo "Creating FreeBSD port for $(dist)"
 	@mkdir -p $(destdir)/$(fname)
 	@cp dists/pkg-install $(destdir)/$(fname)
