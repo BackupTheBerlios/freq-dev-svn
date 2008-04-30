@@ -6,7 +6,7 @@
 #
 
 PORTNAME=	freqbot
-PORTVERSION=	0.0
+PORTVERSION=	#version#
 CATEGORIES=	net-im
 MASTER_SITES=	http://kreved.org/files/freqbot/tarballs/
 DISTNAME=	${PORTNAME}-${PORTVERSION}

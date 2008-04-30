@@ -90,7 +90,25 @@ tarball:
 	@echo "done."
 
 freebsd:
-	
+	@echo "Creating FreeBSD port for $(dist)"
+	@mkdir -p $(destdir)/$(fname)
+	@cp dists/pkg-install $(destdir)/$(fname)
+	@cp dists/pkg-descr $(destdir)/$(fname)
+	@cp dists/pkg-deinstall $(destdir)/$(fname)
+	@cat dists/Makefile | sed "s/#version#/$(rev)/" >$(destdir)/$(fname)/Makefile
+	@mkdir -p $(destdir)/$(fname)/files
+	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot
+	@make -C $(destdir)/$(fname) fetch makesum
+	@tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
+	@mkdir -p $tmpdest
+	@echo temporary install to $tmpdest
+	@make -C $(destdir)/$(fname) install clean prefix=$tmpdest
+	#...
+	@rm -rf $tmpdest
+	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
+	@ls -lh $(destdir)/$(dist)-port.tar.bz2
+	@rm -rf $(destdir)/$(fname)
+	@echo "done."
 
 version:
 	@echo $(dist)
