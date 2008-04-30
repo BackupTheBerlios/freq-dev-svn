@@ -1,4 +1,0 @@
-muc admin
- .admin nick
- .admin jid
-

@@ -1,6 +1,0 @@
-info
-просмотр доменов...
-пример:
- .tld ru
- .tld ua
- .tld russia

@@ -1,4 +1,0 @@
-muc admin
- .member nick
- .member jid
-

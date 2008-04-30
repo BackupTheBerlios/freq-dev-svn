@@ -1,3 +1,0 @@
-alias
-.alias_del foo - удаляет алиас с именем foo
-

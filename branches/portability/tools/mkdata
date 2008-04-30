@@ -1,5 +1,0 @@
-#!/bin/sh
-
-mkdir -p $1/text/groupchats
-mkdir -p $1/db
-mkdir -p $1/chatlogs

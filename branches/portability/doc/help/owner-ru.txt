@@ -1,4 +1,0 @@
-muc admin
- .owner nick
- .owner jid
-

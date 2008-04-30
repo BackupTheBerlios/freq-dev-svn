@@ -1,9 +1,0 @@
-#!/bin/sh
-
-for i in `ls lang/*.msg`
-do
- echo -n "Sorting $i.. "
- sort $i >./fsortyu
- mv ./fsortyu $i
- echo done.
-done

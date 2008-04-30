@@ -1,3 +1,0 @@
-muc
-удалить конференцию из blacklist
-пример: .blacklist_del botzone@conference.jabber.ru

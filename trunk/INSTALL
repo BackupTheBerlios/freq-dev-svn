@@ -21,6 +21,7 @@ Optionally:
       make
       make install
 
+      then copy $(confdir)/freqbot.conf.sample to $(confdir)/freqbot.conf and edit
       use "freqtool {start|stop|status}" to manage freQ-bot
 
  3)  Windows

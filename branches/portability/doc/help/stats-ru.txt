@@ -1,3 +1,0 @@
-query
-Статистика сервера, синтаксис: .stats foo.bar, например .stats xmpp.ru
-
