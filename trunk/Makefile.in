@@ -104,7 +104,7 @@ freebsd-port:
 	@echo sbin >>OLD-DIRS
 	@echo share >>OLD-DIRS
 	@( (cd $(tmpdest); find -d * \! -type d) | sort; ((cd $(tmpdest); find -d * -type d) | sort | \
-	comm -13 OLD-DIRS - | sed -e 's#^#@dirrm #' | sort -r)) | sed "s/share/%%DATADIR%%/" >$(destdir)/$(fname)/pkg-plist
+	comm -13 OLD-DIRS - | sed -e 's#^#@dirrm #' | sort -r)) | sed "s/share\/freqbot/%%DATADIR%%/" >$(destdir)/$(fname)/pkg-plist
 	rm -rf $(tmpdest)
 	@rm OLD-DIRS
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
