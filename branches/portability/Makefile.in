@@ -102,7 +102,7 @@ freebsd:
 	@tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
 	@mkdir -p $tmpdest
 	@echo temporary install to $tmpdest
-	@make -C $(destdir)/$(fname) install clean prefix=$tmpdest
+	@make install clean prefix=$tmpdest
 	#...
 	@rm -rf $tmpdest
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
