@@ -105,7 +105,7 @@ freebsd:
 	@echo temporary install to $(tmpdest)
 	@make install clean prefix=$(tmpdest)
 	#...
-	@rm -rf $(tmpdest)
+	rm -rf $(tmpdest)
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
 	@ls -lh $(destdir)/$(dist)-port.tar.bz2
 	@rm -rf $(destdir)/$(fname)
