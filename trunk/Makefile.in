@@ -1,0 +1,122 @@
+python=@PYTHON@
+INSTALL=@INSTALL@ -m 644
+INSTALLX=@INSTALL@ -m 755
+vardir=/var/freqbot
+logdir=/var/log/freqbot
+chatlogsdir=/var/freqbot/chatlogs
+imgdir=$(chatlogsdir)/images
+prefix=@prefix@
+confdir=@sysconfdir@
+exec_prefix=@exec_prefix@
+sbindir=@sbindir@
+sharedir=@datarootdir@
+distname=freqbot
+distver=1.1.99
+fname=freqbot
+rev=`sh tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
+dist=$(distname)-$(rev)
+tarballdir=..
+googlefile=$(sharedir)/$(fname)/.googlekey
+tmpdest=/var/tmp/freqbot.ugYGGb6
+.PHONY: clean version sort userdel install build deinstall
+
+build: doc lang templates tools
+	chmod +x tools/freqtool
+	chmod +x tools/getrev
+	@echo Building $(dist) using $(python)
+	$(MAKE) -C doc build version=$(rev)
+
+clean:
+	@$(MAKE) -C doc clean
+	@find . -name "*~" -delete
+	@find . -name "*.pyc" -delete
+	@find . -name "*.pyo" -delete
+
+install:
+	$(MAKE) build
+	@echo "Copying files to $(sharedir): "
+	mkdir -p $(sharedir)/$(fname)
+	mkdir -p $(confdir)
+	$(INSTALL) README $(sharedir)/$(fname)
+	$(INSTALL) CHANGES $(sharedir)/$(fname)
+	$(INSTALL) COPYING $(sharedir)/$(fname)
+	$(INSTALL) start.py $(sharedir)/$(fname)
+	$(INSTALL) getpid.py $(sharedir)/$(fname)
+	$(INSTALL) config.defaults $(sharedir)/$(fname)
+	mkdir -p $(sbindir)
+	$(INSTALLX) tools/freqtool $(sbindir)
+	echo "" >> $(sharedir)/$(fname)/config.defaults
+	echo "# automatic addition by Makefile" >> $(sharedir)/$(fname)/config.defaults
+	echo "RESTART_CMD = '$(python) $(sharedir)/$(fname)/start.py $(confdir)/$(fname).conf'" >> $(sharedir)/$(fname)/config.defaults
+	mkdir -p $(sharedir)/$(fname)/doc
+	cp -rf doc/html $(sharedir)/$(fname)/doc/
+	cp -rf doc/help $(sharedir)/$(fname)/doc/
+	cp -rf doc/syntax $(sharedir)/$(fname)/doc/
+	cp -rf lang $(sharedir)/$(fname)/
+	mkdir -p $(sharedir)/$(fname)/modules
+	$(INSTALL) modules/*.py $(sharedir)/$(fname)/modules
+	cp -rf src $(sharedir)/$(fname)/
+	cp -rf static $(sharedir)/$(fname)/
+	mkdir -p $(sharedir)/$(fname)/templates
+	$(INSTALL) templates/*.html $(sharedir)/$(fname)/templates/
+	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/$(fname)/src/kernel/freq.py
+	rm -rf `find $(sharedir)/$(fname) -name ".svn"`
+	@find $(sharedir)/$(fname) -name "*~" -delete
+	$(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf.sample
+
+deinstall:
+	rm -rf $(sharedir)/$(fname)
+	@echo You can also remove $(logdir), $(vardir), user \"$(fname)\" and group \"$(fname)\"
+
+tarball:
+	@echo Cleaning
+	@rm -rf $(destdir)/$(dist)
+	@rm -f $(destdir)/$(dist).tar.bz2
+	@cp -r . $(destdir)/$(dist)
+	@find $(destdir)/$(dist) -name "*~" -delete
+	@find $(destdir)/$(dist) -name "$(fname).conf" -delete
+	@find $(destdir)/$(dist) -name "*.pyc" -delete
+	@find $(destdir)/$(dist) -name ".svn" | xargs rm -rf
+	@rm -rf $(destdir)/$(dist)/config.status $(destdir)/$(dist)/autom4te.cache $(destdir)/$(dist)/*.log
+	@echo "print '$(rev)'" > $(destdir)/$(dist)/VERSION
+	@echo "Creating tarball"
+	@make -C $(destdir)/$(dist) cleanconf
+	@tar -C $(destdir) -cjf $(destdir)/$(dist).tar.bz2 $(dist)
+	@ls -lh $(destdir)/$(dist).tar.bz2
+	@rm -rf $(destdir)/$(dist)
+	@echo "done."
+
+freebsd-port:
+	@echo "Creating FreeBSD port for $(dist)"
+	@mkdir -p $(destdir)/$(fname)
+	@cp dists/pkg-install $(destdir)/$(fname)
+	@cp dists/pkg-descr $(destdir)/$(fname)
+	@cp dists/pkg-deinstall $(destdir)/$(fname)
+	@cat dists/Makefile | sed "s/#version#/$(rev)/" >$(destdir)/$(fname)/Makefile
+	@mkdir -p $(destdir)/$(fname)/files
+	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
+	@make -C $(destdir)/$(fname) fetch makesum
+	@rm -rf $(tmpdest)
+	@mkdir -p $(tmpdest)
+	@echo temporary install to $(tmpdest)
+	@make install clean prefix=$(tmpdest)
+	@echo etc >OLD-DIRS
+	@echo sbin >>OLD-DIRS
+	@echo share >>OLD-DIRS
+	@( (cd $(tmpdest); find -d * \! -type d) | sort; ((cd $(tmpdest); find -d * -type d) | sort | \
+	comm -13 OLD-DIRS - | sed -e 's#^#@dirrm #' | sort -r))>$(destdir)/$(fname)/pkg-plist
+	rm -rf $(tmpdest)
+	@rm OLD-DIRS
+	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
+	@ls -lh $(destdir)/$(dist)-port.tar.bz2
+	@rm -rf $(destdir)/$(fname)
+	@echo "done."
+
+version:
+	@echo $(dist)
+
+sort:
+	@tools/sort
+
+cleanconf:
+	@rm -f Makefile doc/Makefile tools/freqtool tools/getrev

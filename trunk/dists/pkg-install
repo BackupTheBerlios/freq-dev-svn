@@ -1,0 +1,38 @@
+#!/bin/sh
+
+if [ x"$2" != x"POST-INSTALL" ]; then
+    exit 0
+fi
+
+USER=freqbot
+GROUP=${USER}
+USERS_HOME="/var/freqbot"
+
+if ! pw groupshow "${GROUP}" 2>/dev/null 1>&2; then
+	if pw groupadd ${GROUP}; then
+		echo "Added group \"${GROUP}\"."
+	else
+		echo "Adding group \"${GROUP}\" failed..."
+		exit 1
+	fi
+fi
+
+if ! pw usershow "${USER}" 2>/dev/null 1>&2; then
+	if pw useradd ${USER} -g ${GROUP} -h - \
+		-s "/bin/sh" -d ${USERS_HOME} -c "freQ Jabber bot"; \
+	then
+		echo "Added user \"${USER}\"."
+	else
+		echo "Adding user \"${USER}\" failed..."
+		exit 1
+	fi
+fi
+
+install -d -m 750 -o ${USER} -g ${GROUP} ${USERS_HOME} /var/log/freqbot
+echo ""
+echo "  You should copy freqbot.conf.sample to freqbot.conf and edit it."
+echo "  and do something like"
+echo "    echo freqbot_enable=\\\"YES\\\" >>/etc/rc.conf"
+echo ""
+
+exit 0

@@ -180,3 +180,7 @@ bot.register_msg_handler(chatlogs_msg_handler, g=1)
 bot.register_topic_handler(chatlogs_topic_handler)
 bot.register_join_handler(chatlogs_join_handler)
 bot.register_leave_handler(chatlogs_leave_handler)
+
+# We should have write access to config.CHATLOGS_DIR
+if os.access(config.CHATLOGS_DIR, os.W_OK) == 0:
+ os.mkdir(config.CHATLOGS_DIR)

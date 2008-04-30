@@ -19,6 +19,7 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 import google
+google.setLicense(config.GOOGLE_KEY)
 
 G_CACHE = {} # google search history (for .google next)
 

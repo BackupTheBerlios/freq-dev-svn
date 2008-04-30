@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ x"$2" != x"POST-DEINSTALL" ]; then
+    exit 0
+fi
+
+USER=freqbot
+GROUP=${USER}
+
+echo ""
+
+if pw usershow "${USER}" 2>/dev/null 1>&2; then
+	echo "To delete ${USER} user permanently, use 'pw userdel ${USER}'."
+fi
+
+if pw groupshow "${USER}" 2>/dev/null 1>&2; then
+	echo "To delete ${USER} group permanently, use 'pw groupdel ${USER}'."
+fi
+
+
+echo 'If you wish to delete freqbot data and log files, remove'
+echo '"/var/freqbot" and "/var/log/freqbot" directories.'
+echo ''
+
+exit 0

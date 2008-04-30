@@ -15,17 +15,8 @@ Optionally:
    (run "python ./tools/depends.py" to check if you have installed all dependencies)
 
 
-1) You can install FreQ on your system using command:
+You can install FreQ on your system using command:
 
-   make install (or gmake install)
-   
-   * it works correctly on FreeBSD, otherwise you should edit Makefile manually 
+   ./configure
+   make install
 
-
-2) or, if you can't (or don't want) install bot, you can run it directly...
-
-   copy freq.conf.example to freq.conf and edit it..
-
-   Start bot with command like this:
-
-      python start.py /path/to/freq.conf

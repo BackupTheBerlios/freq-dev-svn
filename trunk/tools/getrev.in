@@ -2,7 +2,7 @@
 
 if [ -n "$2" ]; then echo -n $2
 else
- if [ -r ./VERSION ]; then python VERSION
+ if [ -r ./VERSION ]; then @PYTHON@ ./VERSION
  else
   echo -n $1.
   q=`svnversion -n`

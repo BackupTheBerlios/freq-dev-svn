@@ -22,6 +22,8 @@ import os
 from urllib import quote, unquote
 from config import DATADIR
 
+if not os.access(DATADIR + '/db', os.W_OK): os.mkdir(DATADIR + '/db')
+
 enc = 'utf8'
 
 def list2dict(q):
@@ -40,9 +42,10 @@ def check_directory(groupchat):
  preprefix = '%s/text' % (DATADIR, )
  prefix='%s/text/groupchats' % (DATADIR, )
  d = '%s/%s' % (prefix, groupchat, )
- if not os.access(preprefix, os.F_OK): os.mkdir(preprefix)
- if not os.access(prefix, os.F_OK): os.mkdir(prefix)
- if not os.access(d, os.F_OK): os.mkdir(d)
+ if not os.access(DATADIR, os.W_OK): os.mkdir(DATADIR)
+ if not os.access(preprefix, os.W_OK): os.mkdir(preprefix)
+ if not os.access(prefix, os.W_OK): os.mkdir(prefix)
+ if not os.access(d, os.W_OK): os.mkdir(d)
 
 def read_file(groupchat, f):
  fn = '%s/text/groupchats/%s/%s.txt' % (DATADIR, groupchat.encode('utf8'), f)
