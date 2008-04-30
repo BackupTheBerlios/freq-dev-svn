@@ -108,7 +108,7 @@ freebsd:
 	@echo share >>OLD-DIRS
 	@echo sbin >>OLD-DIRS
 	@( (cd $(tmpdest); find -d * \! -type d) | sort; ((cd $(tmpdest); find -d * -type d) | sort | \
-	sed -e 's#^#@dirrm #' | comm -13 OLD-DIRS -))>$(destdir)/$(fname)/pkg-plist)
+	sed -e 's#^#@dirrm #' | comm -13 OLD-DIRS -))>$(destdir)/$(fname)/pkg-plist
 	rm -rf $(tmpdest)
 	@rm OLD-DIRS
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
