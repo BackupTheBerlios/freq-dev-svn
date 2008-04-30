@@ -18,7 +18,7 @@ Optionally:
 1) You can install FreQ on your system using command:
 
    make install (or gmake install)
-   
+
    * it works correctly on FreeBSD, otherwise you should edit Makefile manually 
 
 
@@ -28,4 +28,4 @@ Optionally:
 
    Start bot with command like this:
 
-      python start.py /path/to/freq.conf
+      python2.5 start.py /path/to/freq.conf

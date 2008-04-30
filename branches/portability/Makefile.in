@@ -88,6 +88,10 @@ tarball:
 	@ls -lh $(destdir)/$(dist).tar.bz2
 	@rm -rf $(destdir)/$(dist)
 	@echo "done."
+
+freebsd:
+	
+
 version:
 	@echo $(dist)
 
