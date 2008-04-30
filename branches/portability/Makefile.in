@@ -104,8 +104,8 @@ freebsd:
 	@mkdir -p $(tmpdest)
 	@echo temporary install to $(tmpdest)
 	@make install clean prefix=$(tmpdest)
-	@(find $(tmpdest) \! -type d | sort; (find $(tmpdest) -type d | sort | \
-	sed -e 's#^#@dirrm #' ))>$(destdir)/$(fname)/pkg-plist
+	@(cd $(tmpdest); (find \! -type d | sort; (find -type d | sort | \
+	sed -e 's#^#@dirrm #' ))>$(destdir)/$(fname)/pkg-plist)
 	rm -rf $(tmpdest)
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
 	@ls -lh $(destdir)/$(dist)-port.tar.bz2
