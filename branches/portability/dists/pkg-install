@@ -30,8 +30,7 @@ fi
 
 install -d -m 750 -o ${USER} -g ${GROUP} ${USERS_HOME} /var/log/freqbot
 echo ""
-echo "  freqbot installed into %%PREGIX%%"
-echo "  You should copy %%PREFIX%%/etc/freqbot.conf.sample to %%PREFIX%%/etc/freqbot.conf and edit it."
+echo "  You should copy freqbot.conf.sample to freqbot.conf and edit it."
 echo ""
 
 exit 0
