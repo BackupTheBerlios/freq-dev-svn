@@ -17,6 +17,7 @@ rev=`sh tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
 dist=$(distname)-$(rev)
 tarballdir=..
 googlefile=$(sharedir)/$(fname)/.googlekey
+tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
 .PHONY: clean version sort userdel install build deinstall
 
 build: doc lang templates tools
@@ -99,12 +100,11 @@ freebsd:
 	@mkdir -p $(destdir)/$(fname)/files
 	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
 	@make -C $(destdir)/$(fname) fetch makesum
-	@tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
-	mkdir -p ${tmpdest}
-	@echo temporary install to ${tmpdest}
-	@make install clean prefix=${tmpdest}
+	mkdir -p $(tmpdest)
+	@echo temporary install to $(tmpdest)
+	@make install clean prefix=$(tmpdest)
 	#...
-	@rm -rf ${tmpdest}
+	@rm -rf $(tmpdest)
 	@tar -C $(destdir) -cjf $(destdir)/$(dist)-port.tar.bz2 $(fname)
 	@ls -lh $(destdir)/$(dist)-port.tar.bz2
 	@rm -rf $(destdir)/$(fname)
