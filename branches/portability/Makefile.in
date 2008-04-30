@@ -100,7 +100,7 @@ freebsd:
 	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
 	@make -C $(destdir)/$(fname) fetch makesum
 	@tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
-	@mkdir -p ${tmpdest}
+	mkdir -p ${tmpdest}
 	@echo temporary install to ${tmpdest}
 	@make install clean prefix=${tmpdest}
 	#...
