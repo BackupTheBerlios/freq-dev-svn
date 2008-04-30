@@ -17,7 +17,7 @@ rev=`sh tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
 dist=$(distname)-$(rev)
 tarballdir=..
 googlefile=$(sharedir)/$(fname)/.googlekey
-tmpdest=`mktemp /var/tmp/freqbot.XXXXXXXX`
+tmpdest=/var/tmp/freqbot.ugYGGb6
 .PHONY: clean version sort userdel install build deinstall
 
 build: doc lang templates tools
@@ -100,7 +100,8 @@ freebsd:
 	@mkdir -p $(destdir)/$(fname)/files
 	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
 	@make -C $(destdir)/$(fname) fetch makesum
-	mkdir -p $(tmpdest)
+	@rm -rf $(tmpdest)
+	@mkdir -p $(tmpdest)
 	@echo temporary install to $(tmpdest)
 	@make install clean prefix=$(tmpdest)
 	#...
