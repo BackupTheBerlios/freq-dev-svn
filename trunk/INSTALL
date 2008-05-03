@@ -15,16 +15,32 @@ Optionally:
       use ports: http://kreved.org/files/freqbot/freebsd-ports/
       or packages: http://kreved.org/files/freqbot/freebsd-packages/
       or you can create port from sources with "./configure && make freebsd-port destdir=./"
+      
+ 2) Debian
+      ./configure prefix=/usr sysconfdir=/etc
+      make 
+      make install
+     And some like this:
+      adduser --system --disabled-login --no-create-home --home /var/freqbot --group freqbot
+      mkdir -p /var/freqbot && chown freqbot:freqbot /var/freqbot
+      chmod 750 /var/freqbot
+      mkdir -p /var/log/freqbot && chown freqbot:freqbot /var/log/freqbot
+      chmod 750 /var/log/freqbot
+      cp tools/rc.d/debian /etc/init.d/freqbot
+      update-rc.d freqbot defaults
+      
+      then copy /etc/freqbot.conf.sample to /etc/freqbot.conf and edit it.
 
- 2) Other UNIX
+ 3) Other UNIX
       ./configure
       make
       make install
+      ...
 
-      then copy $(confdir)/freqbot.conf.sample to $(confdir)/freqbot.conf and edit
+      then copy $(sysconfdir)/freqbot.conf.sample to $(sysconfdir)/freqbot.conf and edit it.
       use "freqtool {start|stop|status}" to manage freQ-bot
 
- 3)  Windows
+ 4)  Windows
       Hm...
       install all dependencies, rename freqbot.conf.example to freqbot.conf and EDIT IT.
       then something like this:

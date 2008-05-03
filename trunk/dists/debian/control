@@ -1,0 +1,12 @@
+Package: freqbot
+Version: #version#
+Architecture: all
+Maintainer: Burdakov Danielř <kreved@kreved.org>
+Depends: python-twisted (>= 2.0.0), python-twisted-web (>= 0.5.0), python-twisted-words (>= 0.1.0), adduser
+Section: net
+Priority: extra
+Homepage: http://freq-dev.berlios.de/
+Description: Python Jabber Bot
+ freQ-bot is a Python Jabber bot that provides functionalities for
+ individuals and chatrooms.
+Python-Version: 2.5

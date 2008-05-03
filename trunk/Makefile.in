@@ -13,7 +13,7 @@ sharedir=@datarootdir@
 distname=freqbot
 distver=1.1.99
 fname=freqbot
-rev=`sh tools/getrev $(distver) $(PORTVERSION) 2>/dev/null`
+rev=`sh tools/getrev $(distver) 2>/dev/null`
 dist=$(distname)-$(rev)
 tarballdir=..
 googlefile=$(sharedir)/$(fname)/.googlekey
@@ -89,10 +89,10 @@ tarball:
 freebsd-port:
 	@echo "Creating FreeBSD port for $(dist)"
 	@mkdir -p $(destdir)/$(fname)
-	@cp dists/pkg-install $(destdir)/$(fname)
-	@cp dists/pkg-descr $(destdir)/$(fname)
-	@cp dists/pkg-deinstall $(destdir)/$(fname)
-	@cat dists/Makefile | sed "s/#version#/$(rev)/" >$(destdir)/$(fname)/Makefile
+	@cp dists/freebsd/pkg-install $(destdir)/$(fname)
+	@cp dists/freebsd/pkg-descr $(destdir)/$(fname)
+	@cp dists/freebsd/pkg-deinstall $(destdir)/$(fname)
+	@cat dists/freebsd/Makefile | sed "s/#version#/$(rev)/" >$(destdir)/$(fname)/Makefile
 	@mkdir -p $(destdir)/$(fname)/files
 	@cp tools/rc.d/freebsd $(destdir)/$(fname)/files/freqbot.in
 	@make -C $(destdir)/$(fname) fetch makesum
@@ -112,8 +112,14 @@ freebsd-port:
 	@rm -rf $(destdir)/$(fname)
 	@echo "done."
 
+deb:
+	tools/makedeb
+
 version:
 	@echo $(dist)
+	
+ver:
+	@echo $(rev)
 
 sort:
 	@tools/sort

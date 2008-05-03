@@ -1,0 +1,18 @@
+#!/bin/sh
+
+version=`make -s ver`
+bdir=`pwd`/deb-build
+echo "Building .deb for freqbot-${version}"
+rm -rf ${bdir}
+echo "Build directory is ${bdir}"
+mkdir -p ${bdir}
+
+./configure prefix=${bdir}/usr sysconfdir=${bdir}/etc
+make clean install
+mkdir ${bdir}/DEBIAN
+cat dists/debian/control | sed "s/#version#/${version}/" >${bdir}/DEBIAN/control
+
+# !!! this tool is not working
+
+#rm -rf ${bdir}
+echo "done"
