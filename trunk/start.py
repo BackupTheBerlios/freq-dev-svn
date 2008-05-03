@@ -40,7 +40,7 @@ sys.path.insert(0, 'modules')
 import config
 
 if len(sys.argv) > 1: cfg = sys.argv[1]
-else: cfg = './freq.conf'
+else: cfg = './freqbot.conf'
 print 'Using %s as config file' % (cfg, )
 config.init(cfg)
 
