@@ -151,12 +151,15 @@ bot.register_cmd_handler(nickstorage_set, '.nickstorage_set', 11, True)
 
 def seen_handler(t, s, p):
  p = p.strip()
- if p in s.room.keys() or [q for q in s.room.items.values() if q.realjid.startswith(p)]:
-  s.lmsg(t, 'he_is_here', p)
+ if p:
+  if p in s.room.keys() or [q for q in s.room.items.values() if q.realjid.startswith(p)]:
+   s.lmsg(t, 'he_is_here', p)
+  else:
+   d = NickStorage.fetch_info(s.room.jid, p, p)
+   d.addCallback(seen_result, t, s)
+   d.addErrback(seen_error, t, s, p)
  else:
-  d = NickStorage.fetch_info(s.room.jid, p, p)
-  d.addCallback(seen_result, t, s)
-  d.addErrback(seen_error, t, s, p)
+  s.lmsg(t, 'whom?')
 
 def seen_error(err, typ, source, nick):
  if err.check(nickstorage_not_found):

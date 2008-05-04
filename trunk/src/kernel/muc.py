@@ -127,24 +127,28 @@ class muc:
     item = groupchat.pop(nick, None)
     if item:
      # parse leave_type, reason
-     # typ: 0: leave
-     #      1: kick
-     #      2: ban
-     #      3: rename
+     # leave_type: 0: leave
+     #             1: kick
+     #             2: ban
+     #             3: rename
      if typ == 'unavailable':
       #unavailable
       try:
        _x = [i for i in x.children if (i.name=='x') and (i.uri == 'http://jabber.org/protocol/muc#user')][0]
        _item = [i for i in _x.children if i.name=='item'][0]
        _status = [i['code'] for i in _x.children if i.name=='status']
-       try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
-       except: reason = ''
        try: new_nick = _item['nick']
        except: new_nick = '[unknown nick]'
        if '303' in _status: leave_type = 3
        elif '301' in _status: leave_type = 2
        elif '307' in _status: leave_type = 1
        else: leave_type = 0
+       if leave_type == 0:
+        try: reason = [i for i in x.children if i.name=='status'][0].children[0]
+        except: reason = ''
+       else:
+        try: reason = [i for i in _item.children if i.name=='reason'][0].children[0]
+        except: reason = ''
       except:
        self.bot.log.err(u"Got invalid presence from '%s'?\n%s: %s<br/><font color=grey>%s</font>" % (x['from'], escape(repr(sys.exc_info()[0])), escape(repr(sys.exc_info()[1])), escape(x.toXml())))
        leave_type = 0
