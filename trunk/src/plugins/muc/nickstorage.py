@@ -21,6 +21,12 @@
 
 # __NEED_DB__
 
+class nickstorage_not_found(Exception):
+ pass
+
+class nickstorage_error(Exception):
+ pass
+
 class nickstorage:
  """
  Database storage, should be thread-safe
@@ -77,16 +83,18 @@ class nickstorage:
  
  def _fetch_info(self, room, jid, nick, d):
   if jid:
-   if nick: c = self.db.query('select * from users where room=? and (jid=? or nick=?)', (room, jid, nick))
+   if nick: c = self.db.query('select * from users where room=? and (jid=? or nick=?)',\
+   (room, jid, nick))
    else: c = self.db.query('select * from users where room=? and jid=?', (room, jid))
   else: c = self.db.query('select * from users where room=? and nick=?', (room, nick))
   r = c.fetchall()
-  if len(r) == 0: d.errback()
+  if len(r) == 0: d.errback(nickstorage_not_found(nick+'|'+jid))
   elif len(r) == 1: d.callback(r)
   else:
    if jid and nick: d.callback(r)
-   self.bot.log.err_e('Problems with database: jid %s or nick %s is not unique in room %s' % (jid, nick, room))
-   d.errback()
+   else:
+    self.bot.log.err_e('Problems with database: jid %s or nick %s is not unique in room %s' % (jid, nick, room))
+    d.errback(nickstorage_error('db'))
  
  def update(self, room, jid, nick):
   d = D()
@@ -141,4 +149,38 @@ def nickstorage_set_error(err, t, s):
 
 bot.register_cmd_handler(nickstorage_set, '.nickstorage_set', 11, True)
 
-#def seen_handler(t, s, p):
+def seen_handler(t, s, p):
+ p = p.strip()
+ if p in s.room.keys() or [q for q in s.room.items.values() if q.realjid.startswith(p)]:
+  s.lmsg(t, 'he_is_here', p)
+ else:
+  d = NickStorage.fetch_info(s.room.jid, p, p)
+  d.addCallback(seen_result, t, s)
+  d.addErrback(seen_error, t, s, p)
+
+def seen_error(err, typ, source, nick):
+ if err.check(nickstorage_not_found):
+  source.lmsg(typ, 'i_never_see_him', nick)
+ elif err.check(nickstorage_error):
+  source.lmsg(typ, 'some_error')
+ else:
+  source.msg(typ, str(err))
+
+def seen_result(res, typ, source):
+ ans = []
+ for user in res:
+  nick = user[2]
+  ltime = user[4]
+  ltype = user[5]
+  lreason = user[6]
+  stime = time2str(time.time() - ltime, True, source.get_lang())
+  if lreason.strip():
+   if ltype == 1: source.lmsg(typ, 'seen_kicked_here_reason', nick, stime, lreason)
+   elif ltype == 2: source.lmsg(typ, 'seen_banned_here_reason', nick, stime, lreason)
+   else: source.lmsg(typ, 'seen_was_here_reason', nick, stime, lreason)
+  else:
+   if ltype == 1: source.lmsg(typ, 'seen_kicked_here', nick, stime)
+   elif ltype == 2: source.lmsg(typ, 'seen_banned_here', nick, stime)
+   else: source.lmsg(typ, 'seen_was_here', nick, stime)
+
+bot.register_cmd_handler(seen_handler, '.seen', g=True)

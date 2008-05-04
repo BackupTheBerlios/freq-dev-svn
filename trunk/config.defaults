@@ -48,7 +48,7 @@ KEEP_ALIVE_INTERVAL = 60
 ### MISC ###
 SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = '/var/freqbot/freqbot.pid'
-ENABLE_SQLITE = False
+ENABLE_SQLITE = True
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5

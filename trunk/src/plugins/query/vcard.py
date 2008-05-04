@@ -35,17 +35,16 @@ def vcard_handler(t, s, p):
 def vcard_result_handler(t, s, p, r, x):
  try:
   vcard = parse_vcard(element2dict(x)['vCard'])
-  for i in vcard.keys():
-   q = i.split('/')
-   q = [j for j in q if j in r]
-   if (not q and not('*' in r)) or i.count('BINVAL'): vcard.pop(i)
-  #s.msg(t, ' -- '.join(vcard.values()))
-  res = [u'%s: %s' % (vcard_describe(i, s.get_lang()), vcard[i]) for i in vcard.keys()]
-  if res: s.msg(t, 'vCard:\n' + '\n'.join(res))
-  else: s.lmsg('vcard_empty')
  except:
-  s.lmsg(t, 'vcard_error')
-  #raise
+  s.lmsg(t, 'vcard_does_not_exists')
+  return
+ for i in vcard.keys():
+  q = i.split('/')
+  q = [j for j in q if j in r]
+  if (not q and not('*' in r)) or i.count('BINVAL'): vcard.pop(i)
+ res = [u'%s: %s' % (vcard_describe(i, s.get_lang()), vcard[i]) for i in vcard.keys() if vcard[i].strip()]
+ if res: s.msg(t, 'vCard:\n' + '\n'.join(res))
+ else: s.lmsg(t, 'vcard_not_found')
 
 bot.register_cmd_handler(vcard_handler, '.vcard')
 

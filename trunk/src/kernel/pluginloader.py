@@ -29,12 +29,14 @@ class pluginloader:
  def __init__(self, bot):
   self.bot = bot
   self.env = bot.env
-  self.pluginlist = os.listdir(PLUGINS_DIR);
+  self.pluginlist = os.listdir(PLUGINS_DIR)
+ 
  def load_all(self):
   sys.stdout.write('Loading plugins: ')
   for i in self.pluginlist:
    self.load(i)
   print ' done.'
+ 
  def load(self, p):
   tl = os.listdir(PLUGINS_DIR+'/'+p)
   tl = [i for i in tl if i.endswith('.py')]

@@ -44,7 +44,11 @@ else: cfg = './freqbot.conf'
 print 'Using %s as config file' % (cfg, )
 config.init(cfg)
 
-if config.ENABLE_SQLITE: import db
+if config.ENABLE_SQLITE:
+ try: import db
+ except:
+  config.ENABLE_SQLITE = False
+  sys.stdout.write('Can\'t use db..\n')
 
 tm = int(time.time()) + config.RESTART_INTERVAL
 # we should not restart until time.time() == tm

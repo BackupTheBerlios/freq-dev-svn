@@ -1,4 +1,3 @@
-ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
 alias_cleared cleared
 alias_deleted deleted
 alias_empty alias list is empty
@@ -8,13 +7,13 @@ alias_not_found alias not found
 alias_saved saved
 alias_saved_with_access alias saved (required level: %s, alias grants: %s)
 censor censor from %s\nnick: %s(%s)\ncensor: %s\n%s 
-chatlog_banned %s was banned
 chatlog_banned_reason %s was banned: %s
-chatlog_change_subject %s has set the subject: %s
+chatlog_banned %s was banned
 chatlog_changed_nick changes nick to %s
+chatlog_change_subject %s has set the subject: %s
 chatlog_joined joins the room
-chatlog_kicked %s was kicked
 chatlog_kicked_reason %s was kicked: %s
+chatlog_kicked %s was kicked
 chatlog_leaved leaves the room
 chatlog_leaved_reason leaves the room: %s
 chatlog_subject Subject: %s
@@ -22,6 +21,7 @@ cleaned cleaned
 current_lang Current language is English (en)
 disco_empty disco list is empty
 disco_error can't query
+ERROR During processing your message, an exception has been catched. If you're admin, read %s for more information.
 from_me me
 from_you you
 get_msglimit %s
@@ -41,13 +41,13 @@ help_show This command placed in categories: %s\n\n%s
 idle_error can't query
 idle_result %s`s idle is %s
 info %s %s's uptime is %s\nload average: %s stanza/sec, stanza length %s
-invalid_syntax Syntax:\n%s
 invalid_syntax_default Invalid syntax
+invalid_syntax Syntax:\n%s
 join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"
+joined Joined '%s'
 join_failed can't join to %s (with nick %s)
 join_slash invalid room or nick: "/" is not allowed
 join_success joined to %s with nick %s
-joined Joined '%s'
 lang_changed Language successfully changed
 lang_list Available languages: %s
 lang_msg_saved saved
@@ -63,8 +63,8 @@ moderate_ok ok
 msglimit_saved saved
 muc_only this command available only in conference
 muc_whois %s/%s\n%s(%s)\njoined %s\naccess level: %s
-nick_update ok
 nick_updated ok
+nick_update ok
 noisy_already_off "noisy" mode is not enabled
 noisy_already_on "noisy" mode already turned on
 noisy_ban %s banned... %s
@@ -82,8 +82,8 @@ rewrite_too_many_commands Too many commands! need to be <%s
 see_private see private
 stats_error unknown
 stats_result Stats for %s\nTotal: %s users\nOnline: %s users
-status_update ok
 status_updated ok
+status_update ok
 status_whom who?
 test.passed passed
 time_error unknown

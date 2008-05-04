@@ -20,14 +20,39 @@
 #~#######################################################################
 
 VCARD_FIELDS = { 
-'ru::FN'       : u'Полное имя', 
-'ru::URL'      : u'Сайт',
-'ru::BDAY'     : u'День рождения',
-'ru::DESC'     : u'О себе',
-'en::FN'       : u'Full Name',
-'en::URL'      : u'Homepage',
-'en::BDAY'     : u'Birthday',
-'en::DESC'     : u'About'
+'ru::vCard/FN'          : u'Полное имя', 
+'ru::vCard/URL'         : u'Сайт',
+'ru::vCard/BDAY'        : u'День рождения',
+'ru::vCard/DESC'        : u'О себе',
+'ru::vCard/PHOTO/TYPE'  : u'Фото',
+'ru::vCard/ORG/ORGNAME' : u'Организация',
+'ru::vCard/TITLE'       : u'Роль',
+'ru::vCard/ADR/CTRY'    : u'Государство',
+'ru::vCard/EMAIL/USERID': u'Мыло',
+'ru::vCard/NICKNAME'    : u'Ник',
+'ru::vCard/ADR/LOCALITY': u'Город',
+'ua::vCard/FN'          : u'Им\'я', 
+'ua::vCard/URL'         : u'Сайт',
+'ua::vCard/BDAY'        : u'День народження',
+'ua::vCard/DESC'        : u'О себе',
+'ua::vCard/PHOTO/TYPE'  : u'Фото',
+'ua::vCard/ORG/ORGNAME' : u'Органiзацiя',
+'ua::vCard/TITLE'       : u'Роль',
+'ua::vCard/ADR/CTRY'    : u'Краiна',
+'ua::vCard/EMAIL/USERID': u'Мило',
+'ua::vCard/NICKNAME'    : u'Ник',
+'ua::vCard/ADR/LOCALITY': u'Мiсто',
+'en::vCard/FN'          : u'Full Name',
+'en::vCard/URL'         : u'Homepage',
+'en::vCard/BDAY'        : u'Birthday',
+'en::vCard/DESC'        : u'About',
+'en::vCard/PHOTO/TYPE'  : u'Photo',
+'en::vCard/ORG/ORGNAME' : u'Organization',
+'en::vCard/TITLE'       : u'Role',
+'en::vCard/ADR/CTRY'    : u'Country',
+'en::vCard/EMAIL/USERID': u'Email',
+'en::vCard/NICKNAME'    : u'Nick',
+'en::vCard/ADR/LOCALITY': u'Locality',
 }
 
 def vcard_describe(field, lang):
@@ -38,14 +63,10 @@ def vcard_describe(field, lang):
 
 def parse_vcard(x):
  r = {}
- if x.children:
-  if x.children[0].__class__ == domish.Element: 
-   for i in x.children:
-    q = parse_vcard(i)
-    for j in q.keys():
-     r['%s/%s' % (i.name, j)] = q[j]
-  else:
-   return {'': x.children[0]}
- else: return {}
+ if type(x) == domish.Element:
+  for i in x.children:
+   q = parse_vcard(i)
+   for j in q.keys():
+    r['%s/%s' % (x.name, j)] = q[j]
+ else: r[''] = x
  return r
-
