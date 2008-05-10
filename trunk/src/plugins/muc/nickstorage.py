@@ -88,7 +88,7 @@ class nickstorage:
    else: c = self.db.query('select * from users where room=? and jid=?', (room, jid))
   else: c = self.db.query('select * from users where room=? and nick=?', (room, nick))
   r = c.fetchall()
-  if len(r) == 0: d.errback(nickstorage_not_found(nick+'|'+jid))
+  if len(r) == 0: d.errback(nickstorage_not_found(''))
   elif len(r) == 1: d.callback(r)
   else:
    if jid and nick: d.callback(r)
@@ -168,6 +168,7 @@ def seen_error(err, typ, source, nick):
   source.lmsg(typ, 'some_error')
  else:
   source.msg(typ, str(err))
+  raise
 
 def seen_result(res, typ, source):
  ans = []

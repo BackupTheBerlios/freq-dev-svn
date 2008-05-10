@@ -42,7 +42,6 @@ cleaned зачистка выполнена
 cleared очищено
 current_lang текущий язык русский (ru)
 deleted удалено
-deleted удалено
 disco_empty список пуст
 disco_error не получилось
 ERROR Произошла ошибка при обработке вашего сообщения. По возможности, сообщите об этом админу бота. Если вы админ, то прочитайте %s, для более подробной информации
@@ -68,10 +67,11 @@ help_show Категории: %s\n\n%s
 i_am_not_there меня нет там
 idle_error не получилось
 idle_result %s молчит %s
+incoming_message %s назад %s передал вам сообщение из комнаты %s:\n%s
 i_never_see_him я никогда тут не видел %s
 info я, %s %s, работаю без остановок %s\nНагрузка: %s станз в секунду, средняя длина станзы %s байт.
 invalid_encoding неправильная кодировка!
-invalid_jid_or_nick неправильный jid или ник
+invalid_nick_or_jid неправильный jid или ник
 invalid_regexp ошибка в регулярном выражении
 invalid_syntax_default неправильный синтаксис
 invalid_syntax синтаксис:\n%s
@@ -96,7 +96,11 @@ log.record <p><i><font color="#999999">[%d.%m.%y %H:%M:%S] [PID $PID$]</font></i
 moderate_error не получилося
 moderate_not_found кого?
 moderate_ok ok
+msg_authentication_request кто-то пытается отправить вам сообщение из %s. Если вы хотите получать сообщения из той комнаты - напишите .msg_whitelist %s, заблокировать их - .msg_blacklist %s
+msg_auth_requested пользователю отправлен запрос, согласен ли он получать сообщения из этой конференции. Как только он подтвердит своё согласие - сообщение будет доставлено.
+msgbox_is_full ящик получателя переполнен. Сообщение не отправлено.
 msglimit_saved сохранено
+msg_sent сообщение отправлено
 muc_only команда доступна только в конференции
 muc_whois %s/%s\n%s(%s)\nзашел в конфу %s\nуровень доступа: %s
 nick_in_use этот ник уже используется в конференции
@@ -122,6 +126,7 @@ redirect_nowhere нет такого ника
 restarting скоро вернусь...
 rewrite_cycle превышен предел глубины рекурсии (%s уровней) при обработке вашего сообщения. Похоже на зацикливание. Такие проблемы могут возникать при неправильно настроенных алиасах.
 rewrite_too_many_commands ошибка: слишком много команд, их должно быть не более %s
+room_pending он ещё не подтвердил, что согласен получать сообщеня из этой конференции
 saved сохранено
 seen_banned_here_reason %s забанили здесь %s назад: %s
 seen_banned_here %s забанили здесь %s назад
@@ -138,7 +143,9 @@ status_updated ok
 status_update ok
 status_whom кого?
 stopping выключаюсь... подожди пару секунд..
+tell_without_message что передать-то?
 test.passed норма
+this_room_is_ignored он не хочет получать сообщения из этой комнаты
 time_error хз
 updated обновил
 uptime_error хз

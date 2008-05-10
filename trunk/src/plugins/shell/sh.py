@@ -20,7 +20,7 @@
 #~#######################################################################
 
 def sh_handler(t, s, p):
- pipe = os.popen('sh -c "%s" 2>&1' % (p.encode('utf8', 'replace'), ))
+ pipe = os.popen('sh -c "LANG=%s %s" 2>&1' % (config.SH_LANG, p.encode('utf8', 'replace'), ))
  time.sleep(1)
  m = clear_text(pipe.read().decode('utf8', 'replace'))
  s.msg(t, m)
@@ -32,7 +32,7 @@ svn_regexp = re.compile(u'^((https?|svn)\:\/\/)?(((\w|\-)+\.)+\w+)(\/(\w|\-)+)*\
 def svn_handler(t, s, p):
  p = p.strip()
  if svn_regexp.match(p):
-  pipe = os.popen('sh -c "svn log %s --limit 1" 2>&1' % (p.encode('utf8', 'replace'), ))
+  pipe = os.popen('sh -c "LANG=%s svn log %s --limit 1" 2>&1' % (config.SH_LANG, p.encode('utf8', 'replace'), ))
   time.sleep(1)
   m = clear_text(pipe.read().decode('utf8', 'replace'))
   ml = m.splitlines()
