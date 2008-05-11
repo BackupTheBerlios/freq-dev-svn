@@ -27,7 +27,7 @@ def sh_handler(t, s, p):
 
 bot.register_cmd_handler(sh_handler, '.sh', 100)
 
-svn_regexp = re.compile(u'^((https?|svn)\:\/\/)?(((\w|\-)+\.)+\w+)(\/(\w|\-)+)*\/?$')
+svn_regexp = re.compile(u'^(\-v )?((https?|svn)\:\/\/)?(((\w|\-)+\.)+\w+)(\/(\w|\-)+)*\/?$')
 
 def svn_handler(t, s, p):
  p = p.strip()
@@ -36,7 +36,7 @@ def svn_handler(t, s, p):
   time.sleep(1)
   m = clear_text(pipe.read().decode('utf8', 'replace'))
   ml = m.splitlines()
-  m = '\n'.join(line for line in ml if not line.startswith('-----'))
+  m = '\n'.join(line.strip() for line in ml if line.strip() and not line.startswith('-----'))
   s.msg(t, m)
  else: s.syntax(t, 'svn')
 
