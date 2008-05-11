@@ -107,14 +107,12 @@ class messagestorage:
  
  def try_deliver(self, tojid):
   tojid = tojid.lower()
-  delivered = False
   for room in self.bot.g.keys():
    for nick in self.bot.g[room].keys():
     item = self.bot.g[room][nick]
     if item.realjid.lower() == tojid:
-     delivered = self.deliver(item)
-    if delivered: break
-   if delivered: break
+     self.deliver(item)
+     return
  
  def deliver(self, item):
   tojid = item.realjid.lower()
