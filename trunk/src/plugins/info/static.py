@@ -27,16 +27,17 @@ TLDS = [(tld[0].lower(), tld[1].lower()) for tld in TLDS]
 def tld_handler(typ, source, param):
  param = param.strip()
  if not param: source.syntax(typ, '.tld')
- param = param.lower()
- res = [tld for tld in TLDS if param in tld]
- if not res: res = [tld for tld in TLDS if tld[0].count(param) or tld[1].count(param)]
- if len(res) == 0: source.lmsg(typ, 'not_found')
- elif len(res) == 1:
-  if res[0][0].count(param): source.msg(typ, res[0][1])
-  else: source.msg(typ, res[0][0])
  else:
-  res = [u'%s: %s' % (i[0].upper(), i[1]) for i in res]
-  source.msg(typ, show_list(res))
+  param = param.lower()
+  res = [tld for tld in TLDS if param in tld]
+  if not res: res = [tld for tld in TLDS if tld[0].count(param) or tld[1].count(param)]
+  if len(res) == 0: source.lmsg(typ, 'not_found')
+  elif len(res) == 1:
+   if res[0][0].count(param): source.msg(typ, res[0][1])
+   else: source.msg(typ, res[0][0])
+  else:
+   res = [u'%s: %s' % (i[0].upper(), i[1]) for i in res]
+   source.msg(typ, show_list(res))
 
 bot.register_cmd_handler(tld_handler, '.tld')
 
@@ -51,16 +52,17 @@ AREAS = [parse_area(line) for line in AREAS if line.count(' ')]
 def regionru_handler(t, s, p):
  p = p.strip()
  if not p: s.syntax(t, 'region')
- if p.isdigit():
-  #code
-  if len(p) == 1: p = '0' + p
-  res = [i for i in AREAS if i[0] == p]
-  if res: s.msg(t, res[0][1])
-  else: s.lmsg(t, 'not_found')
  else:
-  #region name (or part)
-  res = [i for i in AREAS if i[1].lower().count(p.lower())]
-  res = ['%s: %s' % i for i in res]
-  s.msg(t, show_list(res, empty=s.get_msg('not_found')))
+  if p.isdigit():
+   #code
+   if len(p) == 1: p = '0' + p
+   res = [i for i in AREAS if i[0] == p]
+   if res: s.msg(t, res[0][1])
+   else: s.lmsg(t, 'not_found')
+  else:
+   #region name (or part)
+   res = [i for i in AREAS if i[1].lower().count(p.lower())]
+   res = ['%s: %s' % i for i in res]
+   s.msg(t, show_list(res, empty=s.get_msg('not_found')))
 
 bot.register_cmd_handler(regionru_handler, '.regionru')
