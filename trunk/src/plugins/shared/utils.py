@@ -21,8 +21,10 @@
 
 # .test 'abc\\\\'d'
 
-def my_quote(text):
- return '"' + text.replace('\\', '\\\\').replace('"', '\\"') + '"'
+def my_quote(text, EscapeOnly=False):
+ s = text.replace('\\', '\\\\').replace('"', '\\"').replace('`', '\\`')
+ if not EscapeOnly: s = '"' + s + '"'
+ return s
 
 def my_replace(text, s1, s2):
  if text.count(s1):

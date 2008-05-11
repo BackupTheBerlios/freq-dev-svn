@@ -33,8 +33,6 @@ def alias_engine(q):
    r = r[0]
    s = r.command
    params = r.parse(text).split()
-   #print 'r.parse(text)'
-   #print r.parse(text)
    #replacing %1, %2, %3... %*
    if r.with_access:
     if not source.allowed(r.a1):
@@ -43,6 +41,8 @@ def alias_engine(q):
      source = item_x(source, r.a2)
    for i in range(len(params)): s = s.replace('%%%s' % (i+1, ), params[i])
    s = s.replace('%*', r.parse(text))
+   for i in range(len(params)): s = s.replace('%%Q%s' % (i+1, ), my_quote(params[i], True))
+   s = s.replace('%Q*', my_quote(r.parse(text), True))
    s = context_replace(s, t, source)
    return [(t, source, s, stanza)]
   else: return False
