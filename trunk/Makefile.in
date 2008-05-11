@@ -126,4 +126,4 @@ sort:
 	@tools/sort
 
 cleanconf:
-	@rm -f Makefile doc/Makefile tools/freqtool tools/getrev
+	@rm -f Makefile doc/Makefile tools/freqtool
