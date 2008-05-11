@@ -79,7 +79,7 @@ tarball:
 	@find $(destdir)/$(dist) -name "*.pyc" -delete
 	@find $(destdir)/$(dist) -name ".svn" | xargs rm -rf
 	@rm -rf $(destdir)/$(dist)/config.status $(destdir)/$(dist)/autom4te.cache $(destdir)/$(dist)/*.log
-	@echo "print '$(rev)'" > $(destdir)/$(dist)/VERSION
+	@echo "$(rev)" > $(destdir)/$(dist)/VERSION
 	@echo "Creating tarball"
 	@make -C $(destdir)/$(dist) cleanconf
 	@tar -C $(destdir) -cjf $(destdir)/$(dist).tar.bz2 $(dist)
