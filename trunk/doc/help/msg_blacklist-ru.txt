@@ -5,6 +5,6 @@ muc
 Синтаксис:
  1) .msg_blacklist clear - очистить
  2) .msg_blacklist show - показать список
- 3) .msg_blacklist del room@conferenec.server - удалить
+ 3) .msg_blacklist del room@conference.server - удалить
      конференцию из списка
  4) .msg_blacklist room@conference.server - добавить

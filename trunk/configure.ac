@@ -25,4 +25,4 @@ if !($PYTHON -c "import twisted.web" >/dev/null 2>&1); then
 	AC_MSG_ERROR([TwistedWeb not found])
 fi
 
-AC_OUTPUT([Makefile] [doc/Makefile] [tools/freqtool] [tools/getrev])
+AC_OUTPUT([Makefile] [doc/Makefile] [tools/freqtool])

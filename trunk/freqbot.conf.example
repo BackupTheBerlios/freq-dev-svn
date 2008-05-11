@@ -22,7 +22,6 @@ ROOM_LIMIT = 99
 DATADIR = '/var/freqbot'
 
 ### MISC ###
-SVNVERSION = '/usr/local/bin/svnversion -n'
 
 ### DEBUG LOGGING ###
 LOGLEVEL = 5

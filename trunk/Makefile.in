@@ -16,13 +16,13 @@ fname=freqbot
 rev=`sh tools/getrev $(distver) 2>/dev/null`
 dist=$(distname)-$(rev)
 tarballdir=..
-googlefile=$(sharedir)/$(fname)/.googlekey
 tmpdest=/var/tmp/freqbot.ugYGGb6
 .PHONY: clean version sort userdel install build deinstall
 
 build: doc lang templates tools
 	chmod +x tools/freqtool
 	chmod +x tools/getrev
+	echo -n $(rev) >./VERSION.guess
 	@echo Building $(dist) using $(python)
 	$(MAKE) -C doc build version=$(rev)
 
@@ -43,6 +43,7 @@ install:
 	$(INSTALL) start.py $(sharedir)/$(fname)
 	$(INSTALL) getpid.py $(sharedir)/$(fname)
 	$(INSTALL) config.defaults $(sharedir)/$(fname)
+	$(INSTALL) VERSION.guess $(sharedir)/$(fname)
 	mkdir -p $(sbindir)
 	$(INSTALLX) tools/freqtool $(sbindir)
 	echo "" >> $(sharedir)/$(fname)/config.defaults
@@ -59,9 +60,9 @@ install:
 	cp -rf static $(sharedir)/$(fname)/
 	mkdir -p $(sharedir)/$(fname)/templates
 	$(INSTALL) templates/*.html $(sharedir)/$(fname)/templates/
-	cat src/kernel/freq.py | sed s/grodeverk/$(rev)/ >$(sharedir)/$(fname)/src/kernel/freq.py
 	rm -rf `find $(sharedir)/$(fname) -name ".svn"`
 	@find $(sharedir)/$(fname) -name "*~" -delete
+	@find $(sharedir)/$(fname) -name "*.pyc" -delete
 	$(INSTALL) $(fname).conf.example $(confdir)/$(fname).conf.sample
 
 deinstall:

@@ -47,7 +47,6 @@ KEEP_ALIVE_INTERVAL = 60
 SH_LANG = 'ru_RU.UTF-8'
 
 ### MISC ###
-SVNVERSION = '/usr/local/bin/svnversion -n'
 PIDFILE = '/var/freqbot/freqbot.pid'
 ENABLE_SQLITE = True
 

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+assumption=$1
+override=$2
+
+if [ -n "${override}" ]; then echo -n ${override}
+else
+ if [ -r ./VERSION ]; then echo -n "`cat ./VERSION`"
+ else
+  echo -n ${assumption}.
+  if [ -d .svn ]; then
+   if (svnversion -n >/dev/null 2>&1); then
+    q=`svnversion -n`
+    echo -n $q
+   else
+    echo -n "svn"
+   fi
+  else
+   echo -n "x"
+  fi
+ fi
+fi

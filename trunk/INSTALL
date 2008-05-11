@@ -45,4 +45,4 @@ Optionally:
       install all dependencies, rename freqbot.conf.example to freqbot.conf and EDIT IT.
       then something like this:
         cd c:\path\to\bot
-        c:\path\to\python.exe start.py ferqbot.conf
+        c:\path\to\python.exe start.py freqbot.conf

@@ -39,14 +39,11 @@ from cerberus import censor
 from twisted.words.protocols.jabber.jid import JID
 
 __id__ = "$Id$"
-__version__ = 'grodeverk'
 
 class freqbot:
 
  def __init__(self, env):
   self.env = env
-  try: self.svnrev = 'r' + __id__.split(" ")[2] + ', freq.py: '+__id__.split(" ")[3].replace("-","")
-  except: self.svnrev = '?'
   self.log = log.logger()
   if not os.access(config.LOGF, 0):
    fp = file(config.LOGF, 'w')
@@ -68,10 +65,8 @@ class freqbot:
   self.access_modificators = []
   self.cmd_cache = {}
   self.want_restart = False
-  self.version_name = u'freQ'
-  if __version__ == 'grodever' + 'k': # !!!
-   self.version_version = u'1.1.99.' + self.getRev()
-  else: self.version_version = __version__
+  self.version_name = u'freqbot'
+  self.version_version = self.getVer()
   self.log.version = self.version_version
   if config.SHARE_OS: 
    self.version_os = u'Twisted %s, Python %s' % (twisted.__version__, sys.version)
@@ -329,14 +324,20 @@ class freqbot:
     cond['xmlns']='urn:ietf:params:xml:ns:xmpp-stanzas'
     self.wrapper.send(answer)
 
- def getRev(self):
+ def getVer(self):
   try:
-   p = os.popen(config.SVNVERSION)
-   time.sleep(1)
-   q = p.read().strip()
-   if q: return q
-   else: return self.svnrev
-  except: return self.svnrev
+   f = file('VERSION.guess', 'r')
+   r = f.read()
+   f.close()
+   return r
+  except:
+   try:
+    f = file('VERSION', 'r')
+    r = f.read()
+    f.close()
+    return r
+   except:
+    return "1.x"
 
  def call(self, f, *args, **kwargs):
   try: return f(*args, **kwargs)
