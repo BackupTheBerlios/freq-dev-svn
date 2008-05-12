@@ -42,7 +42,7 @@ class muc:
   self.bot.g = {}
 
  def msg(self, t, s, b):
-  b = clear_text(b)
+  b = self.bot.clear_text(b)
   # clear_text(unicode) is from plugins/shared/utils.py
   if len(b) > msglimit: b = b[:msglimit] + '... (truncated)'
   b = b.strip()

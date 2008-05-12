@@ -144,6 +144,8 @@ def clear_text(s):
  res = map(clear_char, s)
  return u''.join(res)
 
+bot.clear_text = clear_text
+
 strip_tags = re.compile(u'<[^<>]+>')
 body_regexp = re.compile(u'^.*<(body|BODY)[^>]*>(.*)<\/(body|BODY).*$', re.DOTALL)
 
