@@ -21,7 +21,7 @@
 
 def sh_handler(t, s, p):
  cmd = 'sh -c "LANG=%s %s" 2>&1' % (config.SH_LANG, my_quote(p, True).encode('utf8', 'replace'), )
- bot.log.log_e(cmd)
+ bot.log.log_e(cmd.decode('utf8'))
  pipe = os.popen(cmd)
  time.sleep(1)
  m = clear_text(pipe.read().decode('utf8', 'replace'))
