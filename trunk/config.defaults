@@ -55,8 +55,8 @@ LOGLEVEL = 5
 LOGFILE = '/var/log/freqbot/log.html'
 LOGF = '/var/log/freqbot/twisted.log'
 ERRLOGFILE = '/var/log/freqbot/err.html'
-#RAWXML = '/var/log/freqbot/raw.xml'
 RAWXML = None
+#RAWXML = '/var/log/freqbot/raw.xml'
 
 ### PLUGINS ###
 PLUGINS_DIR = 'src/plugins'

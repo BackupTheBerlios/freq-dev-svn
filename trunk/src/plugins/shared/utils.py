@@ -19,8 +19,6 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-# .test 'abc\\\\'d'
-
 def my_quote(text, EscapeOnly=False):
  s = text.replace('\\', '\\\\').replace('"', '\\"').replace('`', '\\`')
  if not EscapeOnly: s = '"' + s + '"'
@@ -97,19 +95,54 @@ def dump_time(tm, text, human=False, s=None):
   if human: return u'%s (%s %s)' % (text, s.get_msg('left'), time2str(tm - time.time(), True, s.get_lang()))
   else: return u'@#/%d %s' % (tm, text)
 
-safe_characters =  u'abcdefghijklmnopqrstuvwxyz'
-safe_characters += u'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
-safe_characters += safe_characters.upper()
-safe_characters += u'`1234567890-=~!@#$%^&*()_+,./\\|	:;\'"[]{}\n\r<>? '
-#to be continued...
+# http://www.w3.org/TR/xml11/
+#[2]   	Char	   ::=   	[#x1-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]	/* any Unicode character, excluding the surrogate blocks, FFFE, and FFFF. */
+#[2a]   	RestrictedChar	   ::=   	[#x1-#x8] | [#xB-#xC] | [#xE-#x1F] | [#x7F-#x84] | [#x86-#x9F]
+
+#Document authors are encouraged to avoid "compatibility characters", as defined in Unicode [Unicode]. The characters defined in the following ranges are also discouraged. They are either control characters or permanently undefined Unicode characters:
+
+#[#x1-#x8], [#xB-#xC], [#xE-#x1F], [#x7F-#x84], [#x86-#x9F], [#xFDD0-#xFDDF],
+#[#x1FFFE-#x1FFFF], [#x2FFFE-#x2FFFF], [#x3FFFE-#x3FFFF],
+#[#x4FFFE-#x4FFFF], [#x5FFFE-#x5FFFF], [#x6FFFE-#x6FFFF],
+#[#x7FFFE-#x7FFFF], [#x8FFFE-#x8FFFF], [#x9FFFE-#x9FFFF],
+#[#xAFFFE-#xAFFFF], [#xBFFFE-#xBFFFF], [#xCFFFE-#xCFFFF],
+#[#xDFFFE-#xDFFFF], [#xEFFFE-#xEFFFF], [#xFFFFE-#xFFFFF],
+#[#x10FFFE-#x10FFFF].
+
+accepted_ranges = [
+(u'\u0009', u'\u000A'),
+(u'\u000D', u'\u000D'),
+(u'\u0020', u'\u007E'),
+(u'\u0085', u'\u0085'),
+(u'\u00A0', u'\uD7FF'),
+(u'\uE000', u'\uFDCF'),
+(u'\uFDE0', u'\uFFFD'),
+(u'\u10000', u'\u1FFFD'),
+(u'\u20000', u'\u2FFFD'),
+(u'\u30000', u'\u3FFFD'),
+(u'\u40000', u'\u4FFFD'),
+(u'\u50000', u'\u5FFFD'),
+(u'\u60000', u'\u6FFFD'),
+(u'\u70000', u'\u7FFFD'),
+(u'\u80000', u'\u8FFFD'),
+(u'\u90000', u'\u9FFFD'),
+(u'\uA0000', u'\uAFFFD'),
+(u'\uB0000', u'\uBFFFD'),
+(u'\uC0000', u'\uCFFFD'),
+(u'\uD0000', u'\uDFFFD'),
+(u'\uE0000', u'\uEFFFD'),
+(u'\uF0000', u'\uFFFFD'),
+(u'\u100000', u'\u10FFFD')
+]
 
 def clear_char(c):
- if c in safe_characters: return c
- else: return '?'
+ for rg in accepted_ranges:
+  if (c >= rg[0]) and (c <= rg[1]): return c
+ return u'\uFFFD'
 
 def clear_text(s):
  res = map(clear_char, s)
- return ''.join(res)
+ return u''.join(res)
 
 strip_tags = re.compile(u'<[^<>]+>')
 body_regexp = re.compile(u'^.*<(body|BODY)[^>]*>(.*)<\/(body|BODY).*$', re.DOTALL)

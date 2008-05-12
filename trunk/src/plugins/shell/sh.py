@@ -24,7 +24,7 @@ def sh_handler(t, s, p):
  bot.log.log_e(cmd.decode('utf8'))
  pipe = os.popen(cmd)
  time.sleep(1)
- m = clear_text(pipe.read().decode('utf8', 'replace'))
+ m = pipe.read().decode('utf8', 'replace')
  s.msg(t, m)
 
 bot.register_cmd_handler(sh_handler, '.sh', 100)
