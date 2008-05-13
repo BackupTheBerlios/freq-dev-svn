@@ -19,7 +19,7 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-VCARD_FIELDS = { 
+VCARD_FIELDS = {
 'ru::vCard/FN'          : u'Полное имя', 
 'ru::vCard/URL'         : u'Сайт',
 'ru::vCard/BDAY'        : u'День рождения',

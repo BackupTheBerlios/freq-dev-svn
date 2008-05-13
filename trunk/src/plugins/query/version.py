@@ -18,6 +18,7 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def get_nick(jid):
  p = jid.find('/')
  return jid[p+1:]
@@ -38,7 +39,9 @@ def get_type(s, p):
   if s.room.bot and (s.room.bot.jid==jid): return 3
   if s.jid == jid: return 2
   return 1
- else: return 0
+ else:
+  if p: return 0
+  else: return 2
 
 def version_handler(t, s, p):
  packet = IQ(bot.wrapper.x, 'get')
@@ -48,14 +51,10 @@ def version_handler(t, s, p):
 
 def version_result_handler(t, s, p, typ, x):
  if x['type'] == 'error':
-  s.lmsg(t, 'version_error')
+  describe_error(t, s, x, typ)
  else:
-  try:
-   query = element2dict(x)['query']
-   r = {}
-   r = element2dict(query)
-   # r[q.name] = q.children[0]
-  except: r = {}
+  query = element2dict(x)['query']
+  r = element2dict(query)
   if typ == 0:
    s.lmsg(t, 'version_result_jid', x['from'], r.get('name'), r.get('version'), r.get('os'))
   else:

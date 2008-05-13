@@ -18,33 +18,25 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
-def chatlogs_passwd_handler(t, s, p):
- p = p.strip()
- PATH = config.CHATLOGS_DIR + '/' + s.room.jid + '/'
- if p == 'clear':
-  try: os.remove(PATH + '.htaccess')
-  except OSError: pass
-  try: os.remove(PATH + '.htpasswd')
-  except OSError: pass
-  s.lmsg(t, 'cleared')
- else:
-  p = p.split()
-  if len(p) == 2:
-   f = file(PATH + '.htaccess', 'w')
-   f.write('AuthType Basic\nAuthName "Ask room owner for the username/password"\nAuthUserFile %s.htpasswd\nrequire valid-user' % (PATH, ))
-   f.close()
-   user = my_quote(p[0])
-   passwd = my_quote(p[1])
-   PF = my_quote(PATH + '.htpasswd')
-   cmd = u'sh -c \'htpasswd -bmc %s %s %s\' 2>&1' % (PF, user, passwd)
-   cmd = cmd.encode('utf8')
-   pipe = os.popen(cmd)
-   time.sleep(1)
-   m = pipe.read().decode('utf8', 'replace')
-   s.msg(t, m)
-  else: s.syntax(t, 'chatlogs_passwd')
 
-if config.CHATLOGS_ALLOW_PASSWD: passwd_access = 10
-else: passwd_access = 50
+# http://www.xmpp.org/rfcs/rfc3920.html#stanzas-error
 
-bot.register_cmd_handler(chatlogs_passwd_handler, '.chatlogs_passwd', passwd_access, True)
+def describe_error(typ, source, stanza, rtyp):
+ if rtyp == 0: target = stanza['from']
+ elif rtyp in [1, 2]: target = get_nick(stanza['from'])
+ else: target = 'o_O'
+ query = [x for x in stanza.elements() if x.name=='error'][0]
+ condition = [x for x in query.elements() if x.uri=='urn:ietf:params:xml:ns:xmpp-stanzas' and x.name <> 'text'][0]
+ condition = condition.name
+ if condition == 'feature-not-implemented': source.lmsg(typ, 'e_feature-not-implemented', target)
+ elif condition in ['forbidden', 'not-allowed']: source.lmsg(typ, 'e_forbidden', target)
+ elif condition == 'gone': source.lmsg(typ, 'e_gone', target)
+ elif condition == 'internal-server-error': source.lmsg(typ, 'e_internal-server-error', target)
+ elif condition == 'item-not-found': source.lmsg(typ, 'not_found', target)
+ elif condition == 'jid-malformed': source.lmsg(typ, 'e_jid-malformed', target)
+ elif condition == 'recipient-unavailable': source.lmsg(typ, 'e_recipient-unavailable', target)
+ elif condition == 'remote-server-not-found': source.lmsg(typ, 'e_remote-server-not-found', target)
+ elif condition == 'remote-server-timeout': source.lmsg(typ, 'e_remote-server-timeout', target)
+ elif condition == 'service-unavailable': source.lmsg(typ, 'e_service-unavailable', target)
+ else: source.msg(typ, condition)
+

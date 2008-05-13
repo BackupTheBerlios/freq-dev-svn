@@ -18,22 +18,23 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def ping_handler(t, s, p):
  jid = get_jid(s, p)
  typ = get_type(s, p)
  tpl = (jid, get_nick(jid), lang.get('from_you', l=lang.getLang(s.jid)), lang.get('from_me', l=lang.getLang(s.jid)))[typ]
  packet = IQ(bot.wrapper.x, 'get')
  packet.addElement('query', 'jabber:iq:version')
- packet.addCallback(ping_result_handler, t, s, p, tpl, time.time())
+ packet.addCallback(ping_result_handler, t, s, p, tpl, time.time(), typ)
  reactor.callFromThread(packet.send, jid)
 
-def ping_result_handler(t, s, p, tpl, ping_time, x):
- try:
-  if x['type'] != 'error':
-   pong_time = time.time()
-   s.lmsg(t, 'pong', tpl, time2str(pong_time-ping_time, False, lang.getLang(s.jid)))
-  else: print 1/0
- except: s.lmsg(t, 'ping_error')
+def ping_result_handler(t, s, p, tpl, ping_time, typ, x):
+ if x['type'] == 'error':
+  describe_error(t, s, x, typ)
+ elif x['type'] == 'result':
+  pong_time = time.time()
+  s.lmsg(t, 'pong', tpl, time2str(pong_time-ping_time, False, lang.getLang(s.jid)))
+ else: pass
 
-bot.register_cmd_handler(ping_handler, '.ping', g=0)
+bot.register_cmd_handler(ping_handler, '.ping')
 

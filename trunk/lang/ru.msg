@@ -45,6 +45,15 @@ deleted удалено
 disco_empty список пуст
 disco_error не получилось
 ERROR Произошла ошибка при обработке вашего сообщения. По возможности, сообщите об этом админу бота. Если вы админ, то почитайте %s для более подробной информации
+e_feature-not-implemented %s не поддерживает такую фичу
+e_forbidden %s не разрешает запрашивать такую информацию
+e_gone %s там больше не живёт
+e_internal-server-error %s глючит
+e_jid-malformed некорректный jid: %s
+e_recipient-unavailable %s временно недоступен
+e_remote-server-not-found %s не существует
+e_remote-server-timeout %s не отвечает (висит?)
+e_service-unavailable %s не предоставляет такого сервиса
 failed не получилось
 from_me меня
 from_you тебя
