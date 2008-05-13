@@ -29,15 +29,14 @@ def stats_handler(t, s, p):
  else: s.syntax(t, 'stats')
 
 def stats_result_handler(t, s, p, x):
- try:
+ if x['type'] == 'result':
   query = element2dict(x)['query']
   r = {}
   for i in query.children:
    r[i['name']] = i['value']
   s.lmsg(t, 'stats_result', p, r.get('users/total', '?'), r.get('users/online', '?'))
- except:
-  s.lmsg(t, 'stats_error')
-  #raise
+ elif x['type'] == 'error':
+  describe_error(t, s, x, 0)
 
 bot.register_cmd_handler(stats_handler, '.stats')
 

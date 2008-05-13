@@ -27,11 +27,10 @@ def uptime_handler(t, s, p):
  else: s.syntax(t, 'uptime')
 
 def uptime_result_handler(t, s, p, x):
- try:
+ if x['type'] == 'result':
   s.lmsg(t, 'uptime_result', p, time2str(int(x.children[0]['seconds']), 1, lang.getLang(s.jid)))
- except:
-  s.lmsg(t, 'uptime_error')
-  #raise
+ elif x['type'] == 'error':
+  describe_error(t, s, x, 0)
 
 bot.register_cmd_handler(uptime_handler, '.uptime')
 

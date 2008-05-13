@@ -27,11 +27,10 @@ def idle_handler(t, s, p):
  reactor.callFromThread(packet.send, jid)
 
 def idle_result_handler(t, s, p, x):
- try:
+ if x['type'] == 'result':
   s.lmsg(t, 'idle_result', p, time2str(int(x.children[0]['seconds']), 1, lang.getLang(s.jid)))
- except:
-  s.lmsg(t, 'idle_error')
-  #raise
+ elif x['type'] == 'error':
+  describe_error(t, s, x, 1)
 
 bot.register_cmd_handler(idle_handler, '.idle')
 

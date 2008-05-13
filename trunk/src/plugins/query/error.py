@@ -39,4 +39,3 @@ def describe_error(typ, source, stanza, rtyp):
  elif condition == 'remote-server-timeout': source.lmsg(typ, 'e_remote-server-timeout', target)
  elif condition == 'service-unavailable': source.lmsg(typ, 'e_service-unavailable', target)
  else: source.msg(typ, condition)
-

@@ -32,11 +32,11 @@
 - найти кто смог бы заняться фреком, если я забью
 ~ обработка iq ошибок
    +version
-   -disco
+   +disco
    +ping
-   -idle
-   -stats
-   -time
-   -uptime
-   -vcard
+   +idle
+   +stats
+   +time
+   +uptime
+   +vcard
 
