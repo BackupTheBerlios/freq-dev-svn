@@ -174,9 +174,9 @@ def disable_logging(t, s, p):
   s.room.set_option('chatlogs', 'off')
   s.lmsg(t, 'chatlogs_disabled')
 
-bot.register_cmd_handler(enable_logging, '.enable_logging', log_access, g=1)
-bot.register_cmd_handler(disable_logging, '.disable_logging', log_access, g=1)
-bot.register_msg_handler(chatlogs_msg_handler, g=1)
+bot.register_cmd_handler(enable_logging, '.enable_logging', log_access, True)
+bot.register_cmd_handler(disable_logging, '.disable_logging', log_access, True)
+bot.register_msg_handler(chatlogs_msg_handler, g=True)
 bot.register_topic_handler(chatlogs_topic_handler)
 bot.register_join_handler(chatlogs_join_handler)
 bot.register_leave_handler(chatlogs_leave_handler)
