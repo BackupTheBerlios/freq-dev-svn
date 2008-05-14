@@ -17,6 +17,7 @@ NICK = u'freQ-bot'
 STATUS = u'freQ-bot %VERSION% is online'
 ROOM_LIMIT = 99
 # maximum number of rooms where bot sits.. set 0 here to disable leaving non-active rooms
+#TRUSTED_SERVERS = [u'conference.jabber.ru', u'conference.jabber.org']
 
 ### BOT ###
 DATADIR = '/var/freqbot'
