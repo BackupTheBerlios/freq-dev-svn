@@ -151,7 +151,6 @@ def chatlogs_leave_handler(item, typ, reason):
    else: m = lang.get('chatlog_banned', lang.getLang(item.jid))
   elif typ == 3:
    m = lang.msg('chatlog_changed_nick', (escape(item.nick), ), lang.getLang(item.jid))
-   # in the future we need here to log new nick too
   if typ == 3: nick = reason
   else: nick = item.nick
   m = u'<font class="ml">%s %s</font>' % (escape(nick), m)
