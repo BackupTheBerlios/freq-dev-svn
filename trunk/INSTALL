@@ -12,9 +12,12 @@ Optionally:
  ==== INSTALLATION ====
  
  1) FreeBSD
-      use ports: http://kreved.org/files/freqbot/freebsd-ports/
-      or packages: http://kreved.org/files/freqbot/freebsd-packages/
-      or you can create port from sources with "./configure && make freebsd-port destdir=./"
+      ./configure prefix=/usr/local/etc
+      make
+      make install
+      cp tools/rc.d/freebsd /usr/local/etc/rc.d/freqbot
+      ./dists/freebsd/pkg-install freqbot POST-INSTALL
+
       
  2) Debian
       ./configure prefix=/usr sysconfdir=/etc

@@ -13,7 +13,7 @@
 #
 freqbot_enable="${freqbot_enable-NO}"
 
-. %%RC_SUBR%%
+. /etc/rc.subr
 
 name=freqbot
 rcvar=`set_rcvar`
@@ -23,10 +23,10 @@ start_cmd="freqbot_start"
 status_cmd="freqbot_status"
 stop_cmd="freqbot_stop"
 
-cd %%PREFIX%%
+cd /usr/local
 
 
-TOOL=%%PREFIX%%/sbin/freqtool
+TOOL=/usr/local/sbin/freqtool
 BOTUSER=freqbot
 
 freqbot_status()
