@@ -30,6 +30,8 @@ VCARD_FIELDS = {
 'ru::vCard/ADR/CTRY'    : u'Государство',
 'ru::vCard/EMAIL/USERID': u'Мыло',
 'ru::vCard/NICKNAME'    : u'Ник',
+'ru::vCard/TEL/NUMBER'  : u'Телефон',
+'ru::vCard/ADR/REGION'  : u'Регион',
 'ru::vCard/ADR/LOCALITY': u'Город',
 'ua::vCard/FN'          : u'Им\'я', 
 'ua::vCard/URL'         : u'Сайт',

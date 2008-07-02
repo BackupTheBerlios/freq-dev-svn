@@ -34,7 +34,10 @@ def vcard_handler(t, s, p):
 
 def vcard_result_handler(t, s, p, r, x):
  if x['type'] == 'result':
-  vcard = parse_vcard(element2dict(x)['vCard'])
+  try: vcard = parse_vcard(element2dict(x)['vCard'])
+  except KeyError:
+   s.lmsg(t, 'vcard_does_not_exists')
+   return
   for i in vcard.keys():
    q = i.split('/')
    q = [j for j in q if j in r]
