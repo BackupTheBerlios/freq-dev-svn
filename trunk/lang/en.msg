@@ -41,6 +41,7 @@ help_show This command placed in categories: %s\n\n%s
 idle_error can't query
 idle_result %s`s idle is %s
 info %s %s's uptime is %s\nload average: %s stanza/sec, stanza length %s
+invalid_error_stanza can't understand server response: %s
 invalid_syntax_default Invalid syntax
 invalid_syntax Syntax:\n%s
 join_already_there I'm already in that room... if not, you should to ask my admin to give me command ".rejoin"

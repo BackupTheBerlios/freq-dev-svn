@@ -26,8 +26,10 @@ def describe_error(typ, source, stanza, rtyp):
  elif rtyp in [1, 2]: target = get_nick(stanza['from'])
  else: target = 'o_O'
  query = [x for x in stanza.elements() if x.name=='error'][0]
- condition = [x for x in query.elements() if x.uri=='urn:ietf:params:xml:ns:xmpp-stanzas' and x.name <> 'text'][0]
- condition = condition.name
+ conditions = [x for x in query.elements() if x.uri=='urn:ietf:params:xml:ns:xmpp-stanzas' and x.name <> 'text']
+ if len(conditions) <> 1:
+  return source.lmsg(typ, 'invalid_error_stanza', query.toXml())
+ condition = conditions[0].name
  if condition == 'feature-not-implemented': source.lmsg(typ, 'e_feature-not-implemented', target)
  elif condition in ['forbidden', 'not-allowed']: source.lmsg(typ, 'e_forbidden', target)
  elif condition == 'gone': source.lmsg(typ, 'e_gone', target)
