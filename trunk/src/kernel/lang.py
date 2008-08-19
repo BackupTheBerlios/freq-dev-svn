@@ -39,7 +39,9 @@ for i in ll:
 
 def get(m, l = config.LANG):
  try: return LANG[l+lang_ext][m]
- except: return 'Lang.NotFound:%s:%s' % (l, m)
+ except:
+  try: return LANG['en'+lang_ext][m]
+  except: return 'Lang.NotFound:%s:%s' % (l, m)
 
 def msg(tpl, params = (), l = config.LANG):
  p = []
