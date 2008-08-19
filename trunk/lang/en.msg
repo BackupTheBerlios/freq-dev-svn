@@ -1,3 +1,4 @@
+affiliation_editor_disabled I'm owner of this room. This command is disabled for security purposes.
 alias_cleared cleared
 alias_deleted deleted
 alias_empty alias list is empty

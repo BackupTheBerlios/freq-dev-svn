@@ -46,6 +46,6 @@ def msg_handler(t, s, p):
  else: s.syntax(t, 'msg')
 
 bot.register_cmd_handler(echo_handler, '.echo')
-bot.register_cmd_handler(say_handler, '.say', 5, True)
+bot.register_cmd_handler(say_handler, '.say', 9, True)
 bot.register_cmd_handler(globmsg_handler, '.globmsg', 99)
 bot.register_cmd_handler(msg_handler, '.msg', 50)

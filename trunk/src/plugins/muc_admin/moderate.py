@@ -143,6 +143,7 @@ bot.register_cmd_handler(owner_handler, '.owner', 11, 1)
 
 
 def ban_handler(t, s, p):
+ if check_if_bot_is_owner(t, s): return
  if p:
   #print m_parse(p)
   p, reason = m_parse(p)
@@ -163,6 +164,7 @@ bot.register_cmd_handler(ban_handler, '.ban', 9, 1)
 
 
 def none_handler(t, s, p):
+ if check_if_bot_is_owner(t, s): return
  if p:
   #print m_parse(p)
   p, reason = m_parse(p)
@@ -183,6 +185,7 @@ bot.register_cmd_handler(none_handler, '.none', 9, 1)
 
 
 def member_handler(t, s, p):
+ if check_if_bot_is_owner(t, s): return
  if p:
   #print m_parse(p)
   p, reason = m_parse(p)
@@ -198,5 +201,11 @@ def member_handler(t, s, p):
     return
   moderate(t, s, p, nj, p, 'affiliation', 'member', reason)
  else: s.syntax(t, 'member')
+
+def check_if_bot_is_owner(t, s):
+ if s.room.bot.affiliation.lower() == 'owner':
+  s.lmsg(t, 'affiliation_editor_disabled')
+  return True
+ else: return False
 
 bot.register_cmd_handler(member_handler, '.member', 9, 1)

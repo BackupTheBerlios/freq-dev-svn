@@ -61,6 +61,9 @@ def redirect_handler(q):
  text = context_replace(text, typ, source)
  cm = '.redirect '
  if text.startswith(cm):
+  if not source.allowed(9):
+   # if not source is room admin...
+   return [(typ, source, '.echo ' + source.get_msg('not_allowed'), stanza)]
   try: nick, text = get_param(text[len(cm):])
   except:
    return [(typ, source, '.echo ' + source.get_msg('invalid_syntax_default'), stanza)]

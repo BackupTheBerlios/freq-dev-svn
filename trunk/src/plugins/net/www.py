@@ -58,4 +58,5 @@ def www_error(reason, typ, source):
  elif reason.check(WebError): source.lmsg(typ, 'www_error')
  else: source.lmsg(typ, 'www_error_reason', repr(reason))
 
-bot.register_cmd_handler(www_handler, '.www')
+# this function is buggy now, and is not enabled by default
+#bot.register_cmd_handler(www_handler, '.www')
