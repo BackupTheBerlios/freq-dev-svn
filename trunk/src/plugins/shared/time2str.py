@@ -19,17 +19,18 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-def time2str(t, rnd=False, lng=config.LANG):
- minutes, seconds = divmod(t, 60)
- hours, minutes = divmod(minutes, 60)
- days, hours = divmod(hours, 24)
- months, days = divmod(days, 30)
+def time2str(diff, rnd=False, lng=config.LANG):
+ """This function is not very exact, it doesn't take care
+ of leap years, and of month with different number of days."""
+ seconds = diff % 60
+ years, months, days, hours, minutes, _, _, _, _ = map(lambda x,y: x-y, time.gmtime(diff), time.gmtime(0))
  if rnd: r = u'%d %s' % (round(seconds), get_seconds(round(seconds), lng))
  else: r = u'%0.2f %s' % (seconds, get_seconds(2, lng))
- if t>60: r = u'%d %s %s' % (minutes, get_minutes(round(minutes), lng), r)
- if t>3600: r = u'%d %s %s' % (hours, get_hours(round(hours), lng), r)
- if t>86400: r = u'%d %s %s' % (days, get_days(round(days), lng), r)
- if t>2592000: r = u'%d %s %s' % (months, get_months(round(months), lng), r)
+ if minutes: r = u'%d %s %s' % (minutes, get_minutes(minutes, lng), r)
+ if hours: r = u'%d %s %s' % (hours, get_hours(hours, lng), r)
+ if days: r = u'%d %s %s' % (days, get_days(days, lng), r)
+ if months: r = u'%d %s %s' % (months, get_months(months, lng), r)
+ if years: r = u'%d %s %s' % (years, get_years(years, lng), r)
  return r
 
 def get_seconds(c, l):
@@ -81,3 +82,13 @@ def get_months(c, l):
  else:
   if c == 1: return u'month'
   else: return u'months'
+
+def get_years(c, l):
+ if l == u'ru':
+  if c % 100 in xrange(10,20): return u'лет'
+  elif c % 10 == 1: return u'год'
+  elif c % 10 in [2, 3, 4]: return u'года'
+  else: return u'лет'
+ else:
+  if c == 1: return u'year'
+  else: return u'years'

@@ -19,13 +19,13 @@
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
 
-def sh_handler(t, s, p):
- cmd = 'sh -c "LANG=%s %s" 2>&1' % (config.SH_LANG, my_quote(p, True).encode('utf8', 'replace'), )
- bot.log.log_e(cmd.decode('utf8'))
- pipe = os.popen(cmd)
- time.sleep(1)
- m = pipe.read().decode('utf8', 'replace')
- s.msg(t, m)
+import popen2
+
+def sh_handler(t,s,p):
+        cmd = "bash -c 'LANG=%s %s' 2>&1"%(config.SH_LANG,p.replace("'","'\\''"))
+        p = popen2.Popen3(cmd, True)
+        while p.poll() == -1: pass
+        s.msg(t, ''.join(p.fromchild.readlines()).decode('utf-8'))
 
 bot.register_cmd_handler(sh_handler, '.sh', 100)
 
