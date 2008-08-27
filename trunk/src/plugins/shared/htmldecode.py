@@ -18,10 +18,11 @@
 #~ You should have received a copy of the GNU General Public License    #
 #~ along with FreQ-bot.  If not, see <http://www.gnu.org/licenses/>.    #
 #~#######################################################################
+
 def htmldecode(text):
  text = u' '.join(text.split())
  text = re.sub(u'<(br|p|BR|P)\/?>', u'\n', text)
- r = u'nbsp: ;lt:<;gt:>;amp:&;quot:";copy:©'
+ r = u'nbsp: ;lt:<;gt:>;amp:&;quot:";copy:©;#39:\''
  for  i in r.split(';'):
   x = i.split(':')
   text = text.replace(u'&%s;' % (x[0], ), x[1])
