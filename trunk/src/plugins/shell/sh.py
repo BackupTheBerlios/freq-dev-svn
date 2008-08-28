@@ -22,6 +22,7 @@
 import popen2
 
 def sh_handler(t,s,p):
+        # no vulnerability, because this command is for admins only
         cmd = "bash -c 'LANG=%s %s' 2>&1"%(config.SH_LANG,p.replace("'","'\\''"))
         p = popen2.Popen3(cmd, True)
         while p.poll() == -1: pass
@@ -29,11 +30,12 @@ def sh_handler(t,s,p):
 
 bot.register_cmd_handler(sh_handler, '.sh', 100)
 
-svn_regexp = re.compile(u'^(\-v )?((https?|svn)\:\/\/)?(((\w|\-)+\.)+\w+)(\/(\w|\-)+)*\/?$')
+svn_regexp = re.compile(u'^(\-v )?((https?|svn)\:\/\/)?([\w\d\-]+\.)+\w+(\/[\w\d\-]+)*\/?$')
 
 def svn_handler(t, s, p):
  p = p.strip()
  if svn_regexp.match(p):
+  # no vulnerability, because svn_regexp doesn't contains unwanted characters
   pipe = os.popen('sh -c "LANG=%s svn log %s --limit 1" 2>&1' % (config.SH_LANG, p.encode('utf8', 'replace'), ))
   time.sleep(1)
   m = clear_text(pipe.read().decode('utf8', 'replace'))

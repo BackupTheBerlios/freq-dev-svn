@@ -22,7 +22,7 @@
 def chatlogs_passwd_handler(t, s, p):
  p = p.strip()
  PATH = config.CHATLOGS_DIR + '/' + s.room.jid + '/'
- if os.access(PATH):
+ if os.access(PATH, os.W_OK):
   if p == 'clear':
    try: os.remove(PATH + '.htaccess')
    except OSError: pass
@@ -39,7 +39,8 @@ def chatlogs_passwd_handler(t, s, p):
     user = my_quote(p[0])
     passwd = my_quote(p[1])
     PF = my_quote(PATH + '.htpasswd')
-    cmd = u'sh -c \'htpasswd -bmc %s %s %s\' 2>&1' % (PF, user, passwd)
+    # no vulnerability, because all parameters are quoted with ""
+    cmd = u'htpasswd -bmc %s %s %s 2>&1' % (PF, user, passwd)
     cmd = cmd.encode('utf8')
     pipe = os.popen(cmd)
     time.sleep(1)
