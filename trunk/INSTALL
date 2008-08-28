@@ -16,7 +16,7 @@ Optionally:
       make
       make install
       cp tools/rc.d/freebsd /usr/local/etc/rc.d/freqbot
-      ./dists/freebsd/pkg-install freqbot POST-INSTALL
+      sh ./dists/freebsd/pkg-install freqbot POST-INSTALL
 
       
  2) Debian
