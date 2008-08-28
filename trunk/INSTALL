@@ -12,7 +12,7 @@ Optionally:
  ==== INSTALLATION ====
  
  1) FreeBSD
-      ./configure prefix=/usr/local/etc
+      ./configure prefix=/usr/local
       make
       make install
       cp tools/rc.d/freebsd /usr/local/etc/rc.d/freqbot
