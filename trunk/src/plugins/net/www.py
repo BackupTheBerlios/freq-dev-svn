@@ -49,7 +49,7 @@ def www_result(page, typ, source, enc):
  except: pass
  page = html_decode(page)
  page = '\n'.join([line.strip() for line in page.splitlines() if line.strip()])
- page = clear_text(page)
+ page = html_del_deny(page)
  source.msg(typ, page)
 
 def www_error(reason, typ, source):
@@ -58,5 +58,5 @@ def www_error(reason, typ, source):
  elif reason.check(WebError): source.lmsg(typ, 'www_error')
  else: source.lmsg(typ, 'www_error_reason', repr(reason))
 
-# this function is buggy now, and is not enabled by default
-#bot.register_cmd_handler(www_handler, '.www')
+# fixed critical bugs, you can use the command
+bot.register_cmd_handler(www_handler, '.www')
