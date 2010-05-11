@@ -29,6 +29,7 @@ import re
 from twisted.internet import reactor
 import os
 import time
+import sqlite3
 
 wd = os.path.dirname(sys.argv[0])
 if not wd: wd = '.'
@@ -44,6 +45,7 @@ else: cfg = './freqbot.conf'
 print 'Using %s as config file' % (cfg, )
 config.init(cfg)
 
+ 
 if config.ENABLE_SQLITE:
  try: import db
  except:
@@ -77,6 +79,16 @@ import options
 from options import optstringlist
 
 bot = freqbot(globals())
+
+if config.DBDIR==None or False: config.DBDIR = config.DATADIR
+if os.path.isfile('%s/%s' % (config.DBDIR,'wtf.db')): pass
+else: 
+ cn = sqlite3.connect('%s/%s' % (config.DBDIR,'wtf.db'))
+ cr = cn.cursor()
+ cr.execute('create table wtf (room text, key text, val text)')
+ cn.commit()
+ cn.close()
+ bot.log.log_e('Create wtf database: %s/wtf.db'%config.DBDIR)
 
 try:
  bot.plug.load_all()

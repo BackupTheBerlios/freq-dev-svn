@@ -33,6 +33,7 @@ TRUSTED_SERVERS = []
 SHARE_OS = True
 LANG = 'ru'
 DATADIR = '/var/freqbot'
+DBDIR = '/var/freqbot'
 USE_THREADS = True
 REWRITE_POWER = 7
 #QUEUE_SEND_INTERVAL = 1.5

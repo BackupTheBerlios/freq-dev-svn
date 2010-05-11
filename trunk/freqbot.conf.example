@@ -21,7 +21,7 @@ ROOM_LIMIT = 99
 
 ### BOT ###
 DATADIR = '/var/freqbot'
-
+DBDIR = '/var/freqbot'
 ### MISC ###
 
 ### DEBUG LOGGING ###

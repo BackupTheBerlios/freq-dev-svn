@@ -61,7 +61,7 @@ def redirect_handler(q):
  text = context_replace(text, typ, source)
  cm = '.redirect '
  if text.startswith(cm):
-  if not source.allowed(9):
+  if source.access() < 9:
    # if not source is room admin...
    return [(typ, source, '.echo ' + source.get_msg('not_allowed'), stanza)]
   if re.search('.*www.*|.*echo.*|.*status.*',text): return [(typ, source, '.echo ' + source.get_msg('not_allowed'), stanza)]

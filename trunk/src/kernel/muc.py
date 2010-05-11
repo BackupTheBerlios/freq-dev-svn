@@ -30,6 +30,7 @@ import config
 import lang
 import sys
 import options
+from random import randint
 
 msglimit = 8000
 
@@ -172,6 +173,8 @@ class muc:
       error = [q for q in x.elements() if q.name=='error']
       if error: code = error[0]['code']
       else: code = None
+      if '409' in code: self.join(groupchat.jid, '%s-%s' % (nick, randint(1,100)))
+      if '503' in code: pass
       if not code is None:
        if code == '': pass
        else: pass

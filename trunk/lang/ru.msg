@@ -173,3 +173,16 @@ www_dns_error не резолвится
 www_error_reason ошибка при загрузке страницы: %s
 www_error ошибка при загрузке страницы
 www_timeout_error сервер не отвечает (таймаут)
+update_info моя ревизия: %s доступная svn ревизия: %s
+wtf_empty что смотреть то?
+wtf_not_found ничего не нашёл
+dfn_empty что записать то?
+dfn_save запомнил
+dfn_remove удалил
+dfn_failed не нашёл в базе данных
+wtf_result вот что я знаю про %s:\n%s
+wtfnames_result в базе этой конференции я вижу следующее:\n%s (всего: %s)
+wtfnames_empty база пуста
+wtfsearch_result совпадения найдены в: %s
+wtfsearch_error совпадений не найдено
+wtfsearch_not_parameters а что искать то?

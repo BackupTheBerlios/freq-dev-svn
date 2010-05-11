@@ -98,3 +98,17 @@ version_result_nick %s use %s %s %s
 version_result_self %s %s %s
 version_result_your you use %s %s %s
 whom? who?
+update_info my revision: %s available revision: %s
+wtf_empty What to look?
+wtf_not_found Has found nothing
+dfn_empty What to write?
+dfn_save Has saved
+dfn_remove Has deleted
+dfn_failed Has not found in a database
+wtf_result I know that %s:\n%s
+wtfnames_result In database of this conference I see
+wtfnames_result I see this:\n %s (in total %s)
+wtfnames_empty The database is empty
+wtfsearch_result Coincidences are found in: %s
+wtfsearch_error not found
+wtfsearch_not_parameters what to search?

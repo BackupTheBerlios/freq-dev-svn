@@ -116,3 +116,16 @@ www_dns_error не резолвітся
 www_error_reason помилка при завантаженні сторінки: %s
 www_error помилка при завантаженні сторінки
 www_timeout_error сервер не відповідає (таймаут)
+update_info моя ревізія: %s доступна ревізія в svn: %s
+wtf_empty і що ти хочеш подивитись?
+wtf_not_found нічогісінько не знайдено
+dfn_empty що ж записати то?
+dfn_save зберіг
+dfn_remove знищив
+dfn_failed не знайшов у базі даних
+wtf_result ось що я знаю про %s:\n%s
+wtfnames_result у базі цієї конференції я бачу наступне:\n%s (всього: %s)
+wtfnames_empty база порожня
+wtfsearch_result знайдені співпадання у: %s
+wtfsearch_error співпадання не знайдені
+wtfsearch_not_parameters а що шукати то?
