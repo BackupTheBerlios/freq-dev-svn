@@ -94,7 +94,7 @@ class aitem:
   else: return (self.value == s)
  def get_reason(self):
   if self.reason: return self.reason
-  else: return 'akick'
+  else: return 'You are not welcomed here'
 
 def del_from_alists(room, s):
  for alist in ALISTS: alist.safe_remove(room, s)
@@ -187,11 +187,20 @@ def a_visitor(item, reason):
 
 def a_moderator(item, reason):
  item.room.moderate('nick', item.nick, 'role', 'moderator', '')
+ 
+def a_ban(item, reason):
+ item.room.moderate('nick', item.nick, 'affiliation', 'outcast', reason)
+ 
+def a_participant(item, reason):
+ item.room.moderate('nick', item.nick, 'role', 'participant', '')
+
 
 AKICK = alist(bot, 'akick', a_kick, True)
 AVISITOR = alist(bot, 'avisitor', a_visitor, True)
 AMODERATOR = alist(bot, 'amoderator', a_moderator, False)
-ALISTS = [AKICK, AVISITOR, AMODERATOR]
+ABAN = alist(bot, 'aban',  a_ban, True)
+APARTICIPANT = alist(bot, 'aparticipant', a_participant, False)
+ALISTS = [AKICK, AVISITOR, AMODERATOR, ABAN, APARTICIPANT]
 
 def akick_handler(t, s, p):
  p = p.strip()
@@ -207,7 +216,19 @@ def amoderator_handler(t, s, p):
  p = p.strip()
  if not p: s.syntax(t, 'amoderator')
  else: AMODERATOR.cmd(t, s, p)
+ 
+def aban_handler(t, s, p):
+ p = p.strip()
+ if not p: s.syntax(t, 'aban')
+ else: ABAN.cmd(t, s, p)
+ 
+def aparticipant_handler(t, s, p):
+ p = p.strip()
+ if not p: s.syntax(t, 'aparticipant')
+ else: APARTICIPANT.cmd(t, s, p)
 
 bot.register_cmd_handler(akick_handler, '.akick', 9, True)
 bot.register_cmd_handler(avisitor_handler, '.avisitor', 9, True)
 bot.register_cmd_handler(amoderator_handler, '.amoderator', 9, True)
+bot.register_cmd_handler(aban_handler, '.aban', 9, True)
+bot.register_cmd_handler(aparticipant_handler, '.aparticipant', 9, True)
