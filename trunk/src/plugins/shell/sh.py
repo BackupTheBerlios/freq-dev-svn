@@ -45,3 +45,19 @@ def svn_handler(t, s, p):
  else: s.syntax(t, 'svn')
 
 bot.register_cmd_handler(svn_handler, '.svn')
+
+def top_handler(t,s,p):
+	cmd = "bash -c 'LANG=%s ps aux' 2>&1"%(config.SH_LANG)
+	p = popen2.Popen3(cmd, True)
+	while p.poll() == -1: pass
+	s.msg(t, ''.join(p.fromchild.readlines()).decode('utf-8'))
+
+bot.register_cmd_handler(top_handler, '.top', 100)
+
+def free_handler(t,s,p):
+	cmd = "bash -c 'LANG=%s free -m' 2>&1"%(config.SH_LANG)
+	p = popen2.Popen3(cmd, True)
+	while p.poll() == -1: pass
+	s.msg(t, ''.join(p.fromchild.readlines()).decode('utf-8'))
+
+bot.register_cmd_handler(free_handler, '.free', 100)

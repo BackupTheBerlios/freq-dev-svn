@@ -159,7 +159,9 @@ def html_del_deny(s):
 '''
  
 def html_del_deny(s):
- return ''.join(c if c.lower() in allow_symbol else '?' for c in s)
+ return ''.join(c if c.lower() in allow_symbol else '' for c in s)
+ #p = re.compile(r'<.*?>')
+ #return p.sub('', s)
 
 bot.clear_text = clear_text
 
@@ -170,6 +172,7 @@ body_regexp = re.compile(u'^.*<(body|BODY)[^>]*>(.*)<\/(body|BODY).*$', re.DOTAL
 def html_decode(text):
  text = text.replace(u'\n', u'')
  text = text.replace('<p>', '\n').replace('<li>', '\n')
+ text = re.compile(r'<script[^>]*>.*?</script>',re.S | re.U).sub(' ', text)
  return strip_tags.sub(u'', text.replace(u'<br>',u'\n')).replace(u'&nbsp;', u' ').replace(u'&lt;',\
  u'<').replace(u'&gt;', u'>').replace(u'&quot;', u'"').replace(u'\t', u'')
 

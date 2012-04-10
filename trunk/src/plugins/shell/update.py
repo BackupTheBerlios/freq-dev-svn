@@ -24,8 +24,19 @@ import urllib2, re, popen2
 def update_handler(typ, source, params):
  if params==u'info':
   i = urllib2.urlopen('http://cvs.berlios.de/svnroot/repos/freq-dev/trunk/').read()
-  rev = re.findall('<title>Revision\ (.*):\ /trunk</title>',i)
-  source.lmsg(typ,'update_info', bot.getVer().split('.')[-1],''.join(rev))
+  exp='.*?(\\d+)'
+  rg = re.compile(exp,re.IGNORECASE|re.DOTALL)
+  m = rg.search(i)
+  if m:
+    rev=m.group(1)
+    pipe = os.popen('sh -c "LANG=%s svn log %s --limit 1" 2>&1' % (config.SH_LANG,"svn://svn.berlios.de/freq-dev/trunk", ))
+    time.sleep(1)
+    ms = clear_text(pipe.read().decode('utf8', 'replace'))
+    ml = ms.splitlines()
+    ms = '\n'.join(line.strip() for line in ml if line.strip() and not line.startswith('-----'))
+    if not bot.getVer().count(rev):
+        source.lmsg(typ,'update_info', bot.getVer().split('.')[-1],rev+"\n========== INFO =========\n"+ms)
+    else: source.lmsg(typ,'update_info', bot.getVer().split('.')[-1],rev)
   return
  if params==u'start':
   if os.name=='posix':
